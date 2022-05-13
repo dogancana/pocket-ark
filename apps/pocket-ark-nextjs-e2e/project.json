@@ -1,0 +1,28 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/pocket-ark-nextjs-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/pocket-ark-nextjs-e2e/cypress.json",
+        "devServerTarget": "pocket-ark-nextjs:serve:development"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "pocket-ark-nextjs:serve:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/pocket-ark-nextjs-e2e/**/*.{js,ts}"]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["pocket-ark-nextjs"]
+}
