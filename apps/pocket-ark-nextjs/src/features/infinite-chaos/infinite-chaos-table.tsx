@@ -1,6 +1,7 @@
 import {
   CurrencyItemType,
-  CurrencyType, PricedMaterial
+  CurrencyType,
+  PricedMaterial,
 } from '@pocket-ark/lost-ark-data';
 import { usePricingSource } from '../../components';
 import { Currency } from '../../ui';
@@ -9,12 +10,13 @@ import { MaterialIcon } from '../../ui/icons';
 const tdClassName = 'border border-slate-300 p-4 text-left';
 
 export interface InfiniteChaosTableProps {
-  shardsPerHour: number;
+  shardsPerHour?: number;
 }
 
 export const InfiniteChaosTable: React.FC<InfiniteChaosTableProps> = ({
-  shardsPerHour,
+  shardsPerHour: shardsPerHourProp,
 }) => {
+  const shardsPerHour = shardsPerHourProp ?? 0;
   const { pricedMaterialsArray: materials } = usePricingSource();
   const valuePerShard = (material: PricedMaterial) => {
     return material.price

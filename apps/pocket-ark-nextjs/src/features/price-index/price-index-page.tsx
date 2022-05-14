@@ -1,9 +1,8 @@
-import { CurrencyType, materials } from '@pocket-ark/lost-ark-data';
+import { materials } from '@pocket-ark/lost-ark-data';
 import { MaterialPrice } from '../../components';
-import { MaterialValues } from '../../components/material-values';
 import { MaterialIcon } from '../../ui/icons';
 import { CurrencySourceForm } from './currency-source-form';
-import { PriceItem } from './price-item';
+import { ItemFooter, MaterialValuesLine, PriceItem } from './price-item';
 import { PriceSection } from './section';
 
 export const PriceIndexPage: React.FC = () => {
@@ -25,20 +24,12 @@ export const PriceIndexPage: React.FC = () => {
               />
               <div className="flex flex-col">
                 <span className="ml-2">{m.name}</span>
-                <MaterialPrice type={m.type} className="pl-8" />
+                <MaterialPrice type={m.type} />
               </div>
             </div>
-            <div className="flex border-t-2 mt-2 pl-4 bg-stone-200">
-              <MaterialValues
-                type={m.type}
-                showCurrencies={[
-                  CurrencyType.Crystal,
-                  CurrencyType.RoyalCrystal,
-                  CurrencyType.RealMoney,
-                ]}
-                itemClassName="mr-6"
-              />
-            </div>
+            <ItemFooter>
+              <MaterialValuesLine type={m.type} />
+            </ItemFooter>
           </PriceItem>
         ))}
       </PriceSection>

@@ -12,9 +12,3 @@ export type PricingSource = CurrencyConversionSource & {
     price: number;
   };
 };
-
-export interface CurrencyConverterStatic {
-  from: CurrencyType;
-  to: CurrencyType;
-  multiplier: number;
-}
