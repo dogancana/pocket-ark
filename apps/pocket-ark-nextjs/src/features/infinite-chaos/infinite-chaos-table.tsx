@@ -1,4 +1,8 @@
-import { CurrencyType, Material, materials } from '@pocket-ark/lost-ark-data';
+import {
+  CurrencyItemType,
+  CurrencyType, PricedMaterial
+} from '@pocket-ark/lost-ark-data';
+import { usePricingSource } from '../../components';
 import { Currency } from '../../ui';
 import { MaterialIcon } from '../../ui/icons';
 
@@ -11,7 +15,8 @@ export interface InfiniteChaosTableProps {
 export const InfiniteChaosTable: React.FC<InfiniteChaosTableProps> = ({
   shardsPerHour,
 }) => {
-  const valuePerShard = (material: Material) => {
+  const { pricedMaterialsArray: materials } = usePricingSource();
+  const valuePerShard = (material: PricedMaterial) => {
     return material.price
       ? material.price / material.chaosDungeonShards
       : undefined;
@@ -20,16 +25,16 @@ export const InfiniteChaosTable: React.FC<InfiniteChaosTableProps> = ({
   const sortedMaterials = materials
     .map((m) => ({ ...m, valuePerShard: valuePerShard(m) }))
     .sort((a, b) => {
-      if (!a.valuePerShard) return -1;
-      if (!b.valuePerShard) return 1;
+      if (!a.valuePerShard) return 1;
+      if (!b.valuePerShard) return -1;
       return b.valuePerShard - a.valuePerShard;
     });
 
-  const matsPerHour = (material: Material) =>
+  const matsPerHour = (material: PricedMaterial) =>
     shardsPerHour / material.chaosDungeonShards;
 
-  const goldPerHour = (material: Material) =>
-    matsPerHour(material) * material.price;
+  const goldPerHour = (material: PricedMaterial) =>
+    material.price ? matsPerHour(material) * material.price : undefined;
 
   return (
     <table className="table-auto shadow-sm">
@@ -61,21 +66,21 @@ export const InfiniteChaosTable: React.FC<InfiniteChaosTableProps> = ({
             </td>
             <td className={`${tdClassName} text-left`}>
               <Currency
-                type={CurrencyType.ShardOfPurification}
+                type={CurrencyItemType.ShardOfPurification}
                 value={material.chaosDungeonShards}
               />
             </td>
             <td className={`${tdClassName} text-center`}>
-              {material.valuePerShard.toFixed(2) ?? 'Not found'}
+              {material.valuePerShard?.toFixed(2) ?? '?'}
             </td>
             <td className={`${tdClassName} text-center`}>
-              {material.price * 99}
+              {material.price ? material.price * 99 : '?'}
             </td>
             <td className={`${tdClassName} text-right`}>
               {matsPerHour(material).toFixed(1)}
             </td>
             <td className={`${tdClassName} text-right`}>
-              {goldPerHour(material).toFixed(2)}
+              {goldPerHour(material)?.toFixed(2) ?? '?'}
             </td>
           </tr>
         ))}

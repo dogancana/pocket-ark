@@ -1,6 +1,6 @@
 import { PricingSource } from '@pocket-ark/lost-ark-data';
 import { PricingProvider } from '../src/components';
-import { InfiniteChaosPage } from '../src/features/infinite-chaos';
+import { PriceIndexPage } from '../src/features/price-index';
 import { getPricingSource } from '../src/srr-utils';
 
 interface Props {
@@ -9,12 +9,12 @@ interface Props {
 
 const Page: React.FC<Props> = ({ source }) => (
   <PricingProvider source={source}>
-    <InfiniteChaosPage />
+    <PriceIndexPage />
   </PricingProvider>
 );
 
 export const getServerSideProps = ({ req, res }) => {
-  const source = getPricingSource(req, res);
+  const source = getPricingSource(req, res) ?? {};
   return { props: { source } };
 };
 

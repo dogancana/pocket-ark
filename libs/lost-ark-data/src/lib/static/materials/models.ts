@@ -13,6 +13,5 @@ export enum MaterialType {
 export interface Material {
   type: MaterialType;
   name: string;
-  price?: number;
   chaosDungeonShards: number;
 }

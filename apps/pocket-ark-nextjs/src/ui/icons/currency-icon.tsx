@@ -1,8 +1,8 @@
-import { CurrencyType } from '@pocket-ark/lost-ark-data';
+import { CurrencyItemType, CurrencyType } from '@pocket-ark/lost-ark-data';
 import Image, { ImageProps } from 'next/image';
 
 export interface CurrencyIconProps {
-  type: CurrencyType;
+  type: CurrencyType | CurrencyItemType;
   overrides?: Partial<Omit<ImageProps, 'src'>>;
 }
 

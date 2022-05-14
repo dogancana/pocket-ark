@@ -1,12 +1,12 @@
-import { InfiniteChaosTable } from './infinite-chaos-table';
 import { useState } from 'react';
+import { InfiniteChaosTable } from './infinite-chaos-table';
 
 export const InfiniteChaosPage: React.FC = () => {
   const [shardsPerHour, setShardsPerHour] = useState(2000);
   const limitedShardsPerHour = Math.max(1000, Math.min(5000, shardsPerHour));
 
   return (
-    <div className="container mx-auto mt-16 flex flex-col items-center">
+    <div className="container mx-auto mt-8 flex flex-col items-center">
       <p>
         The below table shows various convertions for materials sold in chaos
         dungeon shard merchant.
@@ -15,7 +15,7 @@ export const InfiniteChaosPage: React.FC = () => {
         You can select how many shards you can collect in an hour to see time
         potential.
       </p>
-      <div className="mt-8 flex flex-col items-center">
+      <div className="mt-4 flex flex-col items-center">
         <label
           className="block text-gray-700 text-sm font-bold mb-2"
           htmlFor="seconds"
