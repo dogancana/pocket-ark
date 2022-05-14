@@ -1,18 +1,20 @@
 import { AppProps } from 'next/app';
 import Head from 'next/head';
+import { Header } from '../src/ui';
 import './styles.css';
 
-function CustomApp({ Component, pageProps }: AppProps) {
+export const App: React.FC = ({ Component, pageProps }: AppProps) => {
   return (
     <>
       <Head>
-        <title>Welcome to pocket-ark-nextjs!</title>
+        <title>Pocket Ark</title>
       </Head>
-      <main className="app">
+      <main className="h-screen">
+        <Header />
         <Component {...pageProps} />
       </main>
     </>
   );
-}
+};
 
-export default CustomApp;
+export default App;

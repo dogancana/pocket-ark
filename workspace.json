@@ -2,6 +2,7 @@
   "$schema": "./node_modules/nx/schemas/workspace-schema.json",
   "version": 2,
   "projects": {
+    "lost-ark-data": "libs/lost-ark-data",
     "pocket-ark-nextjs": "apps/pocket-ark-nextjs",
     "pocket-ark-nextjs-e2e": "apps/pocket-ark-nextjs-e2e"
   }
