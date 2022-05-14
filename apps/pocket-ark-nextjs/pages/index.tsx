@@ -41,6 +41,12 @@ const Index = () => {
       href: '/price-index',
       enabled: true,
     },
+    {
+      title: 'Currency Calculator',
+      message: 'Convert crystals, gold and real money to each other.',
+      href: '/currency-calculator',
+      enabled: true,
+    },
   ];
 
   return (
@@ -49,10 +55,10 @@ const Index = () => {
         .filter((v) => v.enabled)
         .map(({ title, message, href }) => (
           <Link key={title} href={href} passHref>
-            <div className="p-8 m-4 w-96 shadow-lg cursor-pointer">
-              <h2>{title}</h2>
+            <a className="p-8 m-4 w-96 shadow-lg cursor-pointer">
+              <h2 className="font-bold">{title}</h2>
               <p>{message}</p>
-            </div>
+            </a>
           </Link>
         ))}
     </div>

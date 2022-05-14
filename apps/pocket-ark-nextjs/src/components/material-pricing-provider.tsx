@@ -1,10 +1,8 @@
 import {
-  getPricedMaterials,
-  PricingSource,
-  materials,
-  MaterialType,
-  PricedMaterial,
   CurrencyConversionSource,
+  getBaseCurrencyConversionRates, getPricedMaterials, materials,
+  MaterialType,
+  PricedMaterial, PricingSource
 } from '@pocket-ark/lost-ark-data';
 import { setCookies } from 'cookies-next';
 import Link from 'next/link';
@@ -86,6 +84,7 @@ export function usePricingSource() {
       (prev, curr) => ({ ...prev, [curr.type]: curr }),
       {} as { [key in MaterialType]: PricedMaterial }
     ),
+    rates: getBaseCurrencyConversionRates(source),
     setMaterialPrice,
     setCurrencyConversionSource,
   };
