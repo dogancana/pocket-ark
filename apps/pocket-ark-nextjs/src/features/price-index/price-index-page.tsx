@@ -1,11 +1,12 @@
-import { materials } from '@pocket-ark/lost-ark-data';
-import { MaterialPrice } from '../../components';
+import { MaterialPrice, usePricingSource } from '../../components';
 import { MaterialIcon } from '../../ui/icons';
 import { CurrencySourceForm } from './currency-source-form';
 import { ItemFooter, MaterialValuesLine, PriceItem } from './price-item';
 import { PriceSection } from './section';
 
 export const PriceIndexPage: React.FC = () => {
+  const { pricedMaterialsArray: materials } = usePricingSource();
+
   return (
     <div className="container mx-auto mt-8 flex flex-col items-center">
       <p>This page allows you to adjust prices of your server.</p>
@@ -14,6 +15,7 @@ export const PriceIndexPage: React.FC = () => {
         Pocket Ark.
       </p>
       <p>The information will be kept on your browser</p>
+
       <PriceSection title="Materials">
         {materials.map((m) => (
           <PriceItem key={m.type}>
@@ -23,7 +25,12 @@ export const PriceIndexPage: React.FC = () => {
                 overrides={{ width: 55, height: 55 }}
               />
               <div className="flex flex-col">
-                <span className="ml-2">{m.name}</span>
+                <span className="ml-2 flex">
+                  {m.name}
+                  {m.saleAmount && (
+                    <span className="ml-2 font-thin"> ({m.saleAmount})</span>
+                  )}
+                </span>
                 <MaterialPrice type={m.type} />
               </div>
             </div>

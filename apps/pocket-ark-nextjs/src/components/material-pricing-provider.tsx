@@ -1,8 +1,11 @@
 import {
   CurrencyConversionSource,
-  getBaseCurrencyConversionRates, getPricedMaterials, materials,
+  getBaseCurrencyConversionRates,
+  getPricedMaterials,
+  materials,
   MaterialType,
-  PricedMaterial, PricingSource
+  PricedMaterial,
+  PricingSource,
 } from '@pocket-ark/lost-ark-data';
 import { setCookies } from 'cookies-next';
 import Link from 'next/link';
@@ -58,6 +61,10 @@ export const PricingProvider: React.FC<PricingProviderProps> = ({
 export function usePricingSource() {
   const { source, setSource } = useContext(Context);
   const materials = getPricedMaterials(source);
+  const pricedMaterialsObject = materials.reduce(
+    (prev, curr) => ({ ...prev, [curr.type]: curr }),
+    {} as { [key in MaterialType]: PricedMaterial }
+  );
 
   const setMaterialPrice = (type: MaterialType, price: number) => {
     const newSource = {
@@ -77,14 +84,27 @@ export function usePricingSource() {
     setCookies(COOKIES.pricingSourceJSON, newSource);
   };
 
+  const addRecipeMaterials = (
+    arr: { type: MaterialType; amount?: number }[]
+  ) => {
+    return arr.reduce((prev, curr) => {
+      if (prev === undefined) return undefined;
+
+      const m = pricedMaterialsObject[curr.type];
+      const salePrice = m?.price;
+      if (!salePrice) return undefined;
+
+      const unitPrice = salePrice / (m?.saleAmount ?? 1);
+      return prev + unitPrice * (curr.amount ?? 1);
+    }, 0);
+  };
+
   return {
     source,
     pricedMaterialsArray: materials,
-    pricedMaterialsObject: materials.reduce(
-      (prev, curr) => ({ ...prev, [curr.type]: curr }),
-      {} as { [key in MaterialType]: PricedMaterial }
-    ),
+    pricedMaterialsObject,
     rates: getBaseCurrencyConversionRates(source),
+    addRecipeMaterials,
     setMaterialPrice,
     setCurrencyConversionSource,
   };

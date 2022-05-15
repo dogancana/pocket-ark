@@ -47,6 +47,12 @@ const Index = () => {
       href: '/currency-calculator',
       enabled: true,
     },
+    {
+      title: 'Stronghold Crafting',
+      message: 'See profit margins for crafting various items in your stronghold.',
+      href: '/stronghold-crafting',
+      enabled: true,
+    },
   ];
 
   return (

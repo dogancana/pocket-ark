@@ -12,13 +12,15 @@ export const MaterialIcon: React.FC<MaterialIconProps> = ({
 }) => {
   const path = (icon: string) => `/assets/materials/${icon}.webp`;
   let src = path(type);
-  if (type === MaterialType.HonorShardPouchLarge) src = path('HonorShardPouch');
+  if ((type as string)?.startsWith('HonorShardPouch'))
+    src = path('HonorShardPouch');
 
   return (
     <Image
       src={src}
       width={40}
       height={40}
+      layout="fixed"
       alt={`${type} Icon`}
       {...overrides}
     />

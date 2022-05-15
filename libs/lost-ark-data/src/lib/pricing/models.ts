@@ -1,5 +1,4 @@
 import { MaterialType } from '@pocket-ark/lost-ark-data';
-import { CurrencyType } from '../static';
 
 export interface CurrencyConversionSource {
   goldSalePrice: number;
@@ -7,7 +6,7 @@ export interface CurrencyConversionSource {
   royalCrystalsPack: number;
 }
 
-export type PricingSource = CurrencyConversionSource & {
+export type PricingSource = Partial<CurrencyConversionSource> & {
   [key in MaterialType]?: {
     price: number;
   };
