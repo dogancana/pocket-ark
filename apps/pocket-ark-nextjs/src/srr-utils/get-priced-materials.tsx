@@ -5,17 +5,18 @@ import { NextApiRequest, NextApiResponse } from 'next';
 export function getPricingSource(
   req: NextApiRequest,
   res: NextApiResponse
-) {
-  return getSourceFromCookies(req, res);
+): PricingSource {
+  return getSourceFromCookies(req, res) || {};
 }
 
 function getSourceFromCookies(req: NextApiRequest, res: NextApiResponse) {
-  const sourceString = getCookie('pricingSourceJSON', { req, res }) as
-    | string
-    | undefined;
+  const sourceString = getCookie('pricingSourceJSON', {
+    req,
+    res,
+  });
 
   const source = sourceString
-    ? (JSON.parse(sourceString) as PricingSource)
+    ? (JSON.parse(sourceString.toString()) as PricingSource)
     : null;
 
   return source;

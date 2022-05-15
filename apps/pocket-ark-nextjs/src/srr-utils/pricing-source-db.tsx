@@ -1,0 +1,56 @@
+import { PricingSource } from '@pocket-ark/lost-ark-data';
+import { client, MongoDbNames, MongoDbCollections } from './mongo-db';
+
+export async function upsertPricingSource(pricingSource: PricingSource) {
+  if (!pricingSource.meta.key || !pricingSource.meta.reference) {
+    throw new Error('Cannot update');
+  }
+
+  try {
+    await client.connect();
+    const meta = pricingSource.meta;
+    const collection = await client
+      .db(MongoDbNames.Public)
+      .collection(MongoDbCollections.PricingSource);
+
+    console.log('s', pricingSource);
+
+    const r = await collection.updateOne(
+      {
+        'meta.reference': meta?.reference,
+        'meta.key': meta?.key,
+      },
+      {
+        $set: {
+          ...pricingSource,
+          meta: {
+            ...meta,
+            lastUpdatedAtISO: new Date().toISOString(),
+          },
+        },
+      },
+      { upsert: true }
+    );
+    return r;
+  } catch (e) {
+    console.error(e);
+  } finally {
+    client.close();
+  }
+}
+
+export async function getSourcebyReferece(reference: string) {
+  try {
+    await client.connect();
+    const collection = await client
+      .db(MongoDbNames.Public)
+      .collection(MongoDbCollections.PricingSource);
+    const res = await collection.findOne<PricingSource>({
+      'meta.reference': reference,
+    });
+    if (res) delete res['_id'];
+    return res;
+  } finally {
+    client.close();
+  }
+}

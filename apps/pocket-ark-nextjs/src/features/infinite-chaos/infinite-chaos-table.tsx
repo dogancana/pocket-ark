@@ -26,6 +26,7 @@ export const InfiniteChaosTable: FC<InfiniteChaosTableProps> = ({
   };
 
   const sortedMaterials = materials
+    .filter((m) => !!m.chaosDungeonShards)
     .map((m) => ({ ...m, valuePerShard: valuePerShard(m) }))
     .sort((a, b) => {
       if (!a.valuePerShard) return 1;

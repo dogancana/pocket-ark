@@ -36,9 +36,9 @@ export const PricingProvider: FC<PricingProviderProps> = ({
   const [source, setSource] = useState(sourceProp);
   const { pathname } = useRouter();
 
-  // +3 for the currency conversion stuff
-  const hasMissingMaterialPrices =
-    materials.length + 3 > Object.keys(sourceProp ?? {}).length;
+  const hasMissingMaterialPrices = !materials.every(
+    (m) => !!source[m.type]?.price
+  );
   const isOnPriceIndex = pathname === '/price-index';
 
   return (
@@ -61,8 +61,13 @@ export const PricingProvider: FC<PricingProviderProps> = ({
 
 export function usePricingSource() {
   const { source, setSource } = useContext(Context);
-  const materials = getPricedMaterials(source);
-  const pricedMaterialsObject = materials.reduce(
+
+  const pricedMaterialsArray = getPricedMaterials(source);
+  const isSourceComplete = false;
+  // const isSourceComplete = pricedMaterialsArray.every(
+  //   (m) => !!source[m.type]?.price
+  // );
+  const pricedMaterialsObject = pricedMaterialsArray.reduce(
     (prev, curr) => ({ ...prev, [curr.type]: curr }),
     {} as { [key in MaterialType]: PricedMaterial }
   );
@@ -102,7 +107,8 @@ export function usePricingSource() {
 
   return {
     source,
-    pricedMaterialsArray: materials,
+    isSourceComplete,
+    pricedMaterialsArray,
     pricedMaterialsObject,
     rates: getBaseCurrencyConversionRates(source),
     addRecipeMaterials,

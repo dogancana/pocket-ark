@@ -1,7 +1,7 @@
 import { FC } from '../utils';
 
 export interface AlertProps {
-  type?: 'info' | 'warning' | 'error';
+  type?: 'info' | 'warning' | 'error' | 'success';
 }
 
 const CLASS_MAP = {
@@ -19,6 +19,11 @@ const CLASS_MAP = {
     bg: 'bg-amber-100',
     border: 'border-amber-500',
     text: 'text-amber-900',
+  },
+  success: {
+    bg: 'bg-green-100',
+    border: 'border-green-500',
+    text: 'text-green-900',
   },
 };
 
