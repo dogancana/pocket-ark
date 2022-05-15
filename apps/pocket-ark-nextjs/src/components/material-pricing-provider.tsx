@@ -13,6 +13,7 @@ import { useRouter } from 'next/router';
 import { createContext, useContext, useState } from 'react';
 import { COOKIES } from '../constants/cookies';
 import { Alert } from '../ui';
+import { FC } from '../utils';
 
 export interface PricingProviderProps {
   source: PricingSource;
@@ -28,7 +29,7 @@ const Context = createContext<MaterialPricngProviderContext>({
   setSource: () => null,
 });
 
-export const PricingProvider: React.FC<PricingProviderProps> = ({
+export const PricingProvider: FC<PricingProviderProps> = ({
   children,
   source: sourceProp,
 }) => {

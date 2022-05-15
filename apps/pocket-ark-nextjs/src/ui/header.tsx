@@ -1,6 +1,7 @@
 import Link from 'next/link';
+import { FC } from '../utils';
 
-export const Header: React.FC = () => (
+export const Header: FC = () => (
   <header
     role="banner"
     className="py-4 shadow-md sticky top-0 bg-stone-200 z-50"

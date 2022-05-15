@@ -3,8 +3,9 @@ import { MaterialIcon } from '../../ui/icons';
 import { CurrencySourceForm } from './currency-source-form';
 import { ItemFooter, MaterialValuesLine, PriceItem } from './price-item';
 import { PriceSection } from './section';
+import { FC } from '../../utils';
 
-export const PriceIndexPage: React.FC = () => {
+export const PriceIndexPage: FC = () => {
   const { pricedMaterialsArray: materials } = usePricingSource();
 
   return (

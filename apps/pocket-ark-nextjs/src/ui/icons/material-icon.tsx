@@ -1,15 +1,13 @@
 import { MaterialType } from '@pocket-ark/lost-ark-data';
 import Image, { ImageProps } from 'next/image';
+import { FC } from '../../utils';
 
 export interface MaterialIconProps {
   type: MaterialType;
   overrides?: Partial<Omit<ImageProps, 'src'>>;
 }
 
-export const MaterialIcon: React.FC<MaterialIconProps> = ({
-  type,
-  overrides,
-}) => {
+export const MaterialIcon: FC<MaterialIconProps> = ({ type, overrides }) => {
   const path = (icon: string) => `/assets/materials/${icon}.webp`;
   let src = path(type);
   if ((type as string)?.startsWith('HonorShardPouch'))

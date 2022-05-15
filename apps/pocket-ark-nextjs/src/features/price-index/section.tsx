@@ -1,9 +1,11 @@
+import { FC } from '../../utils';
+
 export interface PriceSectionProps {
   title: string;
   className?: string;
 }
 
-export const PriceSection: React.FC<PriceSectionProps> = ({
+export const PriceSection: FC<PriceSectionProps> = ({
   className,
   title,
   children,

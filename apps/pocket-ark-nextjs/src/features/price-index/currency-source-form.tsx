@@ -6,21 +6,22 @@ import { debounce } from 'lodash';
 import { usePricingSource } from '../../components';
 import { Currency, CurrencyInput } from '../../ui';
 import { ItemFooter, PriceItem } from './price-item';
+import { FC } from '../../utils';
 
-const Wrapper: React.FC = ({ children }) => (
+const Wrapper: FC = ({ children }) => (
   <PriceItem>
     <div className="pt-3 px-3">{children}</div>
     <ItemFooter />
   </PriceItem>
 );
 
-const Equals: React.FC = () => <span className="mx-1">=</span>;
+const Equals: FC = () => <span className="mx-1">=</span>;
 
-export const CurrencySourceForm: React.FC = () => {
+export const CurrencySourceForm: FC = () => {
   const { source, setCurrencyConversionSource } = usePricingSource();
 
   const handleChange = (p: Partial<CurrencyConversionSource>) => {
-    setCurrencyConversionSource({ ...source, ...p });
+    setCurrencyConversionSource(p);
   };
 
   const handleChangeDebounced = debounce(handleChange, 500);

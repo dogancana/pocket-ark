@@ -1,5 +1,6 @@
 import { CurrencyItemType, CurrencyType } from '@pocket-ark/lost-ark-data';
 import { CurrencyIcon } from './icons';
+import { FC } from '../utils';
 
 interface CurrencyProps {
   type: CurrencyType | CurrencyItemType;
@@ -8,7 +9,7 @@ interface CurrencyProps {
   size?: number;
 }
 
-export const Currency: React.FC<CurrencyProps> = ({
+export const Currency: FC<CurrencyProps> = ({
   type,
   value,
   className,

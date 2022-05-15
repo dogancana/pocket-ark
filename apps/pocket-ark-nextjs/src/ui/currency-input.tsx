@@ -1,6 +1,7 @@
 import { CurrencyItemType, CurrencyType } from '@pocket-ark/lost-ark-data';
 import { DetailedHTMLProps, InputHTMLAttributes } from 'react';
 import { CurrencyIcon } from '../ui/icons';
+import { FC } from '../utils';
 
 type InputProps = DetailedHTMLProps<
   InputHTMLAttributes<HTMLInputElement>,
@@ -11,7 +12,7 @@ export interface CurrencyInputProps extends InputProps {
   iconType: CurrencyType | CurrencyItemType;
 }
 
-export const CurrencyInput: React.FC<CurrencyInputProps> = ({
+export const CurrencyInput: FC<CurrencyInputProps> = ({
   iconType,
   ...rest
 }) => {

@@ -3,7 +3,7 @@ import Head from 'next/head';
 import { Header } from '../src/ui';
 import './styles.css';
 
-export const App: React.FC = ({ Component, pageProps }: AppProps) => {
+export const App = ({ Component, pageProps }: AppProps) => {
   return (
     <>
       <Head>

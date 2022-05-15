@@ -6,6 +6,7 @@ import {
 import { usePricingSource } from '../../components';
 import { Currency } from '../../ui';
 import { MaterialIcon } from '../../ui/icons';
+import { FC } from '../../utils';
 
 const tdClassName = 'border border-slate-300 p-4 text-left';
 
@@ -13,7 +14,7 @@ export interface InfiniteChaosTableProps {
   shardsPerHour?: number;
 }
 
-export const InfiniteChaosTable: React.FC<InfiniteChaosTableProps> = ({
+export const InfiniteChaosTable: FC<InfiniteChaosTableProps> = ({
   shardsPerHour: shardsPerHourProp,
 }) => {
   const shardsPerHour = shardsPerHourProp ?? 0;

@@ -1,7 +1,8 @@
 import { useState } from 'react';
+import { FC } from '../../utils';
 import { InfiniteChaosTable } from './infinite-chaos-table';
 
-export const InfiniteChaosPage: React.FC = () => {
+export const InfiniteChaosPage: FC = () => {
   const [seconds, setSeconds] = useState(120);
   const limitedSeconds = seconds
     ? Math.max(Math.min(seconds, 600), 30)

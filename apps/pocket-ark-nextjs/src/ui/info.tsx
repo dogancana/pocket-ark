@@ -1,15 +1,8 @@
-import { useState } from 'react';
+import { FC } from '../utils';
+
 export interface AlertProps {
-  title: string;
-  message: string;
   type?: 'info' | 'warning' | 'error';
 }
-
-const COLOR_MAP = {
-  info: 'teal',
-  warning: 'amber',
-  error: 'rose',
-};
 
 const CLASS_MAP = {
   info: {
@@ -29,7 +22,7 @@ const CLASS_MAP = {
   },
 };
 
-export const Alert: React.FC<AlertProps> = ({ children, type }) => {
+export const Alert: FC<AlertProps> = ({ children, type }) => {
   const { bg, border, text } = CLASS_MAP[type ?? 'info'];
 
   return (

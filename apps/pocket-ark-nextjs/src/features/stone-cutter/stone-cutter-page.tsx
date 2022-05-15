@@ -1,4 +1,6 @@
-export const StoneCutterPage: React.FC = () => {
+import { FC } from '../../utils';
+
+export const StoneCutterPage: FC = () => {
   return (
     <div className="container mx-auto mt-10 text-center">
       <h2>How it works?</h2>

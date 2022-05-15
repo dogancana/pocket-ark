@@ -2,6 +2,7 @@ import { CurrencyType } from '@pocket-ark/lost-ark-data';
 import { useState } from 'react';
 import { usePricingSource } from '../../components';
 import { Currency, CurrencyInput } from '../../ui';
+import { FC } from '../../utils';
 
 interface State {
   values: { [key in CurrencyType]: number };
@@ -10,7 +11,7 @@ interface State {
 const Plus = () => <span className="w-12 text-center">+</span>;
 const OR = () => <span className="w-12 text-center">or</span>;
 
-const Box: React.FC = ({ children }) => (
+const Box: FC = ({ children }) => (
   <span className="w-full border shadow-lg p-3">{children}</span>
 );
 
@@ -22,7 +23,7 @@ const fixedDigits = {
   [CurrencyType.RealMoney]: 2,
 };
 
-export const CurrencyConverter: React.FC = () => {
+export const CurrencyConverter: FC = () => {
   const { rates } = usePricingSource();
   const [state, setState] = useState<State>({
     values: {

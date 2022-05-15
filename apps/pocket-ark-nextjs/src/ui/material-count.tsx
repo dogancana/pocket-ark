@@ -1,5 +1,6 @@
 import { MaterialType } from '@pocket-ark/lost-ark-data';
 import { MaterialIcon } from './icons/material-icon';
+import { FC } from '../utils';
 
 interface MaterialCountProps {
   type: MaterialType;
@@ -8,7 +9,7 @@ interface MaterialCountProps {
   size?: number;
 }
 
-export const MaterialCount: React.FC<MaterialCountProps> = ({
+export const MaterialCount: FC<MaterialCountProps> = ({
   type,
   value,
   className,

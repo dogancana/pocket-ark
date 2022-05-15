@@ -4,10 +4,11 @@ import { Currency, MaterialCount } from '../../ui';
 import { MaterialIcon } from '../../ui/icons';
 import { readableSeconds } from '../../utils/time';
 import { isNumber } from 'lodash';
+import { FC } from '../../utils';
 
 const tdClassName = 'border border-slate-300 p-4 text-left';
 
-export const StrongholdCraftingPage: React.FC = () => {
+export const StrongholdCraftingPage: FC = () => {
   const { pricedMaterialsObject, addRecipeMaterials } = usePricingSource();
 
   const recipes = craftingRecipes
