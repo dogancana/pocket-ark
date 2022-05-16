@@ -15,7 +15,7 @@ export const MaterialPrice: FC<MaterialPriceProps> = ({ type, onChange }) => {
   const { pricedMaterialsObject: materials, setMaterialPrice } =
     usePricingSource();
   const material = materials[type];
-  const price = material?.price ?? 0;
+  const price = material?.price || 0;
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const p = Math.max(parseInt(e.target.value, 10), 0);

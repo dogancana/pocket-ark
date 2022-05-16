@@ -24,7 +24,7 @@ export const CurrencyInput: FC<CurrencyInputProps> = ({
 
       <input
         className={`shadow appearance-none px-3 py-1 pl-8 w-full rounded ${
-          rest.className ?? ''
+          rest.className || ''
         }`}
         type="number"
         {...rest}

@@ -100,8 +100,8 @@ export function usePricingSource() {
       const salePrice = m?.price;
       if (!salePrice) return undefined;
 
-      const unitPrice = salePrice / (m?.saleAmount ?? 1);
-      return prev + unitPrice * (curr.amount ?? 1);
+      const unitPrice = salePrice / (m?.saleAmount || 1);
+      return prev + unitPrice * (curr.amount || 1);
     }, 0);
   };
 

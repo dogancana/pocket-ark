@@ -30,10 +30,10 @@ export function getPricedMaterials(source?: PricingSource) {
   const rates = getBaseCurrencyConversionRates(source);
 
   return materials.map((material) => {
-    const price = source?.[material.type]?.price ?? undefined;
+    const price = source?.[material.type]?.price || undefined;
     return {
       ...material,
-      price: source?.[material.type]?.price ?? undefined,
+      price: source?.[material.type]?.price || undefined,
       values: {
         [CurrencyType.RealMoney]: toFixedValue(
           rates[CurrencyType.RealMoney],

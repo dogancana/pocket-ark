@@ -14,7 +14,7 @@ export const StrongholdCraftingPage: FC = () => {
   const recipes = craftingRecipes
     .map((recipe) => {
       const { outputMaterial, amount } = recipe;
-      const singlePrice = pricedMaterialsObject[outputMaterial]?.price ?? 0;
+      const singlePrice = pricedMaterialsObject[outputMaterial]?.price || 0;
       const materialsTotal = addRecipeMaterials(recipe.requiredMaterials);
       if (!singlePrice || !materialsTotal) {
         return {
@@ -26,7 +26,7 @@ export const StrongholdCraftingPage: FC = () => {
         };
       }
 
-      const totalPrice = singlePrice * (amount ?? 1);
+      const totalPrice = singlePrice * (amount || 1);
       const totalCost = materialsTotal + recipe.requiredGold;
       const profit = totalPrice - totalCost;
       const perc = (profit / totalPrice) * 100;

@@ -1,5 +1,5 @@
 import { PricingSource } from '@pocket-ark/lost-ark-data';
-import { client, MongoDbNames, MongoDbCollections } from './mongo-db';
+import { client, MongoDbCollections, MongoDbNames } from './mongo-db';
 
 export async function upsertPricingSource(pricingSource: PricingSource) {
   if (!pricingSource.meta.key || !pricingSource.meta.reference) {
@@ -49,8 +49,18 @@ export async function getSourcebyReferece(reference: string) {
       'meta.reference': reference,
     });
     if (res) delete res['_id'];
-    return res;
+    return res ? stripKey(res) : res;
   } finally {
     client.close();
   }
+}
+
+function stripKey(source: PricingSource) {
+  return {
+    ...source,
+    meta: {
+      ...source.meta,
+      key: null,
+    },
+  };
 }

@@ -11,7 +11,7 @@ export const PriceSection: FC<PriceSectionProps> = ({
   children,
 }) => {
   return (
-    <div className={`mt-4 w-full ${className ?? ''}`}>
+    <div className={`mt-4 w-full ${className || ''}`}>
       <h3 className="ml-2 font-bold">{title}</h3>
       <div className="flex flex-wrap">{children}</div>
     </div>

@@ -28,7 +28,7 @@ const CLASS_MAP = {
 };
 
 export const Alert: FC<AlertProps> = ({ children, type }) => {
-  const { bg, border, text } = CLASS_MAP[type ?? 'info'];
+  const { bg, border, text } = CLASS_MAP[type || 'info'];
 
   return (
     <div

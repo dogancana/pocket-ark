@@ -17,7 +17,7 @@ export interface InfiniteChaosTableProps {
 export const InfiniteChaosTable: FC<InfiniteChaosTableProps> = ({
   shardsPerHour: shardsPerHourProp,
 }) => {
-  const shardsPerHour = shardsPerHourProp ?? 0;
+  const shardsPerHour = shardsPerHourProp || 0;
   const { pricedMaterialsArray: materials } = usePricingSource();
   const valuePerShard = (material: PricedMaterial) => {
     return material.price
@@ -65,7 +65,7 @@ export const InfiniteChaosTable: FC<InfiniteChaosTableProps> = ({
             <td className={tdClassName}>
               <Currency
                 type={CurrencyType.Gold}
-                value={material.price ?? '?'}
+                value={material.price || '?'}
               />
             </td>
             <td className={`${tdClassName} text-left`}>
@@ -75,7 +75,7 @@ export const InfiniteChaosTable: FC<InfiniteChaosTableProps> = ({
               />
             </td>
             <td className={`${tdClassName} text-center`}>
-              {material.valuePerShard?.toFixed(2) ?? '?'}
+              {material.valuePerShard?.toFixed(2) || '?'}
             </td>
             <td className={`${tdClassName} text-center`}>
               {material.price ? material.price * 99 : '?'}
@@ -84,7 +84,7 @@ export const InfiniteChaosTable: FC<InfiniteChaosTableProps> = ({
               {matsPerHour(material).toFixed(1)}
             </td>
             <td className={`${tdClassName} text-right`}>
-              {goldPerHour(material)?.toFixed(2) ?? '?'}
+              {goldPerHour(material)?.toFixed(2) || '?'}
             </td>
           </tr>
         ))}

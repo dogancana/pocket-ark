@@ -19,7 +19,7 @@ export const Currency: FC<CurrencyProps> = ({
     <span className={`flex items-center ${className ? className : ''}`}>
       <CurrencyIcon
         type={type}
-        overrides={{ width: size ?? 25, height: size ?? 25 }}
+        overrides={{ width: size || 25, height: size || 25 }}
       />
       <span className="ml-1">{value}</span>
     </span>

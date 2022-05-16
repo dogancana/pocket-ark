@@ -3,7 +3,7 @@ import { GetServerSideProps } from 'next';
 import { PricingProvider } from '../src/components';
 import { PriceIndexPage } from '../src/features/price-index';
 import { getPricingSource, getSourcebyReferece } from '../src/srr-utils';
-import { FC, isSourceOld } from '../src/utils';
+import { FC } from '../src/utils';
 import { setCookies } from 'cookies-next';
 import { COOKIES } from '../src/constants/cookies';
 
@@ -13,23 +13,30 @@ interface Props {
 
 const Page: FC<Props> = ({ source }) => {
   return (
-    <PricingProvider source={source ?? {}}>
+    <PricingProvider source={source || {}}>
       <PriceIndexPage />
     </PricingProvider>
   );
 };
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
-  const result = (s?: PricingSource) => ({ props: { source: s ?? {} } });
+  const result = (s?: PricingSource) => ({ props: { source: s || {} } });
   try {
     const source = getPricingSource(req, res);
-    const params = new URLSearchParams(req.url?.split('?')[1] ?? '');
+    const params = new URLSearchParams(req.url?.split('?')[1] || '');
     const reference = params.get('reference');
 
-    const isOwner = !!source.meta?.key && reference === source.meta?.reference;
-    console.log({ isOwner, reference, source, url: req.url, params });
-    if (isOwner) return result(source);
+    const isOwnerOfProvidedReference = Boolean(
+      !!source.meta?.key && reference === source.meta?.reference
+    );
 
+    console.log({ reference, source: source.meta, isOwnerOfProvidedReference });
+    if (!!isOwnerOfProvidedReference || (source?.meta?.key && !reference)) {
+      console.log('return the source', source?.meta);
+      return result(source);
+    }
+
+    console.log('passed');
     const isNewReference = !!reference && reference !== source.meta?.reference;
     const consumingOldReference =
       !!source.meta?.reference && isSourceOld(source);
@@ -37,30 +44,31 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
     console.log({ isNewReference, consumingOldReference });
     if (isNewReference || consumingOldReference) {
       const newSource = await getSourcebyReferece(
-        reference ?? source?.meta?.reference
+        reference || source?.meta?.reference
       );
 
       console.log({ newSource });
       if (newSource) {
         setCookies(COOKIES.pricingSourceJSON, newSource, { req, res });
-        return result(stripKey(newSource));
+        return result(newSource);
       }
     }
 
-    return result(source ?? {});
+    return result(source || {});
   } catch (e) {
+    console.error(e);
     return result({});
   }
 };
 
-export default Page;
+function isSourceOld(source: PricingSource) {
+  if (!source.meta?.lastUpdatedAtISO) return true;
 
-function stripKey(source: PricingSource) {
-  return {
-    ...source,
-    meta: {
-      ...source.meta,
-      key: null,
-    },
-  };
+  const lastUpdatedAt = new Date(source.meta?.lastUpdatedAtISO);
+  const now = new Date();
+  const diff = now.getTime() - lastUpdatedAt.getTime();
+  const diffMins = Math.ceil(diff / (1000 * 60));
+  return diffMins > 15;
 }
+
+export default Page;
