@@ -1,15 +1,19 @@
 import { PricingSource } from '@pocket-ark/lost-ark-data';
 import { getCookie } from 'cookies-next';
-import { NextApiRequest, NextApiResponse } from 'next';
+import { IncomingMessage, ServerResponse } from 'http';
+import { NextApiRequestCookies } from 'next/dist/server/api-utils';
 
 export function getPricingSource(
-  req: NextApiRequest,
-  res: NextApiResponse
+  req: IncomingMessage & { cookies: NextApiRequestCookies },
+  res: ServerResponse
 ): PricingSource {
   return getSourceFromCookies(req, res) || {};
 }
 
-function getSourceFromCookies(req: NextApiRequest, res: NextApiResponse) {
+function getSourceFromCookies(
+  req: IncomingMessage & { cookies: NextApiRequestCookies },
+  res: ServerResponse
+) {
   const sourceString = getCookie('pricingSourceJSON', {
     req,
     res,
