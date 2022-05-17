@@ -7,6 +7,8 @@ import { FC } from '../../utils';
 export const SourceSync: FC = () => {
   const { source, isSourceComplete } = usePricingSource();
 
+  console.log('SourceSync', { source, isSourceComplete });
+
   if (!isSourceComplete) return <div id="nothing"></div>;
 
   const meta = source?.meta;

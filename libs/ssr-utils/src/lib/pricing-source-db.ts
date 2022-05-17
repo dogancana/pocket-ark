@@ -2,7 +2,7 @@ import { PricingSource } from '@pocket-ark/lost-ark-data';
 import { client, MongoDbCollections, MongoDbNames } from './mongo-db';
 
 export async function upsertPricingSource(pricingSource: PricingSource) {
-  if (!pricingSource.meta.key || !pricingSource.meta.reference) {
+  if (!pricingSource.meta?.key || !pricingSource.meta.reference) {
     throw new Error('Cannot update');
   }
 
@@ -37,6 +37,7 @@ export async function upsertPricingSource(pricingSource: PricingSource) {
   } finally {
     client.close();
   }
+  return undefined;
 }
 
 export async function getSourcebyReferece(reference: string) {
@@ -48,7 +49,7 @@ export async function getSourcebyReferece(reference: string) {
     const res = await collection.findOne<PricingSource>({
       'meta.reference': reference,
     });
-    if (res) delete res['_id'];
+    if (res) delete (res as any)['_id']; // remove non serializable mongo id
     return res ? stripKey(res) : res;
   } finally {
     client.close();

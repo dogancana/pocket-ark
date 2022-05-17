@@ -1,5 +1,5 @@
+import { getPricingSource, upsertPricingSource } from '@pocket-ark/ssr-utils';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { getPricingSource, upsertPricingSource } from '../../src/srr-utils';
 
 const controller = async (req: NextApiRequest, res: NextApiResponse) => {
   const source = getPricingSource(req, res);

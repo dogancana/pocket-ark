@@ -1,9 +1,9 @@
 import { PricingSource } from '@pocket-ark/lost-ark-data';
 import { PricingProvider } from '../src/components';
 import { InfiniteChaosPage } from '../src/features/infinite-chaos';
-import { getPricingSource } from '../src/srr-utils';
 import { FC } from '../src/utils';
 import { GetServerSideProps } from 'next';
+import { getPricingSource } from '@pocket-ark/ssr-utils';
 
 interface Props {
   source: PricingSource;

@@ -1,11 +1,13 @@
 import { PricingSource } from '@pocket-ark/lost-ark-data';
+import {
+  getPricingSource,
+  getSourcebyReferece,
+  setPricingSource
+} from '@pocket-ark/ssr-utils';
 import { GetServerSideProps } from 'next';
 import { PricingProvider } from '../src/components';
 import { PriceIndexPage } from '../src/features/price-index';
-import { getPricingSource, getSourcebyReferece } from '../src/srr-utils';
 import { FC } from '../src/utils';
-import { setCookies } from 'cookies-next';
-import { COOKIES } from '../src/constants/cookies';
 
 interface Props {
   source: PricingSource;
@@ -49,7 +51,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
 
       console.log({ newSource });
       if (newSource) {
-        setCookies(COOKIES.pricingSourceJSON, newSource, { req, res });
+        setPricingSource(newSource, req, res);
         return result(newSource);
       }
     }

@@ -15,7 +15,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@pocket-ark/lost-ark-data": ["libs/lost-ark-data/src/index.ts"]
+      "@pocket-ark/fe-utils": ["libs/fe-utils/src/index.ts"],
+      "@pocket-ark/lost-ark-data": ["libs/lost-ark-data/src/index.ts"],
+      "@pocket-ark/ssr-utils": ["libs/ssr-utils/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

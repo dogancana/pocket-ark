@@ -1,17 +1,17 @@
+import { setPricingSource } from '@pocket-ark/fe-utils';
 import {
   CurrencyConversionSource,
   getBaseCurrencyConversionRates,
   getPricedMaterials,
+  isSourceComplete,
   materials,
   MaterialType,
   PricedMaterial,
-  PricingSource,
+  PricingSource
 } from '@pocket-ark/lost-ark-data';
-import { setCookies } from 'cookies-next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { createContext, useContext, useState } from 'react';
-import { COOKIES } from '../constants/cookies';
 import { Alert } from '../ui';
 import { FC } from '../utils';
 
@@ -63,10 +63,7 @@ export function usePricingSource() {
   const { source, setSource } = useContext(Context);
 
   const pricedMaterialsArray = getPricedMaterials(source);
-  const isSourceComplete = false;
-  // const isSourceComplete = pricedMaterialsArray.every(
-  //   (m) => !!source[m.type]?.price
-  // );
+  const isComplete = isSourceComplete(source);
   const pricedMaterialsObject = pricedMaterialsArray.reduce(
     (prev, curr) => ({ ...prev, [curr.type]: curr }),
     {} as { [key in MaterialType]: PricedMaterial }
@@ -81,13 +78,13 @@ export function usePricingSource() {
       },
     };
     setSource(newSource);
-    setCookies(COOKIES.pricingSourceJSON, newSource);
+    setPricingSource(newSource);
   };
 
   const setCurrencyConversionSource = (s: CurrencyConversionSource) => {
     const newSource = { ...source, ...s };
     setSource(newSource);
-    setCookies(COOKIES.pricingSourceJSON, newSource);
+    setPricingSource(newSource);
   };
 
   const addRecipeMaterials = (
@@ -107,7 +104,7 @@ export function usePricingSource() {
 
   return {
     source,
-    isSourceComplete,
+    isSourceComplete: isComplete,
     pricedMaterialsArray,
     pricedMaterialsObject,
     rates: getBaseCurrencyConversionRates(source),
