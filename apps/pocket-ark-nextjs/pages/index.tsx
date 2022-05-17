@@ -49,8 +49,15 @@ const Index = () => {
     },
     {
       title: 'Stronghold Crafting',
-      message: 'See profit margins for crafting various items in your stronghold.',
+      message:
+        'See profit margins for crafting various items in your stronghold.',
       href: '/stronghold-crafting',
+      enabled: true,
+    },
+    {
+      title: 'Secret Maps',
+      message: 'Compare secret map rewards based.',
+      href: '/secret-maps',
       enabled: true,
     },
   ];

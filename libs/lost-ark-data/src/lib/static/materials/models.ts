@@ -1,12 +1,22 @@
+import { Rarity } from '../models';
+
 export enum MaterialType {
   HonorLeapstone = 'HonorLeapstone',
   GreatHonorLeapstone = 'GreatHonorLeapstone',
+  HarmonyShardPouchSmall = 'HarmonyShardPouchSmall',
+  HarmonyShardPouchMedium = 'HarmonyShardPouchMedium',
+  HarmonyShardPouchLarge = 'HarmonyShardPouchLarge',
+  LifeShardPouchSmall = 'LifeShardPouchSmall',
+  LifeShardPouchMedium = 'LifeShardPouchMedium',
+  LifeShardPouchLarge = 'LifeShardPouchLarge',
   HonorShardPouchSmall = 'HonorShardPouchSmall',
   HonorShardPouchMedium = 'HonorShardPouchMedium',
   HonorShardPouchLarge = 'HonorShardPouchLarge',
   SolarGrace = 'SolarGrace',
   SolarBlessing = 'SolarBlessing',
   SolarProtection = 'SolarProtection',
+  StarsBreath = 'StarsBreath',
+  MoonsBreath = 'MoonsBreath',
   DestructionStoneCrystal = 'DestructionStoneCrystal',
   GuardianStoneCrystal = 'GuardianStoneCrystal',
   PowderOfSage = 'PowderOfSage',
@@ -41,16 +51,6 @@ export enum MaterialType {
   RareRelic = 'RareRelic',
   AncientRelic = 'AncientRelic',
   OrehaRelic = 'OrehaRelic',
-}
-
-export enum Rarity {
-  Common = 'Common',
-  Uncommon = 'Uncommon',
-  Rare = 'Rare',
-  Epic = 'Epic',
-  Legendary = 'Legendary',
-  Relic = 'Relic',
-  Ancient = 'Ancient',
 }
 
 export interface Material {

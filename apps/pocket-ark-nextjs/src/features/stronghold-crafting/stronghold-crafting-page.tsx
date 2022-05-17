@@ -1,21 +1,21 @@
 import { craftingRecipes, CurrencyType } from '@pocket-ark/lost-ark-data';
-import { usePricingSource } from '../../components';
-import { Currency, MaterialCount } from '../../ui';
-import { MaterialIcon } from '../../ui/icons';
-import { readableSeconds } from '../../utils/time';
 import { isNumber } from 'lodash';
+import { usePricingSource } from '../../components';
+import { Currency, MaterialsLine } from '../../ui';
+import { MaterialIcon } from '../../ui/icons';
 import { FC } from '../../utils';
+import { readableSeconds } from '../../utils/time';
 
 const tdClassName = 'border border-slate-300 p-4 text-left';
 
 export const StrongholdCraftingPage: FC = () => {
-  const { pricedMaterialsObject, addRecipeMaterials } = usePricingSource();
+  const { pricedMaterialsObject, addMaterials } = usePricingSource();
 
   const recipes = craftingRecipes
     .map((recipe) => {
       const { outputMaterial, amount } = recipe;
       const singlePrice = pricedMaterialsObject[outputMaterial]?.price || 0;
-      const materialsTotal = addRecipeMaterials(recipe.requiredMaterials);
+      const materialsTotal = addMaterials(recipe.requiredMaterials);
       if (!singlePrice || !materialsTotal) {
         return {
           ...recipe,
@@ -77,16 +77,7 @@ export const StrongholdCraftingPage: FC = () => {
                       </div>
                     </td>
                     <td className={tdClassName}>
-                      <div className="flex align-middle">
-                        {recipe.requiredMaterials.map((r) => (
-                          <MaterialCount
-                            key={r.type}
-                            type={r.type}
-                            value={r.amount}
-                            className="mr-3"
-                          />
-                        ))}
-                      </div>
+                      <MaterialsLine materials={recipe.requiredMaterials} />
                     </td>
                     <td className={tdClassName}>
                       <Currency

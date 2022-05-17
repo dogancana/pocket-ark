@@ -10,8 +10,14 @@ export interface MaterialIconProps {
 export const MaterialIcon: FC<MaterialIconProps> = ({ type, overrides }) => {
   const path = (icon: string) => `/assets/materials/${icon}.webp`;
   let src = path(type);
-  if ((type as string)?.startsWith('HonorShardPouch'))
+
+  if ((type as string)?.startsWith('HonorShardPouch')) {
     src = path('HonorShardPouch');
+  } else if ((type as string)?.startsWith('HarmonyShardPouch')) {
+    src = path('HarmonyShardPouch');
+  } else if ((type as string)?.startsWith('LifeShardPouch')) {
+    src = path('LifeShardPouch');
+  }
 
   return (
     <Image

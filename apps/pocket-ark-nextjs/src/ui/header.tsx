@@ -8,7 +8,7 @@ export const Header: FC = () => (
   >
     <nav className="container mx-auto">
       <Link href="/" passHref>
-        <span className="px-3">POCKET ARK</span>
+        <a className="px-3">POCKET ARK</a>
       </Link>
     </nav>
   </header>

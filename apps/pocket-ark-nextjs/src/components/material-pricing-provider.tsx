@@ -7,7 +7,7 @@ import {
   materials,
   MaterialType,
   PricedMaterial,
-  PricingSource
+  PricingSource,
 } from '@pocket-ark/lost-ark-data';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -87,9 +87,7 @@ export function usePricingSource() {
     setPricingSource(newSource);
   };
 
-  const addRecipeMaterials = (
-    arr: { type: MaterialType; amount?: number }[]
-  ) => {
+  const addMaterials = (arr: { type: MaterialType; amount?: number }[]) => {
     return arr.reduce((prev, curr) => {
       if (prev === undefined) return undefined;
 
@@ -108,7 +106,7 @@ export function usePricingSource() {
     pricedMaterialsArray,
     pricedMaterialsObject,
     rates: getBaseCurrencyConversionRates(source),
-    addRecipeMaterials,
+    addMaterials,
     setMaterialPrice,
     setCurrencyConversionSource,
   };

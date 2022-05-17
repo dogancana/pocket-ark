@@ -1,17 +1,36 @@
-import { Material, MaterialType, Rarity } from './models';
+import { Rarity } from '../models';
+import { Material, MaterialType } from './models';
 
 export const materials: Material[] = [
   {
-    type: MaterialType.HonorLeapstone,
-    name: 'Honor Leapstone',
-    chaosDungeonShards: 100,
+    type: MaterialType.HarmonyShardPouchSmall,
+    name: 'Harmony Shard Pouch (S)',
+    rarity: Rarity.Common,
+  },
+  {
+    type: MaterialType.HarmonyShardPouchMedium,
+    name: 'Harmony Shard Pouch (M)',
     rarity: Rarity.Rare,
   },
   {
-    type: MaterialType.GreatHonorLeapstone,
-    name: 'Great Honor Leapstone',
-    chaosDungeonShards: 130,
+    type: MaterialType.HarmonyShardPouchLarge,
+    name: 'Harmony Shard Pouch (L)',
+    rarity: Rarity.Epic,
+  },
+  {
+    type: MaterialType.LifeShardPouchSmall,
+    name: 'Life Shard Pouch (S)',
+    rarity: Rarity.Common,
+  },
+  {
+    type: MaterialType.LifeShardPouchMedium,
+    name: 'Life Shard Pouch (M)',
     rarity: Rarity.Rare,
+  },
+  {
+    type: MaterialType.LifeShardPouchLarge,
+    name: 'Life Shard Pouch (L)',
+    rarity: Rarity.Epic,
   },
   {
     type: MaterialType.HonorShardPouchSmall,
@@ -34,6 +53,28 @@ export const materials: Material[] = [
     name: 'Solar Grace',
     chaosDungeonShards: 550,
     rarity: Rarity.Common,
+  },
+  {
+    type: MaterialType.StarsBreath,
+    name: "Star's Breath",
+    rarity: Rarity.Epic,
+  },
+  {
+    type: MaterialType.MoonsBreath,
+    name: "Moon's Breath",
+    rarity: Rarity.Epic,
+  },
+  {
+    type: MaterialType.HonorLeapstone,
+    name: 'Honor Leapstone',
+    chaosDungeonShards: 100,
+    rarity: Rarity.Rare,
+  },
+  {
+    type: MaterialType.GreatHonorLeapstone,
+    name: 'Great Honor Leapstone',
+    chaosDungeonShards: 130,
+    rarity: Rarity.Rare,
   },
   {
     type: MaterialType.SolarBlessing,
