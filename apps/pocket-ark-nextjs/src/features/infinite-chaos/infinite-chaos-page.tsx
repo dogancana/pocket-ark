@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { FC } from '../../utils';
 import { InfiniteChaosTable } from './infinite-chaos-table';
+import { Input } from 'semantic-ui-react';
 
 export const InfiniteChaosPage: FC = () => {
   const [seconds, setSeconds] = useState(120);
@@ -28,17 +29,20 @@ export const InfiniteChaosPage: FC = () => {
         >
           Time needed to collect 100 shards (in seconds):
         </label>
-        <input
-          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        <Input
           id="seconds"
+          icon="time"
+          iconPosition="left"
           type="number"
           defaultValue={120}
+          size="big"
           placeholder="120: 100 Shards in 2 mins"
           onChange={(e) => {
             const seconds = parseInt(e.target.value, 10);
             if (!Number.isNaN(seconds)) setSeconds(seconds);
           }}
         />
+
         {seconds !== limitedSeconds && (
           <p className="mt-2 text-red-400 max-w-xs text-center">
             Limiting value [30, 600]: {limitedSeconds}

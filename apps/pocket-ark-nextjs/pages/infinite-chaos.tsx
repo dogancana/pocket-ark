@@ -3,7 +3,7 @@ import { PricingProvider } from '../src/components';
 import { InfiniteChaosPage } from '../src/features/infinite-chaos';
 import { FC } from '../src/utils';
 import { GetServerSideProps } from 'next';
-import { getPricingSource } from '@pocket-ark/ssr-utils';
+import { getPricingSourceFromCookies } from '@pocket-ark/ssr-utils';
 
 interface Props {
   source: PricingSource;
@@ -16,7 +16,7 @@ const Page: FC<Props> = ({ source }) => (
 );
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
-  const source = getPricingSource(req, res);
+  const source = getPricingSourceFromCookies(req, res);
   return { props: { source } };
 };
 

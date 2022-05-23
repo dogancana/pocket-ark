@@ -10,6 +10,8 @@ export interface PriceSourceMeta {
   lastUpdatedAtISO: string;
   reference: string;
   key?: string;
+  region: 'EUC' | 'EUW' | 'SA' | 'NAE' | 'NAW';
+  description: string;
 }
 
 export type PricingSource = CurrencyConversionSource & {

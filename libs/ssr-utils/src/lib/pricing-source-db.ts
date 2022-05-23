@@ -1,67 +1,139 @@
-import { PricingSource } from '@pocket-ark/lost-ark-data';
+import { PriceSourceMeta, PricingSource } from '@pocket-ark/lost-ark-data';
 import { client, MongoDbCollections, MongoDbNames } from './mongo-db';
 
-export async function upsertPricingSource(pricingSource: PricingSource) {
+export async function insertPricingSource(
+  pricingSource: PricingSource
+): Promise<PriceSourceMeta> {
+  return _upsertPricingSource(pricingSource, true);
+}
+
+export async function updatePricingSource(
+  pricingSource: PricingSource
+): Promise<PriceSourceMeta> {
+  return _upsertPricingSource(pricingSource, false);
+}
+
+async function _upsertPricingSource(
+  pricingSource: PricingSource,
+  upsert: boolean
+): Promise<PriceSourceMeta> {
   if (!pricingSource.meta?.key || !pricingSource.meta.reference) {
     throw new Error('Cannot update');
   }
 
   try {
     await client.connect();
-    const meta = pricingSource.meta;
     const collection = await client
       .db(MongoDbNames.Public)
       .collection(MongoDbCollections.PricingSource);
+    const meta = {
+      ...pricingSource.meta,
+      lastUpdatedAtISO: new Date().toISOString(),
+    };
 
-    console.log('s', pricingSource);
-
-    const r = await collection.updateOne(
+    await collection.updateOne(
       {
         'meta.reference': meta?.reference,
         'meta.key': meta?.key,
       },
       {
-        $set: {
-          ...pricingSource,
-          meta: {
-            ...meta,
-            lastUpdatedAtISO: new Date().toISOString(),
+        $set: { ...pricingSource, meta },
+      },
+      { upsert }
+    );
+    return meta;
+  } catch (e) {
+    client.close();
+    throw e;
+  }
+}
+
+export async function getPricingSourcebyReferece(
+  reference: string
+): Promise<PricingSource | null> {
+  try {
+    await client.connect();
+    const collection = await client
+      .db(MongoDbNames.Public)
+      .collection(MongoDbCollections.PricingSource);
+    const res = await collection.findOne<PricingSource>(
+      { 'meta.reference': reference },
+      { projection: { 'meta.key': 0, _id: 0 } }
+    );
+    return res;
+  } finally {
+    client.close();
+  }
+}
+
+export async function searchPricingSource(query: string) {
+  try {
+    await client.connect();
+    const collection = await client
+      .db(MongoDbNames.Public)
+      .collection(MongoDbCollections.PricingSource);
+
+    const res = await collection.aggregate<PricingSource>([
+      {
+        $search: {
+          compound: {
+            should: [
+              {
+                text: {
+                  path: 'meta.region',
+                  query,
+                },
+              },
+              {
+                autocomplete: {
+                  path: 'meta.description',
+                  query,
+                  tokenOrder: 'any',
+                  fuzzy: {
+                    maxEdits: 2,
+                    prefixLength: 2,
+                    maxExpansions: 32,
+                  },
+                },
+              },
+            ],
           },
         },
       },
-      { upsert: true }
-    );
-    return r;
+      {
+        $limit: 10,
+      },
+      {
+        $project: {
+          _id: 0,
+          'meta.key': 0,
+        },
+      },
+    ]);
+
+    return await res.toArray();
+  } finally {
+    client.close();
+  }
+}
+
+export async function removeSource(key: string, reference: string) {
+  if (!key || !reference) throw new Error('Cannot remove');
+
+  try {
+    await client.connect();
+    const collection = await client
+      .db(MongoDbNames.Public)
+      .collection(MongoDbCollections.PricingSource);
+
+    return collection.deleteOne({
+      'meta.reference': reference,
+      'meta.key': key,
+    });
   } catch (e) {
     console.error(e);
   } finally {
     client.close();
   }
   return undefined;
-}
-
-export async function getSourcebyReferece(reference: string) {
-  try {
-    await client.connect();
-    const collection = await client
-      .db(MongoDbNames.Public)
-      .collection(MongoDbCollections.PricingSource);
-    const res = await collection.findOne<PricingSource>({
-      'meta.reference': reference,
-    });
-    if (res) delete (res as any)['_id']; // remove non serializable mongo id
-    return res ? stripKey(res) : res;
-  } finally {
-    client.close();
-  }
-}
-
-function stripKey(source: PricingSource) {
-  return {
-    ...source,
-    meta: {
-      ...source.meta,
-      key: null,
-    },
-  };
 }

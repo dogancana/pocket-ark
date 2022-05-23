@@ -1,4 +1,4 @@
-import { setPricingSource } from '@pocket-ark/fe-utils';
+import { setPricingSourceToCookies } from '@pocket-ark/fe-utils';
 import {
   CurrencyConversionSource,
   getBaseCurrencyConversionRates,
@@ -9,9 +9,17 @@ import {
   PricedMaterial,
   PricingSource,
 } from '@pocket-ark/lost-ark-data';
+import { debounce } from 'lodash';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { createContext, useContext, useState } from 'react';
+import {
+  createContext,
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useState,
+} from 'react';
+import { putPricingSource } from '../services';
 import { Alert } from '../ui';
 import { FC } from '../utils';
 
@@ -21,12 +29,16 @@ export interface PricingProviderProps {
 
 export interface MaterialPricngProviderContext {
   source: PricingSource;
-  setSource: (source: PricingSource) => void;
+  setSource: Dispatch<SetStateAction<PricingSource>>;
+  showShareModal: boolean;
+  setShowShareModal: Dispatch<SetStateAction<boolean>>;
 }
 
 const Context = createContext<MaterialPricngProviderContext>({
   source: {},
+  showShareModal: false,
   setSource: () => null,
+  setShowShareModal: () => null,
 });
 
 export const PricingProvider: FC<PricingProviderProps> = ({
@@ -34,6 +46,7 @@ export const PricingProvider: FC<PricingProviderProps> = ({
   source: sourceProp,
 }) => {
   const [source, setSource] = useState(sourceProp);
+  const [showShareModal, setShowShareModal] = useState(false);
   const { pathname } = useRouter();
 
   const hasMissingMaterialPrices = !materials.every(
@@ -42,25 +55,30 @@ export const PricingProvider: FC<PricingProviderProps> = ({
   const isOnPriceIndex = pathname === '/price-index';
 
   return (
-    <Context.Provider value={{ source, setSource }}>
-      {hasMissingMaterialPrices && !isOnPriceIndex && (
-        <Alert>
-          <p className="font-bold">You have missing material prices</p>
-          <p className="text-sm">
-            You can edit prices of your server from{' '}
-            <Link href="/price-index" passHref>
-              <span className="font-bold cursor-pointer">this link</span>
-            </Link>
-          </p>
-        </Alert>
-      )}
-      {children}
-    </Context.Provider>
+    <>
+      <Context.Provider
+        value={{ source, showShareModal, setShowShareModal, setSource }}
+      >
+        {hasMissingMaterialPrices && !isOnPriceIndex && (
+          <Alert>
+            <p className="font-bold">You have missing material prices</p>
+            <p className="text-sm">
+              You can edit prices of your server from{' '}
+              <Link href="/price-index" passHref>
+                <span className="font-bold cursor-pointer">this link</span>
+              </Link>
+            </p>
+          </Alert>
+        )}
+        {children}
+      </Context.Provider>
+    </>
   );
 };
 
 export function usePricingSource() {
-  const { source, setSource } = useContext(Context);
+  const { source, showShareModal, setSource, setShowShareModal } =
+    useContext(Context);
 
   const pricedMaterialsArray = getPricedMaterials(source);
   const isComplete = isSourceComplete(source);
@@ -69,7 +87,13 @@ export function usePricingSource() {
     {} as { [key in MaterialType]: PricedMaterial }
   );
 
-  const setMaterialPrice = (type: MaterialType, price: number) => {
+  const updateSource = debounce(async (s: PricingSource) => {
+    setPricingSourceToCookies(s);
+    const m = await putPricingSource();
+    setSource((s) => ({ ...s, meta: m }));
+  }, 1000);
+
+  const setMaterialPrice = async (type: MaterialType, price: number) => {
     const newSource = {
       ...source,
       [type]: {
@@ -77,14 +101,12 @@ export function usePricingSource() {
         price,
       },
     };
-    setSource(newSource);
-    setPricingSource(newSource);
+    updateSource(newSource);
   };
 
-  const setCurrencyConversionSource = (s: CurrencyConversionSource) => {
+  const setCurrencyConversionSource = async (s: CurrencyConversionSource) => {
     const newSource = { ...source, ...s };
-    setSource(newSource);
-    setPricingSource(newSource);
+    updateSource(newSource);
   };
 
   const addMaterials = (arr: { type: MaterialType; amount?: number }[]) => {
@@ -106,6 +128,9 @@ export function usePricingSource() {
     pricedMaterialsArray,
     pricedMaterialsObject,
     rates: getBaseCurrencyConversionRates(source),
+    showShareModal,
+    setShowShareModal,
+    setSource,
     addMaterials,
     setMaterialPrice,
     setCurrencyConversionSource,

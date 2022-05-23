@@ -1,11 +1,11 @@
 import { COOKIES, PricingSource } from '@pocket-ark/lost-ark-data';
 import { getCookie, setCookies } from 'cookies-next';
 
-export function getPricingSource(): PricingSource {
+export function getPricingSourceFromCookies(): PricingSource {
   return getSourceFromCookies() || {};
 }
 
-export function setPricingSource(source: PricingSource) {
+export function setPricingSourceToCookies(source: PricingSource) {
   setCookies(COOKIES.pricingSourceJSON, source);
 }
 
