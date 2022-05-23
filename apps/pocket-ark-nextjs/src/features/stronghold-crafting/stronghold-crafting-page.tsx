@@ -1,127 +1,170 @@
-import { craftingRecipes, CurrencyType } from '@pocket-ark/lost-ark-data';
+import {
+  CraftingRecipe,
+  craftingRecipes,
+  CurrencyType,
+} from '@pocket-ark/lost-ark-data';
 import { isNumber } from 'lodash';
 import { usePricingSource } from '../../components';
-import { Currency, MaterialsLine } from '../../ui';
+import {
+  Currency,
+  MaterialsLine,
+  orderForTable,
+  SortableTableHeaders,
+  SortableTableItem,
+  sortableTableReducer,
+  SortableTableReducer,
+} from '../../ui';
 import { MaterialIcon } from '../../ui/icons';
 import { FC } from '../../utils';
 import { readableSeconds } from '../../utils/time';
+import { Table, Container } from 'semantic-ui-react';
+import { useReducer, useMemo } from 'react';
 
-const tdClassName = 'border border-slate-300 p-4 text-left';
+interface TableRecipe extends CraftingRecipe {
+  totalPrice?: number;
+  totalCost?: number;
+  profit?: number;
+  perc?: number;
+  materialsTotal?: number;
+}
+
+const headers: SortableTableItem<keyof TableRecipe>[] = [
+  { label: 'Recipe', column: 'outputMaterial', notSortable: true },
+  { label: 'Materials', column: 'materialsTotal' },
+  { label: 'Cost', column: 'requiredGold' },
+  { label: 'Energy', column: 'requiredActionEnergy' },
+  { label: 'Time', column: 'seconds' },
+  { label: 'Total', column: 'totalCost' },
+  { label: 'Sale', column: 'totalPrice' },
+  { label: 'Profit', column: 'profit' },
+  { label: 'Perc.', column: 'perc' },
+];
 
 export const StrongholdCraftingPage: FC = () => {
   const { pricedMaterialsObject, addMaterials } = usePricingSource();
 
-  const recipes = craftingRecipes
-    .map((recipe) => {
-      const { outputMaterial, amount } = recipe;
-      const singlePrice = pricedMaterialsObject[outputMaterial]?.price || 0;
-      const materialsTotal = addMaterials(recipe.requiredMaterials);
-      if (!singlePrice || !materialsTotal) {
+  const [{ column, direction }, dispatch] = useReducer<
+    SortableTableReducer<keyof TableRecipe>
+  >(sortableTableReducer, {
+    column: 'perc',
+    direction: 'descending',
+  });
+
+  const recipes = useMemo(() => {
+    return orderForTable(
+      craftingRecipes.map((recipe): TableRecipe => {
+        const { outputMaterial, amount } = recipe;
+        const singlePrice = pricedMaterialsObject[outputMaterial]?.price || 0;
+        const materialsTotal = addMaterials(recipe.requiredMaterials);
+
+        if (!singlePrice || !materialsTotal) {
+          return {
+            ...recipe,
+            totalCost: 0,
+            totalPrice: 0,
+            profit: 0,
+            perc: 0,
+            materialsTotal: 0,
+          };
+        }
+
+        const totalPrice = singlePrice * (amount || 1);
+        const totalCost = materialsTotal + recipe.requiredGold;
+        const profit = totalPrice - totalCost;
+        const perc = (profit / totalPrice) * 100;
+
         return {
           ...recipe,
-          totalPrice: '?',
-          totalCost: '?',
-          profit: '?',
-          perc: '?',
+          totalPrice,
+          totalCost,
+          profit,
+          perc,
+          materialsTotal,
         };
-      }
-
-      const totalPrice = singlePrice * (amount || 1);
-      const totalCost = materialsTotal + recipe.requiredGold;
-      const profit = totalPrice - totalCost;
-      const perc = (profit / totalPrice) * 100;
-
-      return { ...recipe, totalPrice, totalCost, profit, perc };
-    })
-    .sort((a, b) => {
-      if (!isNumber(b.perc)) return -1;
-      if (!isNumber(a.perc)) return 1;
-      return (b.perc as number) - (a.perc as number);
-    });
+      }),
+      column,
+      direction
+    );
+  }, [pricedMaterialsObject, addMaterials, column, direction]);
 
   return (
     <>
-      <div className="container mx-auto mt-8 flex flex-col items-center">
+      <Container className="mt-8 flex flex-col items-center text-center">
         <h1>Stronghold Crafting</h1>
         <p>
           In this page you can compare the cost and sale price of various
           recipes that are available in stronghold workshop.
+          <br />
+          The values do not include researchs that reduce cost or time.
         </p>
-        <p>The values do not include researchs that reduce cost or time.</p>
         <div className="w-full mt-8 flex justify-center">
-          <table className="table-auto shadow-sm">
-            <thead>
-              <tr>
-                <td className={tdClassName}>Recipe</td>
-                <td className={tdClassName}>Materials</td>
-                <td className={tdClassName}>Cost</td>
-                <td className={tdClassName}>Energy</td>
-                <td className={`${tdClassName} text-center`}>Time</td>
-                <td className={tdClassName}>Total</td>
-                <td className={tdClassName}>Sale</td>
-                <td className={tdClassName}>Profit</td>
-                <td className={tdClassName}>Perc.</td>
-              </tr>
-            </thead>
-            <tbody>
-              {recipes.map((recipe) => {
-                return (
-                  <tr key={`${recipe.outputMaterial}x${recipe.amount}`}>
-                    <td className={tdClassName}>
-                      <div className="w-full flex flex-row items-center">
-                        <MaterialIcon type={recipe.outputMaterial} />
-                        <span className="ml-2">
-                          {pricedMaterialsObject[recipe.outputMaterial]?.name}
-                          {recipe.amount ? ` x${recipe.amount}` : ''}
-                        </span>
-                      </div>
-                    </td>
-                    <td className={tdClassName}>
-                      <MaterialsLine materials={recipe.requiredMaterials} />
-                    </td>
-                    <td className={tdClassName}>
-                      <Currency
-                        type={CurrencyType.Gold}
-                        value={recipe.requiredGold}
-                      />
-                    </td>
-                    <td className={`${tdClassName} text-center`}>
-                      {recipe.requiredActionEnergy}
-                    </td>
-                    <td className={`${tdClassName} text-center`}>
-                      {readableSeconds(recipe.seconds)}
-                    </td>
-                    <td className={`${tdClassName} text-center`}>
-                      <Currency
-                        type={CurrencyType.Gold}
-                        value={toFixed(recipe.totalCost)}
-                      />
-                    </td>
-                    <td className={tdClassName}>
-                      <Currency
-                        type={CurrencyType.Gold}
-                        value={recipe.totalPrice}
-                      />
-                    </td>
-                    <td className={tdClassName}>
-                      <Currency
-                        type={CurrencyType.Gold}
-                        value={toFixed(recipe.profit)}
-                      />
-                    </td>
-                    <td className={tdClassName}>{toFixed(recipe.perc)}%</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+          <Table singleLine sortable striped>
+            <Table.Header>
+              <SortableTableHeaders
+                headers={headers}
+                column={column}
+                direction={direction}
+                dispatch={dispatch}
+              />
+            </Table.Header>
+            <Table.Body>
+              {recipes.map((recipe) => (
+                <Table.Row
+                  key={`${recipe.outputMaterial}x${
+                    recipe.amount
+                  }${recipe.requiredMaterials.map((m) => m.type).join(',')}`}
+                >
+                  <Table.Cell>
+                    <div className="w-full flex flex-row items-center">
+                      <MaterialIcon type={recipe.outputMaterial} />
+                      <span className="ml-2">
+                        {pricedMaterialsObject[recipe.outputMaterial]?.name}
+                        {recipe.amount ? ` x${recipe.amount}` : ''}
+                      </span>
+                    </div>
+                  </Table.Cell>
+                  <Table.Cell>
+                    <MaterialsLine materials={recipe.requiredMaterials} />
+                  </Table.Cell>
+                  <Table.Cell>
+                    <Currency
+                      type={CurrencyType.Gold}
+                      value={recipe.requiredGold}
+                    />
+                  </Table.Cell>
+                  <Table.Cell>{recipe.requiredActionEnergy}</Table.Cell>
+                  <Table.Cell>{readableSeconds(recipe.seconds)}</Table.Cell>
+                  <Table.Cell>
+                    <Currency
+                      type={CurrencyType.Gold}
+                      value={toFixed(recipe.totalCost)}
+                    />
+                  </Table.Cell>
+                  <Table.Cell>
+                    <Currency
+                      type={CurrencyType.Gold}
+                      value={recipe.totalPrice || '?'}
+                    />
+                  </Table.Cell>
+                  <Table.Cell>
+                    <Currency
+                      type={CurrencyType.Gold}
+                      value={toFixed(recipe.profit)}
+                    />
+                  </Table.Cell>
+                  <Table.Cell>{toFixed(recipe.perc)}</Table.Cell>
+                </Table.Row>
+              ))}
+            </Table.Body>
+          </Table>
         </div>
-      </div>
+      </Container>
     </>
   );
 };
 
-function toFixed(num: number | string) {
+function toFixed(num?: number | string) {
+  if (!num) return '?';
   if (isNumber(num)) return (num as number).toFixed();
   return num;
 }

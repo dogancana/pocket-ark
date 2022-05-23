@@ -12,6 +12,12 @@ export interface SortableTableAction<T = string> {
   column: T;
 }
 
+export interface SortableTableItem<T = string> {
+  label: string;
+  column: T;
+  notSortable?: boolean;
+}
+
 export type SortableTableReducer<T> = Reducer<
   SortableTableState<T>,
   SortableTableAction<T>
@@ -48,12 +54,11 @@ export function orderForTable<T, K extends keyof T>(
   return orderBy(items, [column], [direction === 'ascending' ? 'asc' : 'desc']);
 }
 
-export interface SortableTableHeaderProps<T> extends TableHeaderCellProps {
-  label: string;
-  column: T;
+export interface SortableTableHeaderProps<T>
+  extends TableHeaderCellProps,
+    SortableTableItem<T> {
   currentSortedColumn: T;
   direction: SortableTableState<T>['direction'];
-  notSortable?: boolean;
 }
 
 export function SortableTableHeader<T>({
@@ -76,7 +81,7 @@ export function SortableTableHeader<T>({
 }
 
 export interface SortableTableHeadersProps<T> {
-  headers: { label: string; column: T; notSortable?: boolean }[];
+  headers: SortableTableItem<T>[];
   column: T;
   direction: SortableTableState<T>['direction'];
   dispatch: Dispatch<SortableTableAction<T>>;
