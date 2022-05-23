@@ -10,7 +10,7 @@ export const Header: FC = () => (
     <nav>
       <Container>
         <Link href="/" passHref>
-          <a className="px-3">POCKET ARK</a>
+          <a className="px-3 text-zinc-800 text-xl font-bold">POCKET ARK</a>
         </Link>
       </Container>
     </nav>

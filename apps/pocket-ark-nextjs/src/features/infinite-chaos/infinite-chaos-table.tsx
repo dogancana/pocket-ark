@@ -4,7 +4,7 @@ import {
   PricedMaterial,
 } from '@pocket-ark/lost-ark-data';
 import { orderBy } from 'lodash';
-import { useReducer } from 'react';
+import { useReducer, useMemo } from 'react';
 import { Table } from 'semantic-ui-react';
 import { usePricingSource } from '../../components';
 import { Currency } from '../../ui';
@@ -45,20 +45,23 @@ export const InfiniteChaosTable: FC<InfiniteChaosTableProps> = ({
   });
 
   const { pricedMaterialsArray: materials } = usePricingSource();
-
-  const sortedMaterials = orderBy(
-    materials
-      .filter((m) => !!m.chaosDungeonShards)
-      .map(
-        (m): TableMaterial => ({
-          ...m,
-          valuePerShard: valuePerShard(m),
-          matsPerHour: matsPerHour(m, shardsPerHourProp),
-          goldPerHour: goldPerHour(m),
-        })
+  const sortedMaterials = useMemo(
+    () =>
+      orderBy(
+        materials
+          .filter((m) => !!m.chaosDungeonShards)
+          .map(
+            (m): TableMaterial => ({
+              ...m,
+              valuePerShard: valuePerShard(m),
+              matsPerHour: matsPerHour(m, shardsPerHourProp),
+              goldPerHour: goldPerHour(m, shardsPerHourProp),
+            })
+          ),
+        [column],
+        [direction === 'ascending' ? 'asc' : 'desc']
       ),
-    [column],
-    [direction === 'ascending' ? 'asc' : 'desc']
+    [materials, shardsPerHourProp, column, direction]
   );
 
   return (
@@ -139,8 +142,10 @@ function matsPerHour(material: PricedMaterial, shardsPerHour = 0) {
   return shardsPerHour / material.chaosDungeonShards;
 }
 
-function goldPerHour(material: PricedMaterial) {
-  return material.price ? matsPerHour(material) * material.price : undefined;
+function goldPerHour(material: PricedMaterial, shardsPerHour = 0) {
+  return material.price
+    ? matsPerHour(material, shardsPerHour) * material.price
+    : undefined;
 }
 
 function valuePerShard(material: PricedMaterial) {

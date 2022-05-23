@@ -101,11 +101,13 @@ export function usePricingSource() {
         price,
       },
     };
+    setSource(newSource);
     updateSource(newSource);
   };
 
   const setCurrencyConversionSource = async (s: CurrencyConversionSource) => {
     const newSource = { ...source, ...s };
+    setSource(newSource);
     updateSource(newSource);
   };
 

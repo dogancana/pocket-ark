@@ -142,7 +142,7 @@ export const PriceSourceReferences: FC = () => {
       {source.meta && (
         <Button loading={applyingReference} onClick={optOut}>
           <Button.Content visible>
-            {isOwner ? 'Delete shared reference' : 'Opt out'}
+            {isOwner ? 'Delete reference key' : 'Opt out'}
           </Button.Content>
         </Button>
       )}

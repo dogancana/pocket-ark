@@ -42,7 +42,7 @@ export const Alert: FC<AlertProps> = ({ children, type, ...props }) => {
       {...props}
     >
       <Container>
-        <div className="flex">
+        <div className="flex px-3">
           <div className="py-1">
             <svg
               className={`fill-current h-6 w-6 ${text} mr-4`}

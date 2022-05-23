@@ -34,9 +34,9 @@ export const InfiniteChaosPage: FC = () => {
           icon="time"
           iconPosition="left"
           type="number"
-          defaultValue={120}
+          defaultValue={150}
           size="big"
-          placeholder="120: 100 Shards in 2 mins"
+          placeholder="150: 100 Shards in 2 mins"
           onChange={(e) => {
             const seconds = parseInt(e.target.value, 10);
             if (!Number.isNaN(seconds)) setSeconds(seconds);
