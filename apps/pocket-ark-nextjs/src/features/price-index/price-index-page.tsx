@@ -29,6 +29,7 @@ export const PriceIndexPage: FC = () => {
 
       <Container>
         <div className="flex flex-col mt-8 items-center text-center">
+          <h1>Price Index</h1>
           <p>
             This page allows you to set prices of materials for your own. <br />
             The prices provided here will be used by other tools in Pocket Ark.{' '}

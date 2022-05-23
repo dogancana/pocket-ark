@@ -14,6 +14,7 @@ export const InfiniteChaosPage: FC = () => {
 
   return (
     <div className="container mx-auto mt-8 flex flex-col items-center">
+      <h1>Infinite Chaos</h1>
       <p>
         The below table shows various convertions for materials sold in chaos
         dungeon shard merchant.

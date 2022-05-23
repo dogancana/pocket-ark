@@ -4,6 +4,7 @@ import { SecretMapsTable } from './secret-maps-table';
 export const SecretMapsPage: FC = () => {
   return (
     <div className="container mx-auto mt-8 flex flex-col items-center">
+      <h1>Secret Maps</h1>
       <p className="text-center">
         You can see and compare expected average resources rewarded for various
         maps.
