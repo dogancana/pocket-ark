@@ -3,11 +3,16 @@ import {
   CurrencyType,
   PricedMaterial,
 } from '@pocket-ark/lost-ark-data';
-import { orderBy } from 'lodash';
-import { useReducer, useMemo } from 'react';
+import { useMemo, useReducer } from 'react';
 import { Table } from 'semantic-ui-react';
 import { usePricingSource } from '../../components';
-import { Currency } from '../../ui';
+import {
+  Currency,
+  orderForTable,
+  SortableTableHeaders,
+  SortableTableReducer,
+  sortableTableReducer,
+} from '../../ui';
 import { MaterialIcon } from '../../ui/icons';
 import { FC } from '../../utils';
 
@@ -19,11 +24,6 @@ interface TableMaterial extends PricedMaterial {
   valuePerShard: number;
   matsPerHour: number;
   goldPerHour: number;
-}
-
-interface State {
-  direction: 'ascending' | 'descending';
-  column: keyof TableMaterial;
 }
 
 const headers: { label: string; column: keyof TableMaterial }[] = [
@@ -39,7 +39,9 @@ const headers: { label: string; column: keyof TableMaterial }[] = [
 export const InfiniteChaosTable: FC<InfiniteChaosTableProps> = ({
   shardsPerHour: shardsPerHourProp,
 }) => {
-  const [{ column, direction }, dispatch] = useReducer(reducer, {
+  const [{ column, direction }, dispatch] = useReducer<
+    SortableTableReducer<keyof TableMaterial>
+  >(sortableTableReducer, {
     column: 'goldPerHour',
     direction: 'descending',
   });
@@ -47,7 +49,7 @@ export const InfiniteChaosTable: FC<InfiniteChaosTableProps> = ({
   const { pricedMaterialsArray: materials } = usePricingSource();
   const sortedMaterials = useMemo(
     () =>
-      orderBy(
+      orderForTable(
         materials
           .filter((m) => !!m.chaosDungeonShards)
           .map(
@@ -58,8 +60,8 @@ export const InfiniteChaosTable: FC<InfiniteChaosTableProps> = ({
               goldPerHour: goldPerHour(m, shardsPerHourProp),
             })
           ),
-        [column],
-        [direction === 'ascending' ? 'asc' : 'desc']
+        column,
+        direction
       ),
     [materials, shardsPerHourProp, column, direction]
   );
@@ -67,19 +69,12 @@ export const InfiniteChaosTable: FC<InfiniteChaosTableProps> = ({
   return (
     <Table singleLine sortable striped>
       <Table.Header>
-        <Table.Row>
-          {headers.map((h) => (
-            <Table.HeaderCell
-              key={h.label}
-              sorted={column === h.column ? direction : null}
-              onClick={() =>
-                dispatch({ type: 'CHANGE_SORT', column: h.column })
-              }
-            >
-              {h.label}
-            </Table.HeaderCell>
-          ))}
-        </Table.Row>
+        <SortableTableHeaders
+          headers={headers}
+          column={column}
+          dispatch={dispatch}
+          direction={direction}
+        />
       </Table.Header>
       <Table.Body>
         {sortedMaterials.map((material) => (
@@ -114,29 +109,6 @@ export const InfiniteChaosTable: FC<InfiniteChaosTableProps> = ({
     </Table>
   );
 };
-
-function reducer(
-  state: State,
-  action: { type: 'CHANGE_SORT'; column: keyof TableMaterial }
-): State {
-  switch (action.type) {
-    case 'CHANGE_SORT':
-      if (state.column === action.column) {
-        return {
-          ...state,
-          direction:
-            state.direction === 'ascending' ? 'descending' : 'ascending',
-        };
-      }
-
-      return {
-        column: action.column,
-        direction: 'ascending',
-      };
-    default:
-      throw new Error();
-  }
-}
 
 function matsPerHour(material: PricedMaterial, shardsPerHour = 0) {
   return shardsPerHour / material.chaosDungeonShards;
