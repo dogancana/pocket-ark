@@ -32,6 +32,7 @@ const editableCurrencies = [
   CurrencyType.Crystal,
   CurrencyType.RoyalCrystal,
   CurrencyType.Gold,
+  CurrencyType.Pheon,
 ];
 
 export const CurrencyConverter: FC = () => {
@@ -43,6 +44,7 @@ export const CurrencyConverter: FC = () => {
       [CurrencyType.RealMoney]: 0,
       [CurrencyType.Silver]: 0,
       [CurrencyType.Gold]: 0,
+      [CurrencyType.Pheon]: 0,
     },
   });
 

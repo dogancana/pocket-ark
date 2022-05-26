@@ -1,7 +1,6 @@
-import { PriceSourceMeta } from '@pocket-ark/lost-ark-data';
 import { randomBytes, randomUUID } from 'crypto';
 
-export function generateSourceMeta(): PriceSourceMeta {
+export function generateSourceMeta() {
   return {
     reference: randomUUID(),
     key: randomBytes(32).toString('hex'),

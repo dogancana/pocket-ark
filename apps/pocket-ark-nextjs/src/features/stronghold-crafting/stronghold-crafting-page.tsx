@@ -1,24 +1,23 @@
 import {
   CraftingRecipe,
   craftingRecipes,
-  CurrencyType,
+  CurrencyType
 } from '@pocket-ark/lost-ark-data';
 import { isNumber } from 'lodash';
-import { usePricingSource } from '../../components';
+import { useMemo, useReducer } from 'react';
+import { Container, Table } from 'semantic-ui-react';
+import { MaterialPopup, MaterialsLine, usePricingSource } from '../../components';
 import {
   Currency,
-  MaterialsLine,
   orderForTable,
   SortableTableHeaders,
   SortableTableItem,
   sortableTableReducer,
-  SortableTableReducer,
+  SortableTableReducer
 } from '../../ui';
 import { MaterialIcon } from '../../ui/icons';
 import { FC } from '../../utils';
 import { readableSeconds } from '../../utils/time';
-import { Table, Container } from 'semantic-ui-react';
-import { useReducer, useMemo } from 'react';
 
 interface TableRecipe extends CraftingRecipe {
   totalPrice?: number;
@@ -115,16 +114,25 @@ export const StrongholdCraftingPage: FC = () => {
                   }${recipe.requiredMaterials.map((m) => m.type).join(',')}`}
                 >
                   <Table.Cell>
-                    <div className="w-full flex flex-row items-center">
-                      <MaterialIcon type={recipe.outputMaterial} />
-                      <span className="ml-2">
-                        {pricedMaterialsObject[recipe.outputMaterial]?.name}
-                        {recipe.amount ? ` x${recipe.amount}` : ''}
-                      </span>
-                    </div>
+                    <MaterialPopup
+                      material={pricedMaterialsObject[recipe.outputMaterial]}
+                    >
+                      <div className="w-full flex flex-row items-center">
+                        <MaterialIcon type={recipe.outputMaterial} />
+                        <span className="ml-2">
+                          {pricedMaterialsObject[recipe.outputMaterial]?.name}
+                          {recipe.amount ? ` x${recipe.amount}` : ''}
+                        </span>
+                      </div>
+                    </MaterialPopup>
                   </Table.Cell>
                   <Table.Cell>
-                    <MaterialsLine materials={recipe.requiredMaterials} />
+                    <MaterialsLine
+                      materials={recipe.requiredMaterials.map((m) => ({
+                        ...pricedMaterialsObject[m.type],
+                        amount: m.amount,
+                      }))}
+                    />
                   </Table.Cell>
                   <Table.Cell>
                     <Currency
