@@ -1,16 +1,18 @@
 import {
   CurrencyItemType,
   CurrencyType,
-  PricedMaterial
+  PricedMaterial,
 } from '@pocket-ark/lost-ark-data';
 import { useMemo, useReducer } from 'react';
 import { Table } from 'semantic-ui-react';
 import { MaterialPopup, usePricingSource } from '../../components';
 import {
-  Currency, MaterialIcon, orderForTable,
+  Currency,
+  MaterialIcon,
+  orderForTable,
   SortableTableHeaders,
   SortableTableReducer,
-  sortableTableReducer
+  sortableTableReducer,
 } from '../../ui';
 import { FC } from '../../utils';
 

@@ -9,7 +9,7 @@ export const InfiniteChaosPage: FC = () => {
     ? Math.max(Math.min(seconds, 600), 30)
     : undefined;
   const shardsPerHour = limitedSeconds
-    ? (limitedSeconds / 100) * 3600
+    ? (100 / limitedSeconds) * 3600
     : undefined;
 
   return (
