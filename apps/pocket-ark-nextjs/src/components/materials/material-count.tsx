@@ -1,6 +1,6 @@
 import { MaterialType } from '@pocket-ark/lost-ark-data';
-import { MaterialIcon } from './icons/material-icon';
-import { FC } from '../utils';
+import { MaterialIcon } from '../../ui/icons/material-icon';
+import { FC } from '../../utils';
 
 interface MaterialCountProps {
   type: MaterialType;
@@ -21,7 +21,7 @@ export const MaterialCount: FC<MaterialCountProps> = ({
         type={type}
         overrides={{ width: size || 25, height: size || 25 }}
       />
-      <span className="ml-1">{value}</span>
+      <span className="ml-1">x{value}</span>
     </span>
   );
 };

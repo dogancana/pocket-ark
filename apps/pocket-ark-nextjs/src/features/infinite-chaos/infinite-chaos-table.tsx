@@ -1,19 +1,17 @@
 import {
   CurrencyItemType,
   CurrencyType,
-  PricedMaterial,
+  PricedMaterial
 } from '@pocket-ark/lost-ark-data';
 import { useMemo, useReducer } from 'react';
 import { Table } from 'semantic-ui-react';
-import { usePricingSource } from '../../components';
+import { MaterialPopup, usePricingSource } from '../../components';
 import {
-  Currency,
-  orderForTable,
+  Currency, MaterialIcon, orderForTable,
   SortableTableHeaders,
   SortableTableReducer,
-  sortableTableReducer,
+  sortableTableReducer
 } from '../../ui';
-import { MaterialIcon } from '../../ui/icons';
 import { FC } from '../../utils';
 
 export interface InfiniteChaosTableProps {
@@ -80,10 +78,12 @@ export const InfiniteChaosTable: FC<InfiniteChaosTableProps> = ({
         {sortedMaterials.map((material) => (
           <Table.Row key={material.name} className="py-4">
             <Table.Cell>
-              <div className="w-full flex flex-row items-center">
-                <MaterialIcon type={material.type} />
-                <span className="ml-2">{material.name}</span>
-              </div>
+              <MaterialPopup material={material}>
+                <div className="w-full flex flex-row items-center">
+                  <MaterialIcon type={material.type} />
+                  <span className="ml-2">{material.name}</span>
+                </div>
+              </MaterialPopup>
             </Table.Cell>
             <Table.Cell>
               <Currency

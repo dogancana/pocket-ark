@@ -9,13 +9,13 @@ export enum CurrencyType {
   Crystal = 'Crystal',
   Silver = 'Silver',
   Gold = 'Gold',
+  Pheon = 'Pheon',
 }
 
 export enum CurrencyItemType {
   PerceptionShard = 'PerceptionShard', // T1 Chaos
   GuardianShard = 'GuardianShard', // T2 Chaos
   ShardOfPurification = 'ShardOfPurification', // T3 Chaos/
-  Pheon = 'Pheon',
   HarmonyShard = 'HarmonyShard',
   LifeShard = 'LifeShard',
   HonorShard = 'HonorShard',

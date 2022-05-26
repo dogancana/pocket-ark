@@ -16,6 +16,9 @@ export function getBaseCurrencyConversionRates(
       ? (valueOfOneRoyalCrystal * 12000) / packPrice
       : undefined;
   const valueOfOnCrystal = crystalSale ? crystalSale / 95 : undefined;
+  const valueOfOnePheon = valueOfOnCrystal
+    ? valueOfOnCrystal * (8.5)
+    : undefined;
 
   return {
     [CurrencyType.RealMoney]: valueOfOneMoney,
@@ -23,6 +26,7 @@ export function getBaseCurrencyConversionRates(
     [CurrencyType.Crystal]: valueOfOnCrystal,
     [CurrencyType.Silver]: 1 / 1000,
     [CurrencyType.Gold]: 1,
+    [CurrencyType.Pheon]: valueOfOnePheon,
   };
 }
 

@@ -1,7 +1,7 @@
 import { CurrencyType, MaterialType } from '@pocket-ark/lost-ark-data';
-import { Currency } from '../ui';
-import { usePricingSource } from './material-pricing-provider';
-import { FC } from '../utils';
+import { Currency } from '../../ui';
+import { usePricingSource } from '../material-pricing-provider';
+import { FC } from '../../utils';
 
 export interface MaterialValueLineProps {
   type: MaterialType;

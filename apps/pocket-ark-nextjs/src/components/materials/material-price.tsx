@@ -1,9 +1,9 @@
 import { CurrencyType, MaterialType } from '@pocket-ark/lost-ark-data';
 import { debounce } from 'lodash';
 import { ChangeEvent } from 'react';
-import { CurrencyInput } from '../ui';
-import { usePricingSource } from './material-pricing-provider';
-import { FC } from '../utils';
+import { CurrencyInput } from '../../ui';
+import { FC } from '../../utils';
+import { usePricingSource } from '../material-pricing-provider';
 
 export interface MaterialPriceProps {
   type: MaterialType;

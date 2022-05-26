@@ -1,13 +1,12 @@
 import { CurrencyType, SecretMap, secretMaps } from '@pocket-ark/lost-ark-data';
 import { useReducer } from 'react';
 import { Table } from 'semantic-ui-react';
-import { usePricingSource } from '../../components';
+import { MaterialsLine, usePricingSource } from '../../components';
 import {
   Currency,
-  MaterialsLine,
   orderForTable,
   sortableTableReducer,
-  SortableTableReducer,
+  SortableTableReducer
 } from '../../ui';
 import { MapIcon } from '../../ui/icons';
 import { SortableTableHeaders } from '../../ui/sortable-table';
@@ -25,7 +24,7 @@ const headers = [
 ];
 
 export const SecretMapsTable: FC = () => {
-  const { addMaterials } = usePricingSource();
+  const { addMaterials, pricedMaterialsObject } = usePricingSource();
 
   const [{ column, direction }, dispatch] = useReducer<
     SortableTableReducer<keyof TableSecretMap>
@@ -65,7 +64,12 @@ export const SecretMapsTable: FC = () => {
               </div>
             </Table.Cell>
             <Table.Cell>
-              <MaterialsLine materials={secretMap.rewards} />
+              <MaterialsLine
+                materials={secretMap.rewards.map((m) => ({
+                  ...pricedMaterialsObject[m.type],
+                  amount: m.amount,
+                }))}
+              />
             </Table.Cell>
             <Table.Cell>
               <Currency

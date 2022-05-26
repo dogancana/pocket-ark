@@ -21,6 +21,10 @@ export const currencies: Currency[] = [
     type: CurrencyType.Gold,
     name: 'Gold',
   },
+  {
+    type: CurrencyType.Pheon,
+    name: 'Pheon',
+  },
 ];
 
 export const currencyItems = [
@@ -35,10 +39,6 @@ export const currencyItems = [
   {
     type: CurrencyItemType.ShardOfPurification,
     name: 'Shard of Purification',
-  },
-  {
-    type: CurrencyItemType.Pheon,
-    name: 'Pheon',
   },
   {
     type: CurrencyItemType.HarmonyShard,
