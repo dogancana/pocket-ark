@@ -1,8 +1,8 @@
 import { AppProps } from 'next/app';
 import Head from 'next/head';
-import { Header } from '../src/ui';
-import './styles.less';
 import 'semantic-ui-css/semantic.min.css';
+import { Header } from '../src/components';
+import './styles.less';
 
 export const App = ({ Component, pageProps }: AppProps) => {
   return (
