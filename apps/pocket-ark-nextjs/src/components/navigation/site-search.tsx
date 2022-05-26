@@ -3,17 +3,17 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useCallback, useState } from 'react';
 import { Search, SearchProps, SearchResultData } from 'semantic-ui-react';
-import { MainFeature, mainFeatures } from '../../services';
+import { mainFeatures } from '../../services';
 import { FC } from '../../utils';
 
 interface State {
   query: string;
 }
 
-const resultRenderer = (feature: MainFeature) => (
+const resultRenderer = (feature: { href: string; title: string }) => (
   <div>
     <Link href={feature.href} passHref>
-      <a>{feature.header}</a>
+      <a>{feature.title}</a>
     </Link>
   </div>
 );
@@ -23,7 +23,9 @@ export const SiteSearch: FC = () => {
   const [state, setState] = useState<State>({ query: '' });
   const results = filter(state.query || '', mainFeatures, {
     extract: (f) => f.header,
-  }).map((r) => r.original);
+  })
+    .map((r) => ({ href: r.original.href, title: r.original.header }))
+    .filter((v) => !!v);
 
   const onSearchChange = useCallback((_, data: SearchProps) => {
     setState((s) => ({ ...s, query: data.value }));
