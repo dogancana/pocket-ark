@@ -38,7 +38,7 @@ const Index = () => {
           <div className="flex justify-center items-center h-full text-4xl w-2/3 m-auto">
             <p className="text-4xl">
               <strong>POCKET ARK</strong> is set of tools to help you on your
-              journeys throughout Arkasia
+              journeys throughout Arkesia
               <br />
               <span className="text-lg">
                 It's under development by one Shadow Hunter main. Everything you
