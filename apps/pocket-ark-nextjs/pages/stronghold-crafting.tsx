@@ -1,5 +1,7 @@
 import { PricingSource } from '@pocket-ark/lost-ark-data';
-import { getPricingSourceFromCookies } from '@pocket-ark/ssr-utils';
+import {
+  getPricingPropsSSR
+} from '@pocket-ark/ssr-utils';
 import { GetServerSideProps } from 'next';
 import { PricingProvider } from '../src/components';
 import { StrongholdCraftingPage } from '../src/features/stronghold-crafting';
@@ -15,8 +17,8 @@ const Page: FC<Props> = ({ source }) => (
   </PricingProvider>
 );
 
-export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
-  const source = getPricingSourceFromCookies(req, res);
+export const getServerSideProps: GetServerSideProps = async (props) => {
+  const source = await getPricingPropsSSR(props);
   return { props: { source } };
 };
 

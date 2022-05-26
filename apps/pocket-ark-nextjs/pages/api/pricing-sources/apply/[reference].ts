@@ -1,6 +1,6 @@
 import { COOKIES } from '@pocket-ark/lost-ark-data';
 import {
-  getPricingSourcebyReferece,
+  getPricingSourcebyReference,
   removePricingSourceFromCookies,
 } from '@pocket-ark/ssr-utils';
 import { setCookies } from 'cookies-next';
@@ -11,7 +11,7 @@ const controller = async (req: NextApiRequest, res: NextApiResponse) => {
   if (!reference) return res.status(400).send('No reference provided');
 
   const apply = async () => {
-    const source = await getPricingSourcebyReferece(reference);
+    const source = await getPricingSourcebyReference(reference);
     removePricingSourceFromCookies(req, res);
     setCookies(COOKIES.reference, reference, { req, res });
     return source;

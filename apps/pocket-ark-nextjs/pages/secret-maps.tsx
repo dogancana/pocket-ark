@@ -1,5 +1,5 @@
 import { PricingSource } from '@pocket-ark/lost-ark-data';
-import { getPricingSourceFromCookies } from '@pocket-ark/ssr-utils';
+import { getPricingPropsSSR, getPricingSourceFromCookies } from '@pocket-ark/ssr-utils';
 import { GetServerSideProps } from 'next';
 import { PricingProvider } from '../src/components';
 import { SecretMapsPage } from '../src/features/secret-maps';
@@ -15,8 +15,8 @@ const Page: FC<Props> = ({ source }) => (
   </PricingProvider>
 );
 
-export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
-  const source = getPricingSourceFromCookies(req, res);
+export const getServerSideProps: GetServerSideProps = async (props) => {
+  const source = await getPricingPropsSSR(props);
   return { props: { source } };
 };
 

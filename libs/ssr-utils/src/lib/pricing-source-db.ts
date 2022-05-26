@@ -48,7 +48,7 @@ async function _upsertPricingSource(
   }
 }
 
-export async function getPricingSourcebyReferece(
+export async function getPricingSourcebyReference(
   reference: string
 ): Promise<PricingSource | null> {
   try {
