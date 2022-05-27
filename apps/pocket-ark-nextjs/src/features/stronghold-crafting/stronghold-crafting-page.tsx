@@ -1,21 +1,26 @@
 import {
   CraftingRecipe,
   craftingRecipes,
-  CurrencyType
+  CurrencyType,
 } from '@pocket-ark/lost-ark-data';
 import { isNumber } from 'lodash';
 import { useMemo, useReducer } from 'react';
-import { Container, Table } from 'semantic-ui-react';
-import { MaterialPopup, MaterialsLine, usePricingSource } from '../../components';
+import { Container, Header, Table } from 'semantic-ui-react';
+import {
+  MaterialPopup,
+  MaterialsLine,
+  usePricingSource,
+} from '../../components';
 import {
   Currency,
   orderForTable,
   SortableTableHeaders,
   SortableTableItem,
   sortableTableReducer,
-  SortableTableReducer
+  SortableTableReducer,
 } from '../../ui';
 import { MaterialIcon } from '../../ui/icons';
+import { HeroSection, PageContainer } from '../../ui/layout';
 import { FC } from '../../utils';
 import { readableSeconds } from '../../utils/time';
 
@@ -88,85 +93,85 @@ export const StrongholdCraftingPage: FC = () => {
 
   return (
     <>
-      <Container className="mt-8 flex flex-col items-center text-center">
-        <h1>Stronghold Crafting</h1>
+      <HeroSection>
+        <Header>Stronghold Crafting</Header>
         <p>
           In this page you can compare the cost and sale price of various
           recipes that are available in stronghold workshop.
           <br />
           The values do not include researchs that reduce cost or time.
         </p>
-        <div className="w-full mt-8 flex justify-center">
-          <Table singleLine sortable striped>
-            <Table.Header>
-              <SortableTableHeaders
-                headers={headers}
-                column={column}
-                direction={direction}
-                dispatch={dispatch}
-              />
-            </Table.Header>
-            <Table.Body>
-              {recipes.map((recipe) => (
-                <Table.Row
-                  key={`${recipe.outputMaterial}x${
-                    recipe.amount
-                  }${recipe.requiredMaterials.map((m) => m.type).join(',')}`}
-                >
-                  <Table.Cell>
-                    <MaterialPopup
-                      material={pricedMaterialsObject[recipe.outputMaterial]}
-                    >
-                      <div className="w-full flex flex-row items-center">
-                        <MaterialIcon type={recipe.outputMaterial} />
-                        <span className="ml-2">
-                          {pricedMaterialsObject[recipe.outputMaterial]?.name}
-                          {recipe.amount ? ` x${recipe.amount}` : ''}
-                        </span>
-                      </div>
-                    </MaterialPopup>
-                  </Table.Cell>
-                  <Table.Cell>
-                    <MaterialsLine
-                      materials={recipe.requiredMaterials.map((m) => ({
-                        ...pricedMaterialsObject[m.type],
-                        amount: m.amount,
-                      }))}
-                    />
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Currency
-                      type={CurrencyType.Gold}
-                      value={recipe.requiredGold}
-                    />
-                  </Table.Cell>
-                  <Table.Cell>{recipe.requiredActionEnergy}</Table.Cell>
-                  <Table.Cell>{readableSeconds(recipe.seconds)}</Table.Cell>
-                  <Table.Cell>
-                    <Currency
-                      type={CurrencyType.Gold}
-                      value={toFixed(recipe.totalCost)}
-                    />
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Currency
-                      type={CurrencyType.Gold}
-                      value={recipe.totalPrice || '?'}
-                    />
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Currency
-                      type={CurrencyType.Gold}
-                      value={toFixed(recipe.profit)}
-                    />
-                  </Table.Cell>
-                  <Table.Cell>{toFixed(recipe.perc)}</Table.Cell>
-                </Table.Row>
-              ))}
-            </Table.Body>
-          </Table>
-        </div>
-      </Container>
+      </HeroSection>
+      <PageContainer>
+        <Table singleLine sortable striped>
+          <Table.Header>
+            <SortableTableHeaders
+              headers={headers}
+              column={column}
+              direction={direction}
+              dispatch={dispatch}
+            />
+          </Table.Header>
+          <Table.Body>
+            {recipes.map((recipe) => (
+              <Table.Row
+                key={`${recipe.outputMaterial}x${
+                  recipe.amount
+                }${recipe.requiredMaterials.map((m) => m.type).join(',')}`}
+              >
+                <Table.Cell>
+                  <MaterialPopup
+                    material={pricedMaterialsObject[recipe.outputMaterial]}
+                  >
+                    <div className="w-full flex flex-row items-center">
+                      <MaterialIcon type={recipe.outputMaterial} />
+                      <span className="ml-2">
+                        {pricedMaterialsObject[recipe.outputMaterial]?.name}
+                        {recipe.amount ? ` x${recipe.amount}` : ''}
+                      </span>
+                    </div>
+                  </MaterialPopup>
+                </Table.Cell>
+                <Table.Cell>
+                  <MaterialsLine
+                    materials={recipe.requiredMaterials.map((m) => ({
+                      ...pricedMaterialsObject[m.type],
+                      amount: m.amount,
+                    }))}
+                  />
+                </Table.Cell>
+                <Table.Cell>
+                  <Currency
+                    type={CurrencyType.Gold}
+                    value={recipe.requiredGold}
+                  />
+                </Table.Cell>
+                <Table.Cell>{recipe.requiredActionEnergy}</Table.Cell>
+                <Table.Cell>{readableSeconds(recipe.seconds)}</Table.Cell>
+                <Table.Cell>
+                  <Currency
+                    type={CurrencyType.Gold}
+                    value={toFixed(recipe.totalCost)}
+                  />
+                </Table.Cell>
+                <Table.Cell>
+                  <Currency
+                    type={CurrencyType.Gold}
+                    value={recipe.totalPrice || '?'}
+                  />
+                </Table.Cell>
+                <Table.Cell>
+                  <Currency
+                    type={CurrencyType.Gold}
+                    value={toFixed(recipe.profit)}
+                  />
+                </Table.Cell>
+                <Table.Cell>{toFixed(recipe.perc)}</Table.Cell>
+              </Table.Row>
+            ))}
+          </Table.Body>
+        </Table>
+      </PageContainer>
     </>
   );
 };

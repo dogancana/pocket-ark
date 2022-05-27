@@ -12,20 +12,18 @@ export const CurrencyInput: FC<CurrencyInputProps> = ({
   ...rest
 }) => {
   return (
-    <span className="flex">
-      <Input
-        type="number"
-        icon={
-          <i className="icon p-2">
-            <CurrencyIcon
-              type={iconType}
-              overrides={{ layout: 'responsive', width: 40, height: 40 }}
-            />
-          </i>
-        }
-        iconPosition="left"
-        {...rest}
-      />
-    </span>
+    <Input
+      type="number"
+      icon={
+        <i className="icon p-2">
+          <CurrencyIcon
+            type={iconType}
+            overrides={{ layout: 'responsive', width: 40, height: 40 }}
+          />
+        </i>
+      }
+      iconPosition="left"
+      {...rest}
+    />
   );
 };

@@ -1,4 +1,5 @@
 import { CurrencyType, materials } from '../static';
+import { PricedMaterial } from './materials/models';
 import { PricingSource } from './models';
 
 type CurrenciesObject = { [key in CurrencyType]?: number };
@@ -16,9 +17,7 @@ export function getBaseCurrencyConversionRates(
       ? (valueOfOneRoyalCrystal * 12000) / packPrice
       : undefined;
   const valueOfOnCrystal = crystalSale ? crystalSale / 95 : undefined;
-  const valueOfOnePheon = valueOfOnCrystal
-    ? valueOfOnCrystal * (8.5)
-    : undefined;
+  const valueOfOnePheon = valueOfOnCrystal ? valueOfOnCrystal * 8.5 : undefined;
 
   return {
     [CurrencyType.RealMoney]: valueOfOneMoney,
@@ -30,7 +29,7 @@ export function getBaseCurrencyConversionRates(
   };
 }
 
-export function getPricedMaterials(source?: PricingSource) {
+export function getPricedMaterials(source?: PricingSource): PricedMaterial[] {
   const rates = getBaseCurrencyConversionRates(source);
 
   return materials.map((material) => {

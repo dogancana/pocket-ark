@@ -103,7 +103,6 @@ export const PriceSourceReferences: FC = () => {
 
   const onSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
-    console.log('onSubmit');
   };
 
   return (

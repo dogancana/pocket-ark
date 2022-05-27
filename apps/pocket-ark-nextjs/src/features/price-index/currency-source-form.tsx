@@ -4,18 +4,32 @@ import {
 } from '@pocket-ark/lost-ark-data';
 import { debounce } from 'lodash';
 import { usePricingSource } from '../../components';
-import { Currency, CurrencyInput } from '../../ui';
-import { ItemFooter, PriceItem } from './common';
+import { Currency, CurrencyInput, CurrencyInputProps } from '../../ui';
 import { FC } from '../../utils';
+import { ItemFooter, PriceItem } from './common';
 
 const Wrapper: FC = ({ children }) => (
   <PriceItem>
-    <div className="pt-3 px-3">{children}</div>
+    <div className="pt-3 px-3 grow mb-auto flex flex-col justify-end">
+      {children}
+    </div>
     <ItemFooter />
   </PriceItem>
 );
 
+const Label: FC = ({ children }) => (
+  <label className="block text-gray-700 text-sm font-bold mb-2 text-left">
+    {children}
+  </label>
+);
+
 const Equals: FC = () => <span className="mx-1">=</span>;
+
+const inputProps: Partial<CurrencyInputProps> = {
+  fluid: true,
+  className: 'grow',
+  type: 'number',
+};
 
 export const CurrencySourceForm: FC = () => {
   const { source, setCurrencyConversionSource } = usePricingSource();
@@ -29,14 +43,15 @@ export const CurrencySourceForm: FC = () => {
   return (
     <>
       <Wrapper>
-        <label
-          className="block text-gray-700 text-sm font-bold mb-2"
-          htmlFor="goldSalePrice"
-        >
+        <Label>
           Gold sale price from game's currency exchange page's purchase gold tab
-        </label>
-        <span className="flex items-center">
-          <Currency type={CurrencyType.RoyalCrystal} value={238} />
+        </Label>
+        <span className="flex items-center grow">
+          <Currency
+            type={CurrencyType.RoyalCrystal}
+            value={238}
+            className="shrink-0 "
+          />
           <Equals />
           <CurrencyInput
             iconType={CurrencyType.Gold}
@@ -44,6 +59,8 @@ export const CurrencySourceForm: FC = () => {
             type="number"
             placeholder="Gold sale price"
             defaultValue={source.goldSalePrice}
+            fluid
+            className="grow"
             onChange={(e) =>
               handleChangeDebounced({
                 goldSalePrice: parseInt(e.target.value, 10),
@@ -53,15 +70,16 @@ export const CurrencySourceForm: FC = () => {
         </span>
       </Wrapper>
       <Wrapper>
-        <label
-          className="block text-gray-700 text-sm font-bold mb-2"
-          htmlFor="crystalSalePrice"
-        >
+        <Label>
           Crystal sale price from game's currency exchange page's buy crystal
           tab
-        </label>
-        <span className="flex items-center">
-          <Currency type={CurrencyType.Crystal} value={95} />
+        </Label>
+        <span className="flex items-center grow">
+          <Currency
+            type={CurrencyType.Crystal}
+            value={95}
+            className="shrink-0"
+          />
           <Equals />
           <CurrencyInput
             iconType={CurrencyType.Gold}
@@ -69,6 +87,8 @@ export const CurrencySourceForm: FC = () => {
             type="number"
             placeholder="Crystal sale price"
             defaultValue={source.crystalSalePrice}
+            fluid
+            className="grow"
             onChange={(e) =>
               handleChangeDebounced({
                 crystalSalePrice: parseInt(e.target.value, 10),
@@ -78,14 +98,15 @@ export const CurrencySourceForm: FC = () => {
         </span>
       </Wrapper>
       <Wrapper>
-        <label
-          className="block text-gray-700 text-sm font-bold mb-2"
-          htmlFor="royalCrystalsPack"
-        >
+        <Label>
           Value of 12000 Royal crystals in your own currency (e.g. USD)
-        </label>
-        <span className="flex items-center">
-          <Currency type={CurrencyType.RoyalCrystal} value={12000} />
+        </Label>
+        <span className="flex items-center grow">
+          <Currency
+            type={CurrencyType.RoyalCrystal}
+            value={12000}
+            className="shrink-0"
+          />
           <Equals />
           <CurrencyInput
             iconType={CurrencyType.RealMoney}
@@ -93,6 +114,8 @@ export const CurrencySourceForm: FC = () => {
             type="number"
             placeholder="12 000 Royal crystals"
             defaultValue={source.royalCrystalsPack}
+            fluid
+            className="grow"
             onChange={(e) =>
               handleChangeDebounced({
                 royalCrystalsPack: parseInt(e.target.value, 10),

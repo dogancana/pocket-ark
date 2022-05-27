@@ -29,8 +29,6 @@ export const MaterialPopup: FC<MateriaPopupProps> = ({
     clearTimeout(timeoutRef.current);
   }, [timeoutRef]);
 
-  if (!material?.price) return null;
-
   return (
     <Popup
       {...rest}

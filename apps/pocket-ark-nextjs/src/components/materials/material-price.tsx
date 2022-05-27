@@ -8,10 +8,16 @@ import { usePricingSource } from '../material-pricing-provider';
 export interface MaterialPriceProps {
   type: MaterialType;
   className?: string;
+  fluid?: boolean;
   onChange?: (value: number) => void;
 }
 
-export const MaterialPrice: FC<MaterialPriceProps> = ({ type, onChange }) => {
+export const MaterialPrice: FC<MaterialPriceProps> = ({
+  type,
+  className,
+  fluid,
+  onChange,
+}) => {
   const { pricedMaterialsObject: materials, setMaterialPrice } =
     usePricingSource();
   const material = materials[type];
@@ -27,11 +33,14 @@ export const MaterialPrice: FC<MaterialPriceProps> = ({ type, onChange }) => {
 
   return (
     <CurrencyInput
+      key={`Material_${type}`}
       id={`${type}-price`}
       iconType={CurrencyType.Gold}
       type="number"
       onChange={(e) => handleChangeDebounced(e)}
       defaultValue={price}
+      fluid={fluid}
+      className={className}
     />
   );
 };

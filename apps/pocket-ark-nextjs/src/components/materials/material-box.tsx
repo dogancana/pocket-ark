@@ -5,20 +5,29 @@ import { MaterialPrice } from './material-price';
 
 export interface MaterialBoxProps {
   material: Material;
-  forwardRef: React.Ref<HTMLDivElement>;
+  className?: string;
+  forwardRef?: React.Ref<HTMLDivElement>;
+  fluid?: boolean;
 }
 
-export const MaterialBox: FC<MaterialBoxProps> = ({ material, forwardRef }) => (
-  <div className="flex" ref={forwardRef}>
-    <MaterialIcon type={material.type} overrides={{ width: 40, height: 40 }} />
-    <div className="flex flex-col ml-3">
-      <div className="flex items-center">
-        <strong>{material.name}</strong>
+export const MaterialBox: FC<MaterialBoxProps> = ({
+  material,
+  className,
+  forwardRef,
+  fluid,
+}) => (
+  <div className={`flex px-3 ${className || ''}`} ref={forwardRef}>
+    <MaterialIcon type={material.type} overrides={{ width: 55, height: 55 }} />
+    <div className="flex flex-col grow ml-3">
+      <div className="flex items-center grow w-full">
+        <strong className="mb-1 text-ellipsis whitespace-nowrap">
+          {material.name}
+        </strong>
         {material.saleAmount && (
           <span className="text-xs ml-1">(x{material.saleAmount})</span>
         )}
       </div>
-      <MaterialPrice type={material.type} />
+      <MaterialPrice type={material.type} className="grow" fluid={fluid} />
     </div>
   </div>
 );

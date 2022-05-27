@@ -78,7 +78,7 @@ export const InfiniteChaosTable: FC<InfiniteChaosTableProps> = ({
       </Table.Header>
       <Table.Body>
         {sortedMaterials.map((material) => (
-          <Table.Row key={material.name} className="py-4">
+          <Table.Row key={material.type} className="py-4">
             <Table.Cell>
               <MaterialPopup material={material}>
                 <div className="w-full flex flex-row items-center">
