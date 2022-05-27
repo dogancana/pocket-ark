@@ -35,7 +35,7 @@ export const Alert: FC<AlertProps> = ({ children, type, ...props }) => {
 
   return (
     <div
-      className={`${bg} ${border} ${text} border-t-4 rounded-b px-4 py-3 shadow-md ${
+      className={`${bg} ${border} ${text} border-t-2 rounded-b px-4 py-3 shadow-md ${
         props.className || ''
       }`}
       role="alert"

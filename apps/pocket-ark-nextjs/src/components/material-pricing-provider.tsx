@@ -45,12 +45,12 @@ export const PricingProvider: FC<PricingProviderProps> = ({
   children,
   source: sourceProp,
 }) => {
-  const [source, setSource] = useState(sourceProp);
+  const [source, setSource] = useState(sourceProp || {});
   const [showShareModal, setShowShareModal] = useState(false);
   const { pathname } = useRouter();
 
   const hasMissingMaterialPrices = !materials.every(
-    (m) => !!source[m.type]?.price
+    (m) => !!source?.[m.type]?.price
   );
   const isOnPriceIndex = pathname === '/price-index';
 

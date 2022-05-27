@@ -79,12 +79,7 @@ export const PriceIndexPage: FC = () => {
 
       <PageContainer className="mt-0 pt-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
-          <div
-            className="text-left col-span-full px-2 flex items-center"
-            onKeyDown={(e) => {
-              console.log('e', e);
-            }}
-          >
+          <div className="text-left col-span-full px-2 flex items-center">
             <h3 className="text-2xl">PRICES</h3>
             <Search
               value={state.query}
@@ -92,9 +87,6 @@ export const PriceIndexPage: FC = () => {
               minCharacters={0}
               results={options.slice(0, 7)}
               onResultSelect={onSelected}
-              resultRenderer={(r) => {
-                return <span>{r.title}</span>;
-              }}
               onSearchChange={setQuery}
             />
           </div>

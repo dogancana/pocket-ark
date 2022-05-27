@@ -6,7 +6,7 @@ import { SiteSearch } from './site-search';
 export const Header: FC = () => (
   <header
     role="banner"
-    className="shadow-md sticky top-0 bg-stone-200 z-50"
+    className="shadow-md sticky top-0 bg-stone-200 z-50 border-b-2 border-b-gray-300"
   >
     <Container>
       <nav className="flex items-center py-2">

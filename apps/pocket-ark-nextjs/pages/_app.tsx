@@ -10,7 +10,7 @@ export const App = ({ Component, pageProps }: AppProps) => {
       <Head>
         <title>Pocket Ark</title>
       </Head>
-      <main className="h-screen">
+      <main className="bg-gradient-to-br from-stone-50 to-stone-200 h-screen overflow-auto">
         <Header />
         <Component {...pageProps} />
       </main>

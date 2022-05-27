@@ -102,7 +102,7 @@ export const StrongholdCraftingPage: FC = () => {
           The values do not include researchs that reduce cost or time.
         </p>
       </HeroSection>
-      <PageContainer>
+      <PageContainer className="mb-12">
         <Table singleLine sortable striped>
           <Table.Header>
             <SortableTableHeaders
@@ -166,7 +166,9 @@ export const StrongholdCraftingPage: FC = () => {
                     value={toFixed(recipe.profit)}
                   />
                 </Table.Cell>
-                <Table.Cell>{toFixed(recipe.perc)}</Table.Cell>
+                <Table.Cell>
+                  {recipe.perc ? `${toFixed(recipe.perc)}%` : '?'}
+                </Table.Cell>
               </Table.Row>
             ))}
           </Table.Body>
