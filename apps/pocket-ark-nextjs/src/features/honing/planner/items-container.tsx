@@ -1,3 +1,4 @@
+import ErrorBoundary from '../../../ui/error-boundry';
 import { FC } from '../../../utils';
 import { useHoningData } from './data';
 import { useHoningFilter } from './filter/honing-filter-provider';
@@ -20,13 +21,17 @@ export const ItemsContainer: FC = () => {
           .filter((i) => !from.find((f) => f.slot === i.slot).hidden)
           .map((data) => (
             <div key={data.slot} className="w-full relative">
-              <UpgradeLine itemSlot={data.slot} />
+              <ErrorBoundary message={`Upgrade line for ${data.slot}`}>
+                <UpgradeLine itemSlot={data.slot} />
+              </ErrorBoundary>
             </div>
           ))}
       </div>
       <div className="flex">
         <div className="ml-auto mt-3">
-          <AllHoningTotal />
+          <ErrorBoundary message="All honing total">
+            <AllHoningTotal />
+          </ErrorBoundary>
         </div>
       </div>
     </>

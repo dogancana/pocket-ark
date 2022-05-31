@@ -4,13 +4,13 @@ import { MaterialValues } from '../../components';
 import { FC } from '../../utils';
 
 export const PriceItem: FC = ({ children }) => (
-  <div className="bg-stone-50 border-2 rounded-md m-1 flex flex-col">
+  <div className=" border-2 rounded-md m-1 flex flex-col relative z-0">
     {children}
   </div>
 );
 
 export const ItemFooter: FC = ({ children }) => (
-  <div className="flex border-t-2 mt-2 bg-stone-200 h-6">{children}</div>
+  <div className="flex bg-stone-200 h-6">{children}</div>
 );
 
 export const MaterialValuesLine: FC<{ type: MaterialType }> = ({ type }) => (

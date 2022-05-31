@@ -13,7 +13,7 @@ interface ItemLineProps {
   dispatch: Dispatch<Action>;
 }
 
-const rarity: Rarity[] = [Rarity.Epic, Rarity.Legendary, Rarity.Relic];
+const rarity: Rarity[] = [Rarity.Legendary, Rarity.Relic];
 
 export const ItemLine: FC<ItemLineProps> = ({
   item,

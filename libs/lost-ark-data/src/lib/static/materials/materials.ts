@@ -5,7 +5,7 @@ export const materials: Material[] = [
   {
     type: MaterialType.HarmonyShardPouchSmall,
     name: 'Harmony Shard Pouch (S)',
-    rarity: Rarity.Common,
+    rarity: Rarity.Uncommon,
   },
   {
     type: MaterialType.HarmonyShardPouchMedium,
@@ -20,7 +20,7 @@ export const materials: Material[] = [
   {
     type: MaterialType.LifeShardPouchSmall,
     name: 'Life Shard Pouch (S)',
-    rarity: Rarity.Common,
+    rarity: Rarity.Uncommon,
   },
   {
     type: MaterialType.LifeShardPouchMedium,
@@ -35,7 +35,7 @@ export const materials: Material[] = [
   {
     type: MaterialType.HonorShardPouchSmall,
     name: 'Honor Shard Pouch (S)',
-    rarity: Rarity.Common,
+    rarity: Rarity.Uncommon,
   },
   {
     type: MaterialType.HonorShardPouchMedium,
@@ -52,7 +52,7 @@ export const materials: Material[] = [
     type: MaterialType.SolarGrace,
     name: 'Solar Grace',
     chaosDungeonShards: 550,
-    rarity: Rarity.Common,
+    rarity: Rarity.Uncommon,
   },
   {
     type: MaterialType.StarsBreath,

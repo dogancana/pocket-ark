@@ -16,6 +16,7 @@ import { CurrencySourceForm } from './currency-source-form';
 import { PriceSourceReferences } from './search-sources';
 import { SharePricingModal } from './share-pricing-modal';
 import { SourceSync } from './source-sync';
+import { RarityLine } from '../../ui/rarity';
 
 interface State {
   query?: string;
@@ -77,7 +78,7 @@ export const PriceIndexPage: FC = () => {
         </ErrorBoundary>
       </HeroSection>
 
-      <PageContainer className="mt-0 pt-4">
+      <PageContainer className="mt-0 pt-4 pb-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2">
           <div className="text-left col-span-full px-2 flex items-center">
             <h3 className="text-2xl">PRICES</h3>
@@ -93,11 +94,8 @@ export const PriceIndexPage: FC = () => {
           <CurrencySourceForm />
           {filteredMaterials.map((m) => (
             <PriceItem key={m.type}>
-              <MaterialBox
-                material={m}
-                className="grow pt-2 items-center w-full"
-                fluid
-              />
+              <MaterialBox material={m} className="grow pt-2 w-full" fluid />
+              <RarityLine rarity={m.rarity} className="h-1 mt-2 opacity-40" />
               <ItemFooter />
             </PriceItem>
           ))}

@@ -6,6 +6,7 @@ import { FC } from '../../../utils';
 import { SingleLevelHoningWithTotals } from '../models';
 import { Icon } from 'semantic-ui-react';
 import { readableNumber } from '../../../utils';
+import { AbosoluteRarityBackground, RarityLine } from '../../../ui/rarity';
 
 export interface SingleHoneProps {
   singleLevelHoning: SingleLevelHoningWithTotals;
@@ -49,9 +50,13 @@ export const SingleHone: FC<SingleHoneProps> = ({
       ref={wrapperRef}
     >
       <div
-        className="px-4 pt-4 pb-2 h-full cursor-pointer flex flex-col items-center justify-center w-32"
+        className="px-4 pt-4 pb-2 h-full cursor-pointer flex flex-col items-center justify-center w-32 relative z-0"
         onClick={toggleExpanded}
       >
+        <AbosoluteRarityBackground
+          rarity={singleLevelHoning.rarirty}
+          opacity={0.4}
+        />
         <span className="text-3xl">+{singleLevelHoning.toLevel}</span>
         <Currency
           className="text-center"
@@ -67,7 +72,7 @@ export const SingleHone: FC<SingleHoneProps> = ({
         className="flex relative z-0"
         style={
           singleLevelHoning.attempts.length > 2
-            ? createGradientStly(
+            ? createGradientStyle(
                 (singleLevelHoning.averageAttemptIndexToSuccess /
                   singleLevelHoning.attempts.length) *
                   100
@@ -94,7 +99,7 @@ export const SingleHone: FC<SingleHoneProps> = ({
                   <div className="absolute h-full left-0 bg-green-50"></div>
                 </>
               )}
-              <span>
+              <span className="mb-2 text-lg">
                 {attempt.chance.toFixed()}%{' '}
                 {!!attempt.protectionChance && (
                   <span className="ml-2 font-thin text-gray-500">
@@ -132,7 +137,7 @@ export const SingleHone: FC<SingleHoneProps> = ({
   );
 };
 
-function createGradientStly(midPerc = 50): CSSProperties {
+function createGradientStyle(midPerc = 50): CSSProperties {
   return {
     background: `linear-gradient(90deg, rgba(0, 255, 0, 0.1) 0%, white ${midPerc}%, rgba(255, 0, 0, 0.1) 100%)`,
   };

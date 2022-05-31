@@ -123,7 +123,7 @@ export const PriceSourceReferences: FC = () => {
         }}
         resultRenderer={resultRenderer as any}
         onSearchChange={(e, data) => handleSearchChange(data.value)}
-        results={metas ?? []}
+        results={metas || []}
         value={query}
       />
 

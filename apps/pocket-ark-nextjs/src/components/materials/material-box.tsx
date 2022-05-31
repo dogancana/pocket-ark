@@ -16,7 +16,7 @@ export const MaterialBox: FC<MaterialBoxProps> = ({
   forwardRef,
   fluid,
 }) => (
-  <div className={`flex px-3 ${className || ''}`} ref={forwardRef}>
+  <div className={`flex px-3 items-end ${className || ''}`} ref={forwardRef}>
     <MaterialIcon type={material.type} overrides={{ width: 55, height: 55 }} />
     <div className="flex flex-col grow ml-3">
       <div className="flex items-center grow w-full">

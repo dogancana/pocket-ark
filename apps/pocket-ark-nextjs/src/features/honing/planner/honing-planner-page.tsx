@@ -4,6 +4,7 @@ import { FC } from '../../../utils';
 import { HoningFilterProvider } from './filter/honing-filter-provider';
 import { HoningPlannerFilters } from './filter/honing-planner-filters';
 import { ItemsContainer } from './items-container';
+import ErrorBoundary from '../../../ui/error-boundry';
 
 export const HoningPlannerPage: FC = () => {
   return (
@@ -23,7 +24,9 @@ export const HoningPlannerPage: FC = () => {
       <PageContainer className="w-full">
         <div className="div flex py-4 ">
           <span className="ml-auto">
-            <HoningPlannerFilters />
+            <ErrorBoundary message="Honing planner filters">
+              <HoningPlannerFilters />
+            </ErrorBoundary>
           </span>
         </div>
         <ItemsContainer />

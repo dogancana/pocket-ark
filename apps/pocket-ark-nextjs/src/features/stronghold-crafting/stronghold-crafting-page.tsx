@@ -1,15 +1,15 @@
 import {
   CraftingRecipe,
   craftingRecipes,
-  CurrencyType,
+  CurrencyType
 } from '@pocket-ark/lost-ark-data';
 import { isNumber } from 'lodash';
 import { useMemo, useReducer } from 'react';
-import { Container, Header, Table } from 'semantic-ui-react';
+import { Header, Table } from 'semantic-ui-react';
 import {
   MaterialPopup,
   MaterialsLine,
-  usePricingSource,
+  usePricingSource
 } from '../../components';
 import {
   Currency,
@@ -17,7 +17,7 @@ import {
   SortableTableHeaders,
   SortableTableItem,
   sortableTableReducer,
-  SortableTableReducer,
+  SortableTableReducer
 } from '../../ui';
 import { MaterialIcon } from '../../ui/icons';
 import { HeroSection, PageContainer } from '../../ui/layout';
