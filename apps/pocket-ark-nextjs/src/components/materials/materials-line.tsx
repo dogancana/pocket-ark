@@ -9,7 +9,7 @@ export interface MaterialCountProps {
 
 export const MaterialsLine: FC<MaterialCountProps> = ({ materials }) => (
   <div className="flex align-middle">
-    {materials.map((material) => (
+    {materials.map((material, index) => (
       <MaterialPopup
         material={material}
         key={material.type}
@@ -19,7 +19,7 @@ export const MaterialsLine: FC<MaterialCountProps> = ({ materials }) => (
           <MaterialCount
             type={material.type}
             value={material.amount}
-            className="mr-3"
+            className={index !== materials.length - 1 ? 'mr-3' : ''}
           />
         </div>
       </MaterialPopup>

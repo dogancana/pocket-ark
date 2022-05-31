@@ -6,9 +6,10 @@ import {
 } from '@pocket-ark/lost-ark-data';
 import { flatten } from 'lodash';
 import { Divider } from 'semantic-ui-react';
-import { MaterialCount, usePricingSource } from '../../../../components';
+import { usePricingSource } from '../../../../components';
+import { MaterialsLine } from '../../../../components/materials/materials-line';
 import { Currency } from '../../../../ui/currency/currency';
-import { FC, readableNumber } from '../../../../utils';
+import { FC } from '../../../../utils';
 import { sortMaterials } from '../../utils';
 import { useHoningData } from '../data';
 
@@ -21,7 +22,7 @@ interface SlotTotals {
 
 export const AllHoningTotal: FC = () => {
   const honingData = useHoningData();
-  const { addMaterials } = usePricingSource();
+  const { pricedMaterialsObject, addMaterials } = usePricingSource();
 
   const flattened = flatten(honingData.map((d) => d.costs));
 
@@ -55,6 +56,10 @@ export const AllHoningTotal: FC = () => {
   );
 
   const totalCost = addMaterials(totals.materials);
+  const pricedMaterials = sortMaterials(totals.materials).map((m) => ({
+    ...pricedMaterialsObject[m.type],
+    amount: m.amount,
+  }));
 
   return (
     <div>
@@ -62,15 +67,8 @@ export const AllHoningTotal: FC = () => {
       <div className="flex pb-40">
         Need on average:
         <div className="flex flex-col items-end">
-          <div className="flex">
-            {sortMaterials(totals.materials).map((m) => (
-              <MaterialCount
-                key={m.type}
-                type={m.type}
-                value={readableNumber(m.amount)}
-                className="ml-3"
-              />
-            ))}
+          <div className="flex pl-3">
+            <MaterialsLine materials={pricedMaterials} />
           </div>
           <div className="flex mt-2">
             <Currency

@@ -53,10 +53,6 @@ export const SingleHone: FC<SingleHoneProps> = ({
         className="px-4 pt-4 pb-2 h-full cursor-pointer flex flex-col items-center justify-center w-32 relative z-0"
         onClick={toggleExpanded}
       >
-        <AbosoluteRarityBackground
-          rarity={singleLevelHoning.rarirty}
-          opacity={0.4}
-        />
         <span className="text-3xl">+{singleLevelHoning.toLevel}</span>
         <Currency
           className="text-center"

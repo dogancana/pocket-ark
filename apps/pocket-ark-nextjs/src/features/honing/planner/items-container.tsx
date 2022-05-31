@@ -27,9 +27,7 @@ export const ItemsContainer: FC = () => {
       </div>
       <div className="flex">
         <div className="ml-auto mt-3">
-          <ErrorBoundary message="All honing total">
-            <AllHoningTotal />
-          </ErrorBoundary>
+          <AllHoningTotal />
         </div>
       </div>
     </>

@@ -17,6 +17,7 @@ const Page: FC<Props> = ({ source }) => (
 
 export const getServerSideProps: GetServerSideProps = async (props) => {
   const source = await getPricingPropsSSR(props);
+  console.log('Using source', source?.meta);
   return { props: { source } };
 };
 

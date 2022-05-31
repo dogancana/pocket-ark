@@ -113,7 +113,7 @@ const sorter = [
 ];
 
 export function sortMaterials(materials: MaterialsToCraft) {
-  return materials.sort(
+  return materials?.sort(
     (a, b) =>
       sorter.findIndex((predicate) => predicate === a.type) -
       sorter.findIndex((predicate) => predicate === b.type)
