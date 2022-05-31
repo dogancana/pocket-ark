@@ -17,6 +17,7 @@ const nextConfig = {
   // Set this to true if you use CSS modules.
   // See: https://github.com/css-modules/css-modules
   cssModules: false,
+  productionBrowserSourceMaps: true,
 };
 
 module.exports = withLess(withNx(nextConfig));

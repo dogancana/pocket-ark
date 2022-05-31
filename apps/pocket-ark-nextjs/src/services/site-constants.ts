@@ -31,4 +31,9 @@ export const mainFeatures: MainFeature[] = [
     description: 'Compare secret map rewards based.',
     href: '/secret-maps',
   },
+  {
+    header: 'Honing Planner',
+    description: 'See average honing cost and optimal protection materials.',
+    href: '/honing',
+  },
 ];

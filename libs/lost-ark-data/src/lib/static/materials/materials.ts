@@ -283,4 +283,24 @@ export const materials: Material[] = [
     rarity: Rarity.Rare,
     saleAmount: 10,
   },
+  {
+    type: MaterialType.TailoringBasicMending,
+    name: 'Tailoring Basic Mending',
+    rarity: Rarity.Epic,
+  },
+  {
+    type: MaterialType.TailoringAppliedMending,
+    name: 'Tailoring Applied Mending',
+    rarity: Rarity.Legendary,
+  },
+  {
+    type: MaterialType.MetallurgyBasicWelding,
+    name: 'Metalurgy Basic Welding',
+    rarity: Rarity.Epic,
+  },
+  {
+    type: MaterialType.MetallurgyAppliedWelding,
+    name: 'Metallurgy Applied Welding',
+    rarity: Rarity.Legendary,
+  },
 ];

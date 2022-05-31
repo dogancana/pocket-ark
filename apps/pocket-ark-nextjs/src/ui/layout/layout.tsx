@@ -17,7 +17,7 @@ export const PageContainer: FC<{ className?: string }> = ({
 }) => (
   <Container>
     <div className="flex flex-col items-center">
-      <div className={`mt-8 max-w-full ${className || ''}`}>{children}</div>
+      <div className={`max-w-full ${className || ''}`}>{children}</div>
     </div>
   </Container>
 );

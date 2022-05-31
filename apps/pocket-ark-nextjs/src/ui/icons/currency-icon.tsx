@@ -13,6 +13,7 @@ export const CurrencyIcon: FC<CurrencyIconProps> = ({ type, overrides }) => {
 
   return (
     <Image
+      layout="fixed"
       src={src}
       width={40}
       height={40}

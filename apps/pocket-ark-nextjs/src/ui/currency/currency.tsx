@@ -1,6 +1,6 @@
 import { CurrencyItemType, CurrencyType } from '@pocket-ark/lost-ark-data';
-import { CurrencyIcon } from './icons';
-import { FC } from '../utils';
+import { CurrencyIcon } from '../icons';
+import { FC } from '../../utils';
 
 interface CurrencyProps {
   type: CurrencyType | CurrencyItemType;
@@ -16,12 +16,18 @@ export const Currency: FC<CurrencyProps> = ({
   size,
 }) => {
   return (
-    <span className={`flex items-center ${className ? className : ''}`}>
+    <div className={`flex items-center ${className || ''}`}>
       <CurrencyIcon
         type={type}
-        overrides={{ width: size || 25, height: size || 25 }}
+        overrides={{
+          width: size || 25,
+          height: size || 25,
+          className: 'inline-flex',
+        }}
       />
-      <span className="ml-1">{value}</span>
-    </span>
+      <span className="ml-1 inline-block ">
+        {value}
+      </span>
+    </div>
   );
 };

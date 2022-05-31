@@ -51,6 +51,10 @@ export enum MaterialType {
   RareRelic = 'RareRelic',
   AncientRelic = 'AncientRelic',
   OrehaRelic = 'OrehaRelic',
+  TailoringBasicMending = 'TailoringBasicMending',
+  TailoringAppliedMending = 'TailoringAppliedMending',
+  MetallurgyBasicWelding = 'MetallurgyBasicWelding',
+  MetallurgyAppliedWelding = 'MetallurgyAppliedWelding',
 }
 
 export interface Material {

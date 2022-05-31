@@ -11,9 +11,11 @@ interface State {
 }
 
 const resultRenderer = (feature: { href: string; title: string }) => (
-  <Link href={feature.href} passHref>
-    <a>{feature.title}</a>
-  </Link>
+  <div>
+    <Link href={feature.href} passHref>
+      <a>{feature.title}</a>
+    </Link>
+  </div>
 );
 
 export const SiteSearch: FC = () => {
