@@ -29,7 +29,9 @@ export const HoningPlannerPage: FC = () => {
             </ErrorBoundary>
           </span>
         </div>
-        <ItemsContainer />
+        <ErrorBoundary message="Honing planner items container">
+          <ItemsContainer />
+        </ErrorBoundary>
       </PageContainer>
     </HoningFilterProvider>
   );

@@ -6,7 +6,7 @@ import {
   Currency,
   orderForTable,
   sortableTableReducer,
-  SortableTableReducer
+  SortableTableReducer,
 } from '../../ui';
 import { MapIcon } from '../../ui/icons';
 import { SortableTableHeaders } from '../../ui/sortable-table';
@@ -74,7 +74,9 @@ export const SecretMapsTable: FC = () => {
             <Table.Cell>
               <Currency
                 type={CurrencyType.Gold}
-                value={secretMap.matsTotal ? secretMap.matsTotal * 4 : '?'}
+                value={
+                  secretMap.matsTotal ? secretMap.matsTotal * 4 : undefined
+                }
               />
             </Table.Cell>
           </Table.Row>

@@ -25,7 +25,7 @@ export const MaterialValues: FC<MaterialValueLineProps> = ({
         <Currency
           key={currency}
           type={currency}
-          value={material.values[currency] || '?'}
+          value={material.values[currency]}
           size={20}
           className={itemClassName}
         />

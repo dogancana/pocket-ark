@@ -2,7 +2,7 @@ import {
   addCraftingMaterials,
   CurrencyItemType,
   CurrencyType,
-  MaterialsToCraft
+  MaterialsToCraft,
 } from '@pocket-ark/lost-ark-data';
 import { flatten } from 'lodash';
 import { Divider } from 'semantic-ui-react';
@@ -75,18 +75,15 @@ export const AllHoningTotal: FC = () => {
           <div className="flex mt-2">
             <Currency
               type={CurrencyType.Silver}
-              value={readableNumber(totals.silver)}
+              value={totals.silver}
               className="mr-3"
             />
             <Currency
               type={CurrencyItemType.HonorShard}
-              value={readableNumber(totals.shards)}
+              value={totals.shards}
               className="mr-3"
             />
-            <Currency
-              type={CurrencyType.Gold}
-              value={readableNumber(totals.gold)}
-            />
+            <Currency type={CurrencyType.Gold} value={totals.gold} />
           </div>
         </div>
         <div className="w-0.5 bg-gray-300 mx-8 my-1"></div>
@@ -96,7 +93,7 @@ export const AllHoningTotal: FC = () => {
             <div>
               <Currency
                 type={CurrencyType.Gold}
-                value={readableNumber(totalCost)}
+                value={totalCost}
                 className="ml-3"
               />
             </div>

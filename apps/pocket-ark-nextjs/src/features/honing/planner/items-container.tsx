@@ -12,8 +12,6 @@ export const ItemsContainer: FC = () => {
 
   const honingData = useHoningData();
 
-  console.log('d', honingData);
-
   return (
     <>
       <div className="grow border-2 border-stone-300">

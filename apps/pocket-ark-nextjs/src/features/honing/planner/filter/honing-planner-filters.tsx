@@ -78,7 +78,7 @@ export const HoningPlannerFilters: FC = () => {
                 on probablity of each attempt individualy. <br />
                 <span className="flex items-center">
                   Average cost is the one you see with this symbol "~":{' '}
-                  <Currency type={CurrencyType.Gold} value="~10" />
+                  <Currency type={CurrencyType.Gold} value={10} arround />
                 </span>
               </p>
             </Popup>

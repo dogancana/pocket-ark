@@ -1,7 +1,7 @@
 import {
   CraftingRecipe,
   craftingRecipes,
-  CurrencyType
+  CurrencyType,
 } from '@pocket-ark/lost-ark-data';
 import { isNumber } from 'lodash';
 import { useMemo, useReducer } from 'react';
@@ -9,7 +9,7 @@ import { Header, Table } from 'semantic-ui-react';
 import {
   MaterialPopup,
   MaterialsLine,
-  usePricingSource
+  usePricingSource,
 } from '../../components';
 import {
   Currency,
@@ -17,7 +17,7 @@ import {
   SortableTableHeaders,
   SortableTableItem,
   sortableTableReducer,
-  SortableTableReducer
+  SortableTableReducer,
 } from '../../ui';
 import { MaterialIcon } from '../../ui/icons';
 import { HeroSection, PageContainer } from '../../ui/layout';
@@ -149,22 +149,16 @@ export const StrongholdCraftingPage: FC = () => {
                 <Table.Cell>{recipe.requiredActionEnergy}</Table.Cell>
                 <Table.Cell>{readableSeconds(recipe.seconds)}</Table.Cell>
                 <Table.Cell>
-                  <Currency
-                    type={CurrencyType.Gold}
-                    value={toFixed(recipe.totalCost)}
-                  />
+                  <Currency type={CurrencyType.Gold} value={recipe.totalCost} />
                 </Table.Cell>
                 <Table.Cell>
                   <Currency
                     type={CurrencyType.Gold}
-                    value={recipe.totalPrice || '?'}
+                    value={recipe.totalPrice}
                   />
                 </Table.Cell>
                 <Table.Cell>
-                  <Currency
-                    type={CurrencyType.Gold}
-                    value={toFixed(recipe.profit)}
-                  />
+                  <Currency type={CurrencyType.Gold} value={recipe.profit} />
                 </Table.Cell>
                 <Table.Cell>
                   {recipe.perc ? `${toFixed(recipe.perc)}%` : '?'}

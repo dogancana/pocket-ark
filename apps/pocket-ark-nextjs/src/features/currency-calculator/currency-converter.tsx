@@ -92,9 +92,7 @@ export const CurrencyConverter: FC = () => {
               <Currency
                 key={currency}
                 type={currency}
-                value={(totalInGold / rates[currency]).toFixed(
-                  fixedDigits[currency]
-                )}
+                value={totalInGold / rates[currency]}
               />
             </Box>
             {i < editableCurrencies.length - 1 && <OR />}

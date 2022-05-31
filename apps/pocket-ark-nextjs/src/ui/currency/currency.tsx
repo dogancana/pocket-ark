@@ -1,12 +1,15 @@
 import { CurrencyItemType, CurrencyType } from '@pocket-ark/lost-ark-data';
-import { CurrencyIcon } from '../icons';
+import { isNumber } from 'lodash';
 import { FC } from '../../utils';
+import { CurrencyIcon } from '../icons';
 
 interface CurrencyProps {
   type: CurrencyType | CurrencyItemType;
-  value: number | string;
+  value: number;
   className?: string;
   size?: number;
+  arround?: boolean;
+  fragments?: number;
 }
 
 export const Currency: FC<CurrencyProps> = ({
@@ -14,7 +17,16 @@ export const Currency: FC<CurrencyProps> = ({
   value,
   className,
   size,
+  arround,
+  fragments,
 }) => {
+  const shouldShowQuestionMark =
+    (isNumber(value) && isNaN(value)) || value === undefined;
+  const str =
+    !shouldShowQuestionMark && isNumber(value)
+      ? value?.toLocaleString([], { maximumFractionDigits: fragments || 0 })
+      : value;
+
   return (
     <div className={`flex items-center ${className || ''}`}>
       <CurrencyIcon
@@ -26,7 +38,8 @@ export const Currency: FC<CurrencyProps> = ({
         }}
       />
       <span className="ml-1 inline-block ">
-        {value}
+        {arround && !shouldShowQuestionMark ? '~' : ''}
+        {shouldShowQuestionMark ? '?' : str}
       </span>
     </div>
   );

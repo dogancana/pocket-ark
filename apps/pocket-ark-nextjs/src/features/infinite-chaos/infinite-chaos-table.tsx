@@ -88,10 +88,7 @@ export const InfiniteChaosTable: FC<InfiniteChaosTableProps> = ({
               </MaterialPopup>
             </Table.Cell>
             <Table.Cell>
-              <Currency
-                type={CurrencyType.Gold}
-                value={material.price || '?'}
-              />
+              <Currency type={CurrencyType.Gold} value={material.price} />
             </Table.Cell>
             <Table.Cell>
               <Currency

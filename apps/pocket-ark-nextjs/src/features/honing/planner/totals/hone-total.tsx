@@ -25,7 +25,8 @@ export const HoneTotal: FC<HoneTotalProps> = ({ slot }) => {
         className="text-center"
         size={15}
         type={CurrencyType.Gold}
-        value={`~${readableNumber(expectedCost)}`}
+        arround
+        value={expectedCost}
       />
     </div>
   );

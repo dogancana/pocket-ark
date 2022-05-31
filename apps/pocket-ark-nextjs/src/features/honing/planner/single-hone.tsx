@@ -62,7 +62,8 @@ export const SingleHone: FC<SingleHoneProps> = ({
           className="text-center"
           size={15}
           type={CurrencyType.Gold}
-          value={`~${readableNumber(singleLevelHoning.expectedCostProtected)}`}
+          arround
+          value={singleLevelHoning.expectedCostProtected}
         />
         <span className="mt-1 text-xs text-gray-500">
           {singleLevelHoning.averageAttemptIndexToSuccess + 1}
