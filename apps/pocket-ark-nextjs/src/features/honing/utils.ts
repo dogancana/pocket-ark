@@ -1,4 +1,9 @@
-import { MaterialsToCraft, MaterialType } from '@pocket-ark/lost-ark-data';
+import {
+  BodyItemType,
+  MaterialsToCraft,
+  MaterialType,
+  Rarity,
+} from '@pocket-ark/lost-ark-data';
 import { usePricingSource } from '../../components';
 
 export function allowedGrace(toLevel) {
@@ -23,6 +28,8 @@ export interface MaterialProtectionScore {
  * @param chance Percentage of current honing chance with artistan energy.
  * @param cost Cost of one honing attempt.
  * @param toLevel Target level.
+ * @param rarity Rarity of the item.
+ * @param armorType Armor type of the item.
  * @param prices Priced materials object.
  * @returns Value score of honing protection materials with allowed max items. If there is no price information, score is undefined.
  */
@@ -31,37 +38,68 @@ export function protection(
   chance: number,
   cost: number,
   toLevel: number,
+  rarity: Rarity,
+  armorType: BodyItemType,
   prices: ReturnType<typeof usePricingSource>['pricedMaterialsObject']
 ): MaterialProtectionScore[] {
   const chanceIncreasePerMaterialType = baseChance / 3;
   const costOfOnePerc = cost / chance;
+  const isEpic = rarity === Rarity.Epic;
+  const isLegendary = rarity === Rarity.Legendary;
+  const isRelic = rarity === Rarity.Relic;
+  const isWeapon = armorType === 'weapon';
+  const isArmor = armorType === 'armor';
+  const hasLevelForExtra = toLevel > 7 && toLevel < 16;
 
   return [
     {
       type: MaterialType.SolarGrace,
       allowed: allowedGrace(toLevel),
+      chancePerMat: chanceIncreasePerMaterialType,
     },
     {
       type: MaterialType.SolarBlessing,
       allowed: allowedGrace(toLevel) / 2,
+      chancePerMat: chanceIncreasePerMaterialType,
     },
     {
       type: MaterialType.SolarProtection,
       allowed: allowedGrace(toLevel) / 6,
+      chancePerMat: chanceIncreasePerMaterialType,
     },
-  ].map((p) => {
-    const totalCost = p.allowed * prices[p.type].price;
-    const protectionCostOfOnePerc = totalCost / chanceIncreasePerMaterialType;
+    {
+      type: MaterialType.TailoringBasicMending,
+      allowed: isEpic && isArmor && hasLevelForExtra ? 1 : 0,
+      chancePerMat: 10,
+    },
+    {
+      type: MaterialType.TailoringAppliedMending,
+      allowed: (isLegendary || isRelic) && isArmor && hasLevelForExtra ? 1 : 0,
+      chancePerMat: 10,
+    },
+    {
+      type: MaterialType.MetallurgyBasicWelding,
+      allowed: isEpic && isWeapon && hasLevelForExtra ? 1 : 0,
+      chancePerMat: 10,
+    },
+    {
+      type: MaterialType.MetallurgyAppliedWelding,
+      allowed: (isLegendary || isRelic) && isWeapon && hasLevelForExtra ? 1 : 0,
+      chancePerMat: 10,
+    },
+  ]
+    .filter((p) => p.allowed > 0)
+    .map((p) => {
+      const totalCost = p.allowed * prices?.[p.type]?.price;
+      const protectionCostOfOnePerc = totalCost / p.chancePerMat;
 
-    return {
-      ...p,
-      chanceIncreaseMaterial: p.allowed
-        ? chanceIncreasePerMaterialType / p.allowed
-        : 0,
-      costPerMaterial: prices[p.type].price,
-      score: costOfOnePerc / protectionCostOfOnePerc,
-    };
-  });
+      return {
+        ...p,
+        chanceIncreaseMaterial: p.allowed ? p.chancePerMat / p.allowed : 0,
+        costPerMaterial: prices?.[p.type].price,
+        score: costOfOnePerc / protectionCostOfOnePerc,
+      };
+    });
 }
 
 export interface RecommendedProtections extends MaterialProtectionScore {

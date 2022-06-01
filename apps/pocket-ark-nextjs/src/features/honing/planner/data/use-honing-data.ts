@@ -117,6 +117,8 @@ function createAttemptsWithProtectionData(
         a.chance,
         a.cost,
         cost.toLevel,
+        cost.rarirty,
+        cost.itemType,
         prices
       ),
     }))
