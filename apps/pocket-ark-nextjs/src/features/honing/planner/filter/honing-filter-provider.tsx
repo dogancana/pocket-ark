@@ -1,6 +1,12 @@
-import { createContext, Dispatch, useContext, useReducer } from 'react';
+import {
+  createContext,
+  Dispatch,
+  useContext,
+  useReducer,
+  useEffect,
+} from 'react';
 import { FC } from '../../../../utils';
-import { initalFromSet, initialToSet } from './constants';
+import { initalFromSet, initialToSet, STATE_STORAGE_KEY } from './constants';
 import { Action, reducer } from './honing-reducer';
 import { Item } from './models';
 
@@ -30,6 +36,23 @@ export const HoningFilterProvider: FC = ({ children }) => {
     from: initalFromSet,
     to: initialToSet,
   });
+
+  useEffect(() => {
+    // client side
+    try {
+      const savedState = localStorage.getItem(STATE_STORAGE_KEY);
+      if (savedState) {
+        dispatch({ type: 'SET_STATE', state: JSON.parse(savedState) });
+      }
+    } catch {
+      /* noop */
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem(STATE_STORAGE_KEY, JSON.stringify(state));
+  }, [state]);
+
   return (
     <context.Provider value={{ state, dispatch }}>{children}</context.Provider>
   );

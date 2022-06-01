@@ -1,6 +1,6 @@
-import { Item } from './models';
-import { Reducer } from 'react';
 import { BodyItemSlot, Rarity } from '@pocket-ark/lost-ark-data';
+import { Reducer } from 'react';
+import { Item } from './models';
 
 interface State {
   avgChance: number;
@@ -27,14 +27,24 @@ interface SetHiddenAction {
   hidden: boolean;
 }
 
-export type Action = SetItemAction | SetChanceAction | SetHiddenAction;
+interface SetState {
+  type: 'SET_STATE';
+  state: State;
+}
+
+export type Action =
+  | SetItemAction
+  | SetChanceAction
+  | SetHiddenAction
+  | SetState;
 
 export const reducer: Reducer<State, Action> = (
   state = { from: [], to: [], avgChance: 60 },
   action
 ) => {
-  console.log('action', action);
   switch (action.type) {
+    case 'SET_STATE':
+      return action.state;
     case 'SET_CHANCE':
       return {
         ...state,

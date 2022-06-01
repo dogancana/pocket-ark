@@ -1,25 +1,18 @@
-import { BodyItemSlot, CurrencyType, Rarity } from '@pocket-ark/lost-ark-data';
-import { useState } from 'react';
+import { CurrencyType } from '@pocket-ark/lost-ark-data';
+import { useState, useEffect } from 'react';
 import { Divider, Icon, Modal, Popup } from 'semantic-ui-react';
+import { Currency } from '../../../../ui/currency/currency';
 import { FC } from '../../../../utils';
-import { initalFromSet, initialToSet } from './constants';
 import { useHoningFilter } from './honing-filter-provider';
 import { ItemLine } from './item-line';
-import { Item } from './models';
-import { Currency } from '../../../../ui/currency/currency';
+import { STATE_STORAGE_KEY } from './constants';
 
 interface State {
   open: boolean;
-  from: Item[];
-  to: Item[];
 }
 
 export const HoningPlannerFilters: FC = () => {
-  const [state, setState] = useState<State>({
-    open: true,
-    from: initalFromSet,
-    to: initialToSet,
-  });
+  const [state, setState] = useState<State>({ open: false });
   const {
     state: { from, to, avgChance },
     dispatch,
@@ -27,7 +20,12 @@ export const HoningPlannerFilters: FC = () => {
   const { open } = state;
 
   const toggleOpen = () => setState((p) => ({ ...p, open: !p.open }));
-  const setFromItem = (rarity: Rarity, slot: BodyItemSlot, level: number) => {};
+
+  useEffect(() => {
+    if (!localStorage.getItem(STATE_STORAGE_KEY)) {
+      setState((s) => ({ ...s, open: true }));
+    }
+  }, []);
 
   return (
     <>
