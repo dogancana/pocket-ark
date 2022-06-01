@@ -4,6 +4,7 @@ import { FC } from '../../../utils';
 import { useHoningData } from './data';
 import { SingleHone } from './single-hone';
 import { HoneTotal } from './totals';
+import { useHorizontalScroll } from '../../../ui/wheel-scroll';
 
 export interface UpgradeLineProps {
   itemSlot: BodyItemSlot;
@@ -12,10 +13,14 @@ export interface UpgradeLineProps {
 export const UpgradeLine: FC<UpgradeLineProps> = ({ itemSlot }) => {
   const data = useHoningData();
   const singleLevelHoning = data.find((d) => d.slot === itemSlot);
+  const wrapperRef = useHorizontalScroll();
 
   return (
     <>
-      <div className="w-full overflow-x-auto flex h-32 relative select-none border-b-2 border-gray-300 pr-32">
+      <div
+        className="w-full overflow-x-auto flex h-32 relative select-none border-b-2 border-gray-300 pr-32"
+        ref={wrapperRef}
+      >
         <div className="flex items-center justify-center w-32 sticky left-0 bg-stone-200 shrink-0 z-10">
           <h3>{itemName(itemSlot)}</h3>
         </div>
