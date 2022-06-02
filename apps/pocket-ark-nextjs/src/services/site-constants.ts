@@ -13,7 +13,8 @@ export type FeatureKey =
   | 'secretMaps'
   | 'honingPlanner'
   | 'honingProtection'
-  | 'mariShop';
+  | 'mariShop'
+  | 'engravingComparison';
 
 export const mainFeatures: { [key in FeatureKey]: MainFeature } = {
   infiniteChaos: {
@@ -86,5 +87,14 @@ export const mainFeatures: { [key in FeatureKey]: MainFeature } = {
     ],
     metaDescription: ['Lost Ark, Mari Shop calculator'],
     href: '/mari-shop',
+  },
+  engravingComparison: {
+    header: 'Engraving Comparison',
+    description: [
+      'Which engravings are better for your build?',
+      'Compare damage engravings in this tool to see what selection would perform better in your rotation.',
+    ],
+    metaDescription: ['Lost Ark, Engraving Comparison calculator'],
+    href: '/engraving-comparison',
   },
 };
