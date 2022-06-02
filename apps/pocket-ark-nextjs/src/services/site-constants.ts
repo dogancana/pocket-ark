@@ -36,4 +36,9 @@ export const mainFeatures: MainFeature[] = [
     description: 'See average honing cost and optimal protection materials.',
     href: '/honing',
   },
+  {
+    header: 'Engraving Comparison',
+    description: 'Compare engraving damage modifiers.',
+    href: '/engraving-comparison',
+  },
 ];
