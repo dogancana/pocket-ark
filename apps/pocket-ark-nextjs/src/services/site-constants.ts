@@ -1,39 +1,65 @@
 export interface MainFeature {
   header: string;
-  description: string;
+  description: string[];
   href: string;
 }
 
-export const mainFeatures: MainFeature[] = [
-  {
+export type FeatureKey =
+  | 'infiniteChaos'
+  | 'priceIndex'
+  | 'currencyCalculator'
+  | 'strongholdCrafting'
+  | 'secretMaps'
+  | 'honingPlanner';
+
+export const mainFeatures: { [key in FeatureKey]: MainFeature } = {
+  infiniteChaos: {
     header: 'Infinite Chaos',
-    description: 'Calculate value of running infinite chaos dungeon.',
+    description: [
+      'Calculate the value of running infinite Chaos Dungeons.',
+      'To see potential profits, you can select how many shards you can collect in an hour.',
+    ],
     href: '/infinite-chaos',
   },
-  {
+  priceIndex: {
     header: 'Price index',
-    description: 'Adjust prices of your server to use in other features.',
+    description: [
+      'Lost Ark material and item prices information.',
+      'You can set your prices or opt-in to use a shared one.',
+      'The information will be saved on your browser but you can also choose to share it with others.',
+    ],
     href: '/price-index',
   },
-  {
+  currencyCalculator: {
     header: 'Currency Calculator',
-    description: 'Convert crystals, gold and real money to each other.',
+    description: [
+      'Convert Lost Ark currencies such as Royal Crystals, Gold, Crystals, and Pheons.',
+      'Add materials together to see the total value in gold.',
+    ],
     href: '/currency-calculator',
   },
-  {
+  strongholdCrafting: {
     header: 'Stronghold Crafting',
-    description:
-      'See profit margins for crafting various items in your stronghold.',
+    description: [
+      'Find which crafting recipe has the most profit.',
+      'Use your stronghold action points more efficiently.',
+    ],
     href: '/stronghold-crafting',
   },
-  {
+  secretMaps: {
     header: 'Secret Maps',
-    description: 'Compare secret map rewards based.',
+    description: [
+      'Compare expected gold rewards for different tier secret maps.',
+      'The cost is calculated based on minimum rewards.',
+    ],
     href: '/secret-maps',
   },
-  {
+  honingPlanner: {
     header: 'Honing Planner',
-    description: 'See average honing cost and optimal protection materials.',
+    description: [
+      'Calculate expected honing cost and success chance.',
+      'See optimal number of materials to use and the expected honing attempts to fail.',
+    ],
     href: '/honing',
   },
-];
+};

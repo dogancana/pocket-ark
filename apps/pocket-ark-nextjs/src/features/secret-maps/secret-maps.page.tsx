@@ -1,28 +1,26 @@
-import { Header, Container } from 'semantic-ui-react';
+import { Fragment } from 'react';
+import { Header } from 'semantic-ui-react';
+import { mainFeatures } from '../../services/site-constants';
 import { HeroSection, PageContainer } from '../../ui/layout';
 import { FC } from '../../utils';
 import { SecretMapsTable } from './secret-maps-table';
 
 export const SecretMapsPage: FC = () => {
+  const { header, description } = mainFeatures.secretMaps;
   return (
     <>
       <HeroSection>
-        <Header>Secret Maps</Header>
-        <p className="text-center">
-          You can see and compare expected average resources rewarded for
-          various maps.
-          <br />
-          These values are base (worst case) values and doesn't include
-          probability engraving books or gems.
-          <br />
-          <span className="text-xs font-light text-center mt-1">
-            There is no proper data to convert Rift pieces into map rewards. If
-            I find reliable data, rift piece to gold values for each map will be
-            added to this page.
-          </span>
+        <Header as="h1">{header}</Header>
+        <p>
+          {description.map((d) => (
+            <Fragment key={d}>
+              {d}
+              <br />
+            </Fragment>
+          ))}
         </p>
       </HeroSection>
-      <PageContainer>
+      <PageContainer className="mt-8">
         <SecretMapsTable />
       </PageContainer>
     </>

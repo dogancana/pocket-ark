@@ -4,13 +4,14 @@ import {
   CurrencyType,
 } from '@pocket-ark/lost-ark-data';
 import { isNumber } from 'lodash';
-import { useMemo, useReducer } from 'react';
+import { Fragment, useMemo, useReducer } from 'react';
 import { Header, Table } from 'semantic-ui-react';
 import {
   MaterialPopup,
   MaterialsLine,
   usePricingSource,
 } from '../../components';
+import { mainFeatures } from '../../services/site-constants';
 import {
   Currency,
   orderForTable,
@@ -45,6 +46,7 @@ const headers: SortableTableItem<keyof TableRecipe>[] = [
 ];
 
 export const StrongholdCraftingPage: FC = () => {
+  const { header, description } = mainFeatures.strongholdCrafting;
   const { pricedMaterialsObject, addMaterials } = usePricingSource();
 
   const [{ column, direction }, dispatch] = useReducer<
@@ -94,15 +96,17 @@ export const StrongholdCraftingPage: FC = () => {
   return (
     <>
       <HeroSection>
-        <Header>Stronghold Crafting</Header>
+        <Header as="h1">{header}</Header>
         <p>
-          In this page you can compare the cost and sale price of various
-          recipes that are available in stronghold workshop.
-          <br />
-          The values do not include researchs that reduce cost or time.
+          {description.map((d) => (
+            <Fragment key={d}>
+              {d}
+              <br />
+            </Fragment>
+          ))}
         </p>
       </HeroSection>
-      <PageContainer className="mb-12">
+      <PageContainer className="mt-8 mb-12">
         <Table singleLine sortable striped>
           <Table.Header>
             <SortableTableHeaders

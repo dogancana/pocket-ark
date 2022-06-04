@@ -1,22 +1,23 @@
 import { PricedMaterial } from '@pocket-ark/lost-ark-data';
 import { filter } from 'fuzzy';
-import { useCallback, useState, useMemo } from 'react';
+import { Fragment, useCallback, useMemo, useState } from 'react';
 import {
   Header,
   Search,
   SearchProps,
-  SearchResultData,
+  SearchResultData
 } from 'semantic-ui-react';
 import { MaterialBox, usePricingSource } from '../../components';
+import { mainFeatures } from '../../services/site-constants';
 import ErrorBoundary from '../../ui/error-boundry';
 import { HeroSection, PageContainer } from '../../ui/layout';
+import { RarityLine } from '../../ui/rarity';
 import { FC } from '../../utils';
 import { ItemFooter, PriceItem } from './common';
 import { CurrencySourceForm } from './currency-source-form';
 import { PriceSourceReferences } from './search-sources';
 import { SharePricingModal } from './share-pricing-modal';
 import { SourceSync } from './source-sync';
-import { RarityLine } from '../../ui/rarity';
 
 interface State {
   query?: string;
@@ -27,6 +28,7 @@ const MATERIALS_WITHOUT_PRICE = { title: 'Materials without price' };
 const STATIC_OPTIONS = [ALL_MATERIALS, { title: 'Materials without price' }];
 
 export const PriceIndexPage: FC = () => {
+  const { header, description } = mainFeatures.priceIndex;
   const {
     pricedMaterialsArray: materials,
     showShareModal,
@@ -65,13 +67,14 @@ export const PriceIndexPage: FC = () => {
       </ErrorBoundary>
 
       <HeroSection>
-        <Header>Price Index</Header>
+        <Header as="h1">{header}</Header>
         <p>
-          Read and write prices of materials in Lost Ark market. <br />
-          The prices provided here will be used by other tools in Pocket Ark.{' '}
-          <br />
-          The information will be saved on your browser but you can also choose
-          to share it with others. <br />
+          {description.map((d) => (
+            <Fragment key={d}>
+              {d}
+              <br />
+            </Fragment>
+          ))}
         </p>
         <ErrorBoundary message="Search sources">
           <PriceSourceReferences />

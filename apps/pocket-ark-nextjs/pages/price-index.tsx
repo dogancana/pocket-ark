@@ -1,7 +1,5 @@
 import { PricingSource } from '@pocket-ark/lost-ark-data';
-import {
-  getPricingPropsSSR
-} from '@pocket-ark/ssr-utils';
+import { getPricingPropsSSR } from '@pocket-ark/ssr-utils';
 import { GetServerSideProps } from 'next';
 import { PricingProvider } from '../src/components';
 import { PriceIndexPage } from '../src/features/price-index';

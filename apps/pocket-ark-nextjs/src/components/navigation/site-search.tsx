@@ -21,7 +21,7 @@ const resultRenderer = (feature: { href: string; title: string }) => (
 export const SiteSearch: FC = () => {
   const { push } = useRouter();
   const [state, setState] = useState<State>({ query: '' });
-  const results = filter(state.query || '', mainFeatures, {
+  const results = filter(state.query || '', Object.values(mainFeatures), {
     extract: (f) => f.header,
   })
     .map((r) => ({ href: r.original.href, title: r.original.header }))

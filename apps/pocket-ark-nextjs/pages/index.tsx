@@ -31,7 +31,14 @@ const Index = () => {
         />
       </div>
       <Container className="mt-16">
-        <Card.Group items={mainFeatures} stackable centered />
+        <Card.Group
+          items={Object.values(mainFeatures).map((f) => ({
+            ...f,
+            description: f.description[0],
+          }))}
+          stackable
+          centered
+        />
       </Container>
     </>
   );

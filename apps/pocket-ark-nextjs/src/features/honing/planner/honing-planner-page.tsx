@@ -1,20 +1,26 @@
+import { Fragment } from 'react';
 import { Header } from 'semantic-ui-react';
+import { mainFeatures } from '../../../services/site-constants';
+import ErrorBoundary from '../../../ui/error-boundry';
 import { HeroSection, PageContainer } from '../../../ui/layout';
 import { FC } from '../../../utils';
 import { HoningFilterProvider } from './filter/honing-filter-provider';
 import { HoningPlannerFilters } from './filter/honing-planner-filters';
 import { ItemsContainer } from './items-container';
-import ErrorBoundary from '../../../ui/error-boundry';
 
 export const HoningPlannerPage: FC = () => {
+  const { header, description } = mainFeatures.honingPlanner;
   return (
     <HoningFilterProvider>
       <HeroSection>
-        <Header>Honing Planner</Header>
+        <Header as="h1">{header}</Header>
         <p>
-          Calculate average honing cost according to your resources. <br />
-          You can see cost ranges by success rates and optimal protection
-          materials. <br />
+          {description.map((d) => (
+            <Fragment key={d}>
+              {d}
+              <br />
+            </Fragment>
+          ))}
           <span className="text-xs font-thin text-gray-500">
             Doesn't include values of silver and honor shards in gold
             calculations (YET).

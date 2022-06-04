@@ -1,19 +1,24 @@
+import { Fragment } from 'react';
 import { Header } from 'semantic-ui-react';
+import { mainFeatures } from '../../services/site-constants';
 import { HeroSection, PageContainer } from '../../ui/layout';
 import { FC } from '../../utils';
 import { CurrencyConverter } from './currency-converter';
 import { MaterialsCalculator } from './materials-calculator';
 
 export const CurrencyCalculatorPage: FC = () => {
+  const { header, description } = mainFeatures.currencyCalculator;
   return (
     <>
       <HeroSection>
-        <Header>Currency Tools</Header>
+        <Header as="h1">{header}</Header>
         <p>
-          Convert Lost Ark currencies such as Royal Crystals, Gold, Crystals and
-          Pheons.
-          <br />
-          Add materials together to see gold or real money value
+          {description.map((d) => (
+            <Fragment key={d}>
+              {d}
+              <br />
+            </Fragment>
+          ))}
         </p>
       </HeroSection>
       <PageContainer className="w-full mt-8 flex">
