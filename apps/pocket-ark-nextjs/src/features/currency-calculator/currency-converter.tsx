@@ -1,5 +1,5 @@
 import { CurrencyType } from '@pocket-ark/lost-ark-data';
-import { Fragment, useState } from 'react';
+import { useState, Fragment } from 'react';
 import { usePricingSource } from '../../components';
 import { Currency, CurrencyInput } from '../../ui';
 import { FC } from '../../utils';
@@ -8,24 +8,15 @@ interface State {
   values: { [key in CurrencyType]: number };
 }
 
-const Plus: FC = () => <div className="w-8 shrink-0 text-center">+</div>;
-const OR: FC = () => <span className="w-8 shrink-0 text-center">or</span>;
+const Operator: FC = ({ children }) => (
+  <div className="grow text-center">{children}</div>
+);
 
 const Box: FC = ({ children }) => (
-  <div className="grow border shadow-lg p-3 w-80">{children}</div>
+  <div className="border shadow-lg p-3 w-full h-16 flex items-center">
+    {children}
+  </div>
 );
-
-const GridContainer: FC = ({ children }) => (
-  <div className="w-full flex items-center justify-center">{children}</div>
-);
-
-const fixedDigits = {
-  [CurrencyType.Gold]: 0,
-  [CurrencyType.Silver]: 0,
-  [CurrencyType.RoyalCrystal]: 0,
-  [CurrencyType.Crystal]: 0,
-  [CurrencyType.RealMoney]: 2,
-};
 
 const editableCurrencies = [
   CurrencyType.RealMoney,
@@ -35,7 +26,13 @@ const editableCurrencies = [
   CurrencyType.Pheon,
 ];
 
-export const CurrencyConverter: FC = () => {
+interface CurrencyConverterProps {
+  className?: string;
+}
+
+export const CurrencyConverter: FC<CurrencyConverterProps> = ({
+  className,
+}) => {
   const { rates } = usePricingSource();
   const [state, setState] = useState<State>({
     values: {
@@ -61,8 +58,8 @@ export const CurrencyConverter: FC = () => {
   );
 
   return (
-    <>
-      <GridContainer>
+    <div className={`flex justify-center ${className || ''}`}>
+      <div className="flex flex-col w-2/5">
         {editableCurrencies.map((currency, i) => (
           <Fragment key={currency}>
             <Box>
@@ -73,19 +70,19 @@ export const CurrencyConverter: FC = () => {
                 defaultValue={0}
                 placeholder="0"
                 fluid
-                className="w-full"
+                className="h-full grow"
                 onChange={(e) => {
                   const value = parseInt(e.target.value, 10);
                   setCurrencyCount(currency, Number.isNaN(value) ? 0 : value);
                 }}
               />
             </Box>
-            {i < editableCurrencies.length - 1 && <Plus />}
+            <Operator>{i < editableCurrencies.length - 1 && '+'}</Operator>
           </Fragment>
         ))}
-      </GridContainer>
-      <p className="w-full text-center my-3">equals to</p>
-      <GridContainer>
+      </div>
+      <p className="text-center p-3 text-4xl flex items-center">=</p>
+      <div className="flex flex-col items-center w-2/5">
         {editableCurrencies.map((currency, i) => (
           <Fragment key={currency}>
             <Box>
@@ -95,10 +92,10 @@ export const CurrencyConverter: FC = () => {
                 value={totalInGold / rates[currency]}
               />
             </Box>
-            {i < editableCurrencies.length - 1 && <OR />}
+            <Operator>{i < editableCurrencies.length - 1 && 'or'}</Operator>
           </Fragment>
         ))}
-      </GridContainer>
-    </>
+      </div>
+    </div>
   );
 };

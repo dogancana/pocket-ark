@@ -1,5 +1,4 @@
 import { BodyItemSlot, CurrencyType } from '@pocket-ark/lost-ark-data';
-import { readableNumber } from 'apps/pocket-ark-nextjs/src/utils';
 import { Currency } from '../../../../ui';
 import { FC } from '../../../../utils/react';
 import { useHoningData } from '../data/use-honing-data';

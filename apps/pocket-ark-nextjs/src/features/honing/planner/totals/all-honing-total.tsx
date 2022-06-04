@@ -5,6 +5,7 @@ import {
   MaterialsToCraft,
 } from '@pocket-ark/lost-ark-data';
 import { flatten } from 'lodash';
+import { useState } from 'react';
 import { Divider } from 'semantic-ui-react';
 import { usePricingSource } from '../../../../components';
 import { MaterialsLine } from '../../../../components/materials/materials-line';
@@ -12,6 +13,7 @@ import { Currency } from '../../../../ui/currency/currency';
 import { FC } from '../../../../utils';
 import { sortMaterials } from '../../utils';
 import { useHoningData } from '../data';
+import { ExcludedMaterials } from './excluded-materials';
 
 interface SlotTotals {
   materials: MaterialsToCraft;
@@ -20,9 +22,16 @@ interface SlotTotals {
   shards: number;
 }
 
+interface State {
+  excludedMaterials: MaterialsToCraft;
+}
+
 export const AllHoningTotal: FC = () => {
   const honingData = useHoningData();
   const { pricedMaterialsObject, addMaterials } = usePricingSource();
+  const [{ excludedMaterials }, setState] = useState<State>({
+    excludedMaterials: [],
+  });
 
   const flattened = flatten(honingData.map((d) => d.costs));
 
@@ -55,7 +64,16 @@ export const AllHoningTotal: FC = () => {
     }
   );
 
-  const totalCost = addMaterials(totals.materials);
+  const totalCost = addMaterials(
+    totals.materials.map((m) => {
+      const alreadyHave = excludedMaterials.find((e) => e.type === m.type);
+      const amount = alreadyHave
+        ? Math.max(0, m.amount - alreadyHave.amount)
+        : m.amount;
+      return { type: m.type, amount };
+    })
+  );
+
   const pricedMaterials = sortMaterials(totals.materials).map((m) => ({
     ...pricedMaterialsObject[m.type],
     amount: m.amount,
@@ -88,16 +106,21 @@ export const AllHoningTotal: FC = () => {
         <div>
           <div className="flex items-center">
             Mats. Cost:
-            <div>
+            <div className="flex align-center">
               <Currency
                 type={CurrencyType.Gold}
                 value={totalCost}
-                className="ml-3"
+                className="mx-3"
               />
+              <ExcludedMaterials onMaterialsChanged={onMaterialsExcluded} />
             </div>
           </div>
         </div>
       </div>
     </div>
   );
+
+  function onMaterialsExcluded(materials: MaterialsToCraft) {
+    setState((p) => ({ ...p, excludedMaterials: materials }));
+  }
 };

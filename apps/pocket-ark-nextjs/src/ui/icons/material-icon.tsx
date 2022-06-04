@@ -28,7 +28,7 @@ export const MaterialIcon: FC<MaterialIconProps> = ({
 
   return (
     <div
-      className="relative inline-flex rounded-lg overflow-hidden z-0"
+      className="relative inline-flex rounded-lg overflow-hidden z-0 shrink-0"
       style={{ width: overrides?.width || 40, height: overrides?.height || 40 }}
     >
       {!hideBackgroud && (

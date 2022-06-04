@@ -77,7 +77,7 @@ export function upgradeLegendary(
     ...p,
     materials: [
       {
-        type: MaterialType.SimpleOrehaFusionMaterial,
+        type: MaterialType.BasicOrehaFusionMaterial,
         amount: p.basicOreha,
       },
       {

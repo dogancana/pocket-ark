@@ -43,6 +43,7 @@ export const SiteSearch: FC = () => {
     <Search
       value={state.query}
       results={results || []}
+      placeholder="Site search"
       minCharacters={0}
       selectFirstResult
       noResultsMessage="No results found"

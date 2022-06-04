@@ -41,8 +41,10 @@ async function _upsertPricingSource(
       },
       { upsert }
     );
+    client.close();
     return meta;
   } catch (e) {
+    console.error(e);
     client.close();
     throw e;
   }
@@ -60,9 +62,12 @@ export async function getPricingSourcebyReference(
       { 'meta.reference': reference },
       { projection: { 'meta.key': 0, _id: 0 } }
     );
-    return res;
-  } finally {
     client.close();
+    return res;
+  } catch (e) {
+    console.error(e);
+    client.close();
+    throw e;
   }
 }
 
@@ -111,9 +116,13 @@ export async function searchPricingSource(query: string) {
       },
     ]);
 
-    return await res.toArray();
-  } finally {
+    const result = await res.toArray();
     client.close();
+    return result;
+  } catch (e) {
+    console.error(e);
+    client.close();
+    throw e;
   }
 }
 
@@ -126,14 +135,14 @@ export async function removeSource(key: string, reference: string) {
       .db(MongoDbNames.Public)
       .collection(MongoDbCollections.PricingSource);
 
+    client.close();
     return collection.deleteOne({
       'meta.reference': reference,
       'meta.key': key,
     });
   } catch (e) {
-    console.error(e);
-  } finally {
     client.close();
+    console.error(e);
+    throw e;
   }
-  return undefined;
 }
