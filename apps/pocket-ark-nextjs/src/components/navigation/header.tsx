@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Container } from 'semantic-ui-react';
+import { Container, Icon } from 'semantic-ui-react';
 import { FC } from '../../utils';
 import { SiteSearch } from './site-search';
 
@@ -13,8 +13,13 @@ export const Header: FC = () => (
         <Link href="/" passHref>
           <a className="px-3 text-stone-800 text-xl font-bold">POCKET ARK</a>
         </Link>
-        <div className="flex ml-auto">
+        <div className="flex ml-auto items-center">
           <SiteSearch />
+          <Link href="https://discord.gg/j8bAsPux" passHref>
+            <a className="ml-2 text-stone-400">
+              <Icon name="discord" size="big" />
+            </a>
+          </Link>
         </div>
       </nav>
     </Container>
