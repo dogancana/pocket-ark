@@ -8,7 +8,7 @@ const Sitemap = () => {
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   const baseURL = req.headers.host;
   const urls = Object.values(mainFeatures).map(
-    ({ href }) => `${baseURL}${href}`
+    ({ href }) => `https://${baseURL}${href}`
   );
 
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
