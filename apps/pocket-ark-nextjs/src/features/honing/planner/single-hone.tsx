@@ -2,7 +2,7 @@ import { CurrencyType } from '@pocket-ark/lost-ark-data';
 import { CSSProperties, MouseEventHandler, useRef, useState } from 'react';
 import { Currency } from '../../../ui';
 import { MaterialIcon } from '../../../ui/icons';
-import { FC, readableNumber } from '../../../utils';
+import { FC } from '../../../utils';
 import { SingleLevelHoningWithTotals } from '../models';
 import { Icon } from 'semantic-ui-react';
 
@@ -128,6 +128,10 @@ export const SingleHone: FC<SingleHoneProps> = ({
     </div>
   );
 };
+
+export function readableNumber(num: number, maximumFractionDigits = 0) {
+  return num?.toLocaleString([], { maximumFractionDigits });
+}
 
 function createGradientStyle(midPerc = 50): CSSProperties {
   return {
