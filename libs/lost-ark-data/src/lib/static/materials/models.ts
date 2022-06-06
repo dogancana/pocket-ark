@@ -57,10 +57,27 @@ export enum MaterialType {
   MetallurgyAppliedWelding = 'MetallurgyAppliedWelding',
 }
 
+export type MaterialCategory =
+  | 'honingMaterials'
+  | 'additionalHoningMaterials'
+  | 'otherMaterials'
+  | 'recoveryBattleItem'
+  | 'offenseBattleItem'
+  | 'utilityBattleItem'
+  | 'buffBattleItem'
+  | 'cooking'
+  | 'foraging'
+  | 'logging'
+  | 'mining'
+  | 'hunting'
+  | 'fishing'
+  | 'excavating';
+
 export interface Material {
   type: MaterialType;
   name: string;
   rarity: Rarity;
   chaosDungeonShards?: number;
   saleAmount?: number;
+  category: MaterialCategory;
 }

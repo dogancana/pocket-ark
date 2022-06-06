@@ -1,4 +1,8 @@
-import { CurrencyType, MaterialType } from '@pocket-ark/lost-ark-data';
+import {
+  CurrencyType,
+  MaterialCategory,
+  MaterialType
+} from '@pocket-ark/lost-ark-data';
 import { ReactNode } from 'react';
 import { MaterialValues } from '../../components';
 import { FC } from '../../utils';
@@ -39,3 +43,36 @@ export const PriceTitle: FC<{ name: string; amount?: number }> = ({
     {amount && <span className="ml-2 font-thin"> (x{amount})</span>}
   </span>
 );
+
+export function readableCategory(category: MaterialCategory) {
+  switch (category) {
+    case 'honingMaterials':
+      return 'Honing Materials';
+    case 'additionalHoningMaterials':
+      return 'Additional Honing Materials';
+    case 'otherMaterials':
+      return 'Other Materials';
+    case 'recoveryBattleItem':
+      return 'Recovery Battle Item';
+    case 'offenseBattleItem':
+      return 'Offense Battle Item';
+    case 'utilityBattleItem':
+      return 'Utility Battle Item';
+    case 'buffBattleItem':
+      return 'Buff Battle Item';
+    case 'cooking':
+      return 'Cooking';
+    case 'foraging':
+      return 'Foraging';
+    case 'logging':
+      return 'Logging';
+    case 'mining':
+      return 'Mining';
+    case 'hunting':
+      return 'Hunting';
+    case 'fishing':
+      return 'Fishing';
+    case 'excavating':
+      return 'Excavating';
+  }
+}
