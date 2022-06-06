@@ -45,7 +45,7 @@ export const HoningPlannerFilters: FC = () => {
                 <label htmlFor="avgChance" className="inline-flex flex-col">
                   <span>Average expected probability:</span>
                   <span className="text-xs text-gray-500 font-thin">
-                    0: Lucky, 99: Unlucky
+                    0: Lucky, 99: Unlucky. [40-60] is a realistic
                   </span>
                 </label>
               }

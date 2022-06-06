@@ -79,6 +79,10 @@ export const AllHoningTotal: FC = () => {
     amount: m.amount,
   }));
 
+  if (totals.gold === 0) {
+    return <span className="text-gray-500">Nothing to calculate</span>;
+  }
+
   return (
     <div>
       <Divider />

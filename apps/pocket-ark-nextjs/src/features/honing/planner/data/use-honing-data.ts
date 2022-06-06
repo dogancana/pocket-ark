@@ -1,18 +1,14 @@
 import {
-  armorHoningCosts,
-  weaponHoningCosts,
-  BodyItemSlot,
+  armorHoningCosts, BodyItemSlot,
   MaterialsToCraft,
-  MaterialType,
-  rarityOrder,
-  SingleLevelHoning,
+  MaterialType, SingleLevelHoning, weaponHoningCosts
 } from '@pocket-ark/lost-ark-data';
 import { flattenDeep } from 'lodash';
 import { usePricingSource } from '../../../../components';
 import {
   HoningCosts,
   SingleLevelHoningWithAttempts,
-  SingleLevelHoningWithTotals,
+  SingleLevelHoningWithTotals
 } from '../../models';
 import { limitProtection, protection } from '../../utils';
 import { useHoningFilter } from '../filter/honing-filter-provider';
@@ -179,14 +175,11 @@ function expectedCost(
 }
 
 function getIsPlanned(cost: SingleLevelHoning, fromItem: Item, toItem: Item) {
-  const fromRarity = rarityOrder.findIndex((r) => r === fromItem.rarity) * 1000;
-  const itemRarity = rarityOrder.findIndex((r) => r === cost.rarirty) * 1000;
-  const toRarity = rarityOrder.findIndex((r) => r === toItem.rarity) * 1000;
+  if (cost.toLevel > toItem.level || cost.fromLevel < fromItem.level) {
+    return false;
+  }
 
-  return (
-    fromRarity + fromItem.level <= itemRarity + cost.fromLevel &&
-    toRarity + toItem.level >= itemRarity + cost.toLevel
-  );
+  return true;
 }
 
 function mapCostsForAttemptToSucceed(

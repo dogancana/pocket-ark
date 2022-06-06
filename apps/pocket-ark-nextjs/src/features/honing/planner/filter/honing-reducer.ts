@@ -1,4 +1,8 @@
-import { BodyItemSlot, Rarity } from '@pocket-ark/lost-ark-data';
+import {
+  BodyItemSlot,
+  itemLevelLimits,
+  Rarity,
+} from '@pocket-ark/lost-ark-data';
 import { Reducer } from 'react';
 import { Item } from './models';
 
@@ -60,7 +64,7 @@ export const reducer: Reducer<State, Action> = (
           delete newItem.direction;
           delete newItem.type;
 
-          const max = maxLevel(newItem.rarity);
+          const { max } = itemLevelLimits(newItem.rarity);
           newItem.level = Math.min(newItem.level, max);
           return newItem;
         }),
@@ -81,17 +85,6 @@ export const reducer: Reducer<State, Action> = (
       return state;
   }
 };
-
-function maxLevel(rarity: Rarity) {
-  switch (rarity) {
-    case Rarity.Epic:
-      return 15;
-    case Rarity.Legendary:
-      return 20;
-    case Rarity.Relic:
-      return 25;
-  }
-}
 
 function getChanceValue(prop: string | number) {
   const parsed = parseInt(prop.toString(), 10);
