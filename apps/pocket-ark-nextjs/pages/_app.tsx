@@ -9,7 +9,7 @@ import './styles.less';
 export const App = ({ Component, pageProps, router }: AppProps) => {
   const path = router.asPath;
   const feature = Object.values(mainFeatures).find((f) =>
-    path.includes(f.href)
+    new RegExp(`${f.href}$`).test(path)
   );
 
   return (

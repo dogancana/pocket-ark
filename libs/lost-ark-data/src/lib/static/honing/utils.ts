@@ -1,5 +1,5 @@
 import { MaterialType } from '../materials/models';
-import { MaterialsToCraft } from '../models/index';
+import { MaterialsToCraft, Rarity } from '../models/index';
 import { BodyItemType, SingleLevelHoning } from './models';
 
 export function feed(p: {
@@ -96,3 +96,14 @@ export function upgradeLegendary(
 }
 
 export const upgradeRelic = upgradeLegendary;
+
+export function itemLevelLimits(rarity: Rarity) {
+  switch (rarity) {
+    case Rarity.Relic:
+      return { min: 17, max: 25 };
+    case Rarity.Legendary:
+      return { min: 1, max: 20 };
+    default:
+      return { min: 1, max: 25 };
+  }
+}

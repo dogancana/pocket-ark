@@ -1,3 +1,3 @@
-export function readableNumber(num: number) {
-  return num?.toLocaleString([], { maximumFractionDigits: 0 });
+export function readableNumber(num: number, maximumFractionDigits = 0) {
+  return num?.toLocaleString([], { maximumFractionDigits });
 }

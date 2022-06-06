@@ -10,7 +10,8 @@ export type FeatureKey =
   | 'currencyCalculator'
   | 'strongholdCrafting'
   | 'secretMaps'
-  | 'honingPlanner';
+  | 'honingPlanner'
+  | 'honingProtection';
 
 export const mainFeatures: { [key in FeatureKey]: MainFeature } = {
   infiniteChaos: {
@@ -61,5 +62,13 @@ export const mainFeatures: { [key in FeatureKey]: MainFeature } = {
       'See optimal number of materials to use and the expected honing attempts to fail.',
     ],
     href: '/honing',
+  },
+  honingProtection: {
+    header: 'Honing Protection',
+    description: [
+      'See fair values for honing protection materials.',
+      'Give current upgrade cost and chance to see added value of protection honing materials.',
+    ],
+    href: '/honing-protection',
   },
 };

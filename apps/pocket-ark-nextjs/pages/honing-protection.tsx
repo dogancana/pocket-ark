@@ -2,7 +2,7 @@ import { PricingSource } from '@pocket-ark/lost-ark-data';
 import { getPricingPropsSSR } from '@pocket-ark/ssr-utils';
 import { GetServerSideProps } from 'next';
 import { PricingProvider } from '../src/components';
-import { SecretMapsPage } from '../src/features/secret-maps';
+import { HoningProtectionPage } from '../src/features/honing';
 import { FC } from '../src/utils';
 
 interface Props {
@@ -11,7 +11,7 @@ interface Props {
 
 const Page: FC<Props> = ({ source }) => (
   <PricingProvider source={source}>
-    <SecretMapsPage />
+    <HoningProtectionPage />
   </PricingProvider>
 );
 
