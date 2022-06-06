@@ -115,17 +115,14 @@ export const SingleHone: FC<SingleHoneProps> = ({
                   </div>
                 ))}
               </div>
-              {attempt.flattenChanceUnprotected < 1 && (
-                <div className="text-sm text-gray-500 mt-3">
-                  P: {(attempt.flattenChanceUnprotected * 100).toFixed(2)}%
-                  {attempt.flattenChanceProtected > 0 &&
-                    attempt.flattenChanceProtected !==
-                      attempt.flattenChanceUnprotected && (
-                      <span className="text-gray-400 ml-2">
-                        ({(attempt.flattenChanceProtected * 100).toFixed(2)}%)
-                      </span>
-                    )}
-                </div>
+              {singleLevelHoning.chance.maxAttempts > 1 && (
+                <span className="text-xs text-gray-500 mt-3">
+                  {readableNumber(
+                    (100 / singleLevelHoning.chance.maxAttempts) * index,
+                    2
+                  )}
+                  %
+                </span>
               )}
             </div>
           ))}
