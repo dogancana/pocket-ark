@@ -106,45 +106,52 @@ export const PriceSourceReferences: FC = () => {
   };
 
   return (
-    <form className="flex items-stretch my-6" onSubmit={onSubmit}>
-      <Search
-        size="large"
-        loading={loading}
-        minCharacters={2}
-        selectFirstResult
-        disabled={!!source.meta?.reference}
-        placeholder="Search price sources..."
-        onResultSelect={(e, data) => {
-          setState((s) => ({
-            ...s,
-            query: data.result.description,
-            reference: data.result.reference,
-          }));
-        }}
-        resultRenderer={resultRenderer as any}
-        onSearchChange={(e, data) => handleSearchChange(data.value)}
-        results={metas || []}
-        value={query}
-      />
+    <>
+      <form className="flex items-stretch mt-6" onSubmit={onSubmit}>
+        <Search
+          size="large"
+          loading={loading}
+          minCharacters={2}
+          selectFirstResult
+          disabled={!!source.meta?.reference}
+          placeholder="Search price sources..."
+          onResultSelect={(e, data) => {
+            setState((s) => ({
+              ...s,
+              query: data.result.description,
+              reference: data.result.reference,
+            }));
+          }}
+          resultRenderer={resultRenderer as any}
+          onSearchChange={(e, data) => handleSearchChange(data.value)}
+          results={metas || []}
+          value={query}
+        />
 
+        {!source.meta && (
+          <Button
+            disabled={!reference}
+            primary
+            loading={applyingReference}
+            onClick={applyReference}
+          >
+            Apply reference
+          </Button>
+        )}
+
+        {source.meta && (
+          <Button loading={applyingReference} onClick={optOut}>
+            <Button.Content visible>
+              {isOwner ? 'Delete reference key' : 'Opt out'}
+            </Button.Content>
+          </Button>
+        )}
+      </form>
       {!source.meta && (
-        <Button
-          disabled={!reference}
-          primary
-          loading={applyingReference}
-          onClick={applyReference}
-        >
-          Apply reference
-        </Button>
+        <span className="mt-3 text-sm text-gray-500">
+          Try searching EUC, NAE etc..
+        </span>
       )}
-
-      {source.meta && (
-        <Button loading={applyingReference} onClick={optOut}>
-          <Button.Content visible>
-            {isOwner ? 'Delete reference key' : 'Opt out'}
-          </Button.Content>
-        </Button>
-      )}
-    </form>
+    </>
   );
 };
