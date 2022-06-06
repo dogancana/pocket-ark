@@ -2,11 +2,9 @@ import { CurrencyType } from '@pocket-ark/lost-ark-data';
 import { CSSProperties, MouseEventHandler, useRef, useState } from 'react';
 import { Currency } from '../../../ui';
 import { MaterialIcon } from '../../../ui/icons';
-import { FC } from '../../../utils';
+import { FC, readableNumber } from '../../../utils';
 import { SingleLevelHoningWithTotals } from '../models';
 import { Icon } from 'semantic-ui-react';
-import { readableNumber } from '../../../utils';
-import { AbosoluteRarityBackground, RarityLine } from '../../../ui/rarity';
 
 export interface SingleHoneProps {
   singleLevelHoning: SingleLevelHoningWithTotals;
