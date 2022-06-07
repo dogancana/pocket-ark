@@ -68,7 +68,7 @@ export const secretMaps: SecretMap[] = [
         amount: 1,
       },
       {
-        type: MaterialType.StarsBreath,
+        type: MaterialType.MoonsBreath,
         amount: 10,
       },
     ],
@@ -82,7 +82,7 @@ export const secretMaps: SecretMap[] = [
         amount: 2,
       },
       {
-        type: MaterialType.StarsBreath,
+        type: MaterialType.MoonsBreath,
         amount: 15,
       },
     ],
