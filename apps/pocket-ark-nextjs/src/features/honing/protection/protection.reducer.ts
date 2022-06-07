@@ -4,6 +4,7 @@ import {
   itemLevelLimits,
   MaterialsToCraft,
   Rarity,
+  SingleLevelHoning,
   weaponHoningCosts,
 } from '@pocket-ark/lost-ark-data';
 import { Reducer } from 'react';
@@ -14,6 +15,7 @@ export interface State {
   rarity?: Rarity;
   artisan: number;
   honingMaterials: MaterialsToCraft;
+  costs?: SingleLevelHoning;
 }
 
 export type Action =
@@ -23,7 +25,7 @@ export type Action =
   | { type: 'SET_ARTISAN'; artisan: string }
   | { type: 'SET_STATE'; state: State };
 
-export const initial: State = {
+const _initial: State = {
   itemType: 'weapon',
   honingMaterials:
     weaponHoningCosts.find((c) => c.toLevel === 15).upgrade.materials || [],
@@ -31,6 +33,8 @@ export const initial: State = {
   rarity: Rarity.Legendary,
   artisan: 0,
 };
+
+export const initial = mapStateWIthHoning(_initial);
 
 export const reducer: Reducer<State, Action> = (state, action) => {
   switch (action.type) {
@@ -83,5 +87,6 @@ function mapStateWIthHoning(state: State): State {
   return {
     ...state,
     honingMaterials: costs?.upgrade.materials,
+    costs,
   };
 }

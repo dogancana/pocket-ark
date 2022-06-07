@@ -7,6 +7,7 @@ import { MaterialIcon } from '../../../ui/icons/material-icon';
 import { FC } from '../../../utils';
 import { readableNumber } from '../../../utils/numbers';
 import { protection } from '../utils';
+import { MaterialPopup } from '../../../components';
 
 export interface ProtectionResultsProps {
   protectionMaterials: ReturnType<typeof protection>;
@@ -57,13 +58,15 @@ export const ProtectionResults: FC<ProtectionResultsProps> = ({
           <Table.Body>
             {sortedMaterials.map((m) => (
               <Table.Row key={m.type}>
-                <Table.Cell className="flex items-center">
-                  <MaterialIcon
-                    type={m.type}
-                    overrides={{ width: 25, height: 25 }}
-                  />
-                  <span className="ml-3">{m.name}</span>
-                </Table.Cell>
+                <MaterialPopup material={m}>
+                  <Table.Cell className="flex items-center">
+                    <MaterialIcon
+                      type={m.type}
+                      overrides={{ width: 25, height: 25 }}
+                    />
+                    <span className="ml-3">{m.name}</span>
+                  </Table.Cell>
+                </MaterialPopup>
                 <Table.Cell>
                   <Currency type={CurrencyType.Gold} value={m.price} />
                 </Table.Cell>

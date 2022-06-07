@@ -1,6 +1,8 @@
 import {
   armorHoningCosts,
   BodyItemType,
+  CurrencyItemType,
+  CurrencyType,
   MaterialType,
   weaponHoningCosts,
 } from '@pocket-ark/lost-ark-data';
@@ -16,17 +18,26 @@ import { protection } from '../utils';
 import { HoningProtectionFilters } from './filters';
 import { initial, reducer } from './protection.reducer';
 import { ProtectionResults } from './results';
+import { Currency } from '../../../ui';
 
 export const HoningProtectionPage: FC = () => {
   const { pricedMaterialsObject, addMaterials } = usePricingSource();
   const { header, description } = mainFeatures.honingProtection;
-  const [{ honingMaterials, toLevel, artisan, rarity, itemType }, dispatch] =
-    useReducer(reducer, initial);
+  const [
+    { honingMaterials, toLevel, artisan, rarity, itemType, costs },
+    dispatch,
+  ] = useReducer(reducer, initial);
   const materials =
     honingMaterials?.map((m) => ({
       ...pricedMaterialsObject[m.type],
       amount: m.amount,
     })) || [];
+
+  const currencies = [
+    { type: CurrencyType.Gold, amount: costs?.upgrade.gold },
+    { type: CurrencyType.Silver, amount: costs?.upgrade.silver },
+    { type: CurrencyItemType.HonorShard, amount: costs?.upgrade.shards },
+  ];
 
   const protectionMaterials = mapStateWithHoningMaterials(
     {
@@ -64,8 +75,17 @@ export const HoningProtectionPage: FC = () => {
             />
           </div>
           {materials.length > 0 && (
-            <div className="pt-8 px-2">
+            <div className="pt-8 px-2 flex items-center">
               <MaterialsLine materials={materials} />
+              {currencies.map(({ type, amount }) => (
+                <Currency
+                  key={type}
+                  type={type}
+                  value={amount}
+                  size={20}
+                  className="ml-3"
+                />
+              ))}
             </div>
           )}
         </div>
