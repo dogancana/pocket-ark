@@ -11,6 +11,7 @@ import {
 import { MapIcon } from '../../ui/icons';
 import { SortableTableHeaders } from '../../ui/sortable-table';
 import { FC } from '../../utils';
+import { rarityBackground } from '../../ui/rarity';
 
 interface TableSecretMap extends SecretMap {
   name: string;
@@ -56,10 +57,15 @@ export const SecretMapsTable: FC = () => {
           <Table.Row key={secretMap.name} className="py-4">
             <Table.Cell>
               <div className="flex items-center">
-                <MapIcon
-                  secretMap={secretMap}
-                  overrides={{ width: 25, height: 25 }}
-                />
+                <div
+                  className="flex rounded-md p-0.5"
+                  style={rarityBackground(secretMap.rarity)}
+                >
+                  <MapIcon
+                    secretMap={secretMap}
+                    overrides={{ width: 25, height: 25, layout: 'fixed' }}
+                  />
+                </div>
                 <span className="ml-2">{secretMap.name}</span>
               </div>
             </Table.Cell>

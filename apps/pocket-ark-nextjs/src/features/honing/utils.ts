@@ -7,8 +7,42 @@ import {
 import { usePricingSource } from '../../components';
 
 export function allowedGrace(toLevel) {
+  if (toLevel >= 22) return 48;
+  if (toLevel >= 18) return 36;
   if (toLevel >= 12) return 24;
   if (toLevel >= 7) return 12;
+  return 0;
+}
+
+export function allowedProtection(toLevel: number) {
+  if (toLevel >= 22) {
+    return {
+      [MaterialType.SolarGrace]: 48,
+      [MaterialType.SolarBlessing]: 10,
+      [MaterialType.SolarProtection]: 8,
+    };
+  }
+  if (toLevel >= 18) {
+    return {
+      [MaterialType.SolarGrace]: 36,
+      [MaterialType.SolarBlessing]: 15,
+      [MaterialType.SolarProtection]: 6,
+    };
+  }
+  if (toLevel >= 12) {
+    return {
+      [MaterialType.SolarGrace]: 24,
+      [MaterialType.SolarBlessing]: 12,
+      [MaterialType.SolarProtection]: 4,
+    };
+  }
+  if (toLevel >= 7) {
+    return {
+      [MaterialType.SolarGrace]: 12,
+      [MaterialType.SolarBlessing]: 6,
+      [MaterialType.SolarProtection]: 2,
+    };
+  }
   return 0;
 }
 
@@ -50,21 +84,22 @@ export function protection(
   const isWeapon = armorType === 'weapon';
   const isArmor = armorType === 'armor';
   const hasLevelForExtra = toLevel > 7 && toLevel < 16;
+  const allowed = allowedProtection(toLevel);
 
   return [
     {
       type: MaterialType.SolarGrace,
-      allowed: allowedGrace(toLevel),
+      allowed: allowed[MaterialType.SolarGrace],
       chancePerMat: chanceIncreasePerMaterialType,
     },
     {
       type: MaterialType.SolarBlessing,
-      allowed: allowedGrace(toLevel) / 2,
+      allowed: allowed[MaterialType.SolarBlessing],
       chancePerMat: chanceIncreasePerMaterialType,
     },
     {
       type: MaterialType.SolarProtection,
-      allowed: allowedGrace(toLevel) / 6,
+      allowed: allowed[MaterialType.SolarProtection],
       chancePerMat: chanceIncreasePerMaterialType,
     },
     {
