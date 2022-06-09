@@ -23,6 +23,7 @@ export const GroupedMaterials: FC<GroupedMaterialsProps> = ({
           <>
             {!noGroups && showHeader && (
               <Header
+                key={m.category}
                 as="h3"
                 className="col-span-full m-0"
                 style={{ padding: '10px 0 0 6px', margin: 0 }}

@@ -1,7 +1,16 @@
+import { MouseEventHandler } from 'react';
 import { usePricingSource } from '../../components';
 import { Alert } from '../../ui';
 import { FC } from '../../utils';
 import { relativeDate } from '../../utils/time';
+import { Popup } from 'semantic-ui-react';
+
+const prompt: MouseEventHandler = (e) => {
+  const code = e.target as HTMLElement;
+  const anchor = code.closest('a') as HTMLAnchorElement;
+  e.preventDefault();
+  window.prompt('Copy to clipboard: Ctrl+C, Enter', anchor?.href);
+};
 
 export const SourceSync: FC = () => {
   const { source, setShowShareModal } = usePricingSource();
@@ -20,12 +29,13 @@ export const SourceSync: FC = () => {
           setShowShareModal(true);
         }}
       >
-        <p>
+        <p className="cursor-pointer">
           <strong>Share your pricing list!</strong>
           <br />
           You can share it with other people. Whenever you make an update to
           your pricing list, it'll be synced with other people who has your
-          reference code.
+          refrence code. <br />
+          Click this box to share!
         </p>
       </Alert>
     );
@@ -41,12 +51,7 @@ export const SourceSync: FC = () => {
           <br />
           <a
             className="cursor-pointer"
-            onClick={(e) => {
-              const code = e.target as HTMLElement;
-              const anchor = code.closest('a') as HTMLAnchorElement;
-              e.preventDefault();
-              window.prompt('Copy to clipboard: Ctrl+C, Enter', anchor?.href);
-            }}
+            onClick={prompt}
             href={`/api/pricing-sources/apply/${meta.reference}`}
           >
             <code className="text-xs">
@@ -54,7 +59,30 @@ export const SourceSync: FC = () => {
             </code>
           </a>
           <br />
-          <span className="text-xs font-thin">Updated {lastUpdatedDate}</span>
+          <div className="flex w-full items-center">
+            <span className="text-xs font-thin">Updated {lastUpdatedDate}</span>
+            <Popup
+              trigger={
+                <a
+                  className="ml-auto"
+                  onClick={prompt}
+                  href={`/api/pricing-sources/apply/${meta.reference}?key=${meta.key}`}
+                >
+                  <code className="text-xs">Share with contributors</code>
+                </a>
+              }
+            >
+              <Popup.Content>
+                <p>
+                  When you share your price index with write permission, people
+                  who follows the link will have exactly same ownership as you
+                  do. Whoever updates prices on their browser, will be updating
+                  prices for everyone using this reference. <br />
+                  Once it's done, it cannot be undone.
+                </p>
+              </Popup.Content>
+            </Popup>
+          </div>
         </p>
       </Alert>
     );

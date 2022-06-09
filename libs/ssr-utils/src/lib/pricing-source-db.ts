@@ -51,16 +51,19 @@ async function _upsertPricingSource(
 }
 
 export async function getPricingSourcebyReference(
-  reference: string
+  reference: string,
+  key?: string
 ): Promise<PricingSource | null> {
   try {
     await client.connect();
     const collection = await client
       .db(MongoDbNames.Public)
       .collection(MongoDbCollections.PricingSource);
+    const projection: Record<string, unknown> = { _id: 0 };
+    if (!key) projection['meta.key'] = 0;
     const res = await collection.findOne<PricingSource>(
       { 'meta.reference': reference },
-      { projection: { 'meta.key': 0, _id: 0 } }
+      { projection }
     );
     client.close();
     return res;

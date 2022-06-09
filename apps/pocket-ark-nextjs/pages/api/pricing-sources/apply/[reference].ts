@@ -2,18 +2,26 @@ import { COOKIES } from '@pocket-ark/lost-ark-data';
 import {
   getPricingSourcebyReference,
   removePricingSourceFromCookies,
+  setPricingSourceToCookies,
 } from '@pocket-ark/ssr-utils';
-import { setCookies } from 'cookies-next';
+import { setCookies, removeCookies } from 'cookies-next';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 const controller = async (req: NextApiRequest, res: NextApiResponse) => {
   const reference = req.query.reference as string;
   if (!reference) return res.status(400).send('No reference provided');
 
+  const key = req.query.key as string | undefined;
+
   const apply = async () => {
-    const source = await getPricingSourcebyReference(reference);
+    const source = await getPricingSourcebyReference(reference, key);
     removePricingSourceFromCookies(req, res);
-    setCookies(COOKIES.reference, reference, { req, res });
+    if (key) {
+      setPricingSourceToCookies(source, req, res);
+      removeCookies(COOKIES.reference, { req, res });
+    } else {
+      setCookies(COOKIES.reference, reference, { req, res });
+    }
     return source;
   };
 
