@@ -4,3 +4,4 @@ export * from './icons';
 export * from './info';
 export * from './sortable-table';
 export * from './page-with-meta';
+export * from './breakpoints';

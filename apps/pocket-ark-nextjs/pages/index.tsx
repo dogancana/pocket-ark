@@ -8,7 +8,7 @@ const Index = () => {
       <div className="w-full relative" style={{ height: '50vh' }}>
         <Container className="h-full text-center">
           <div className="flex justify-center items-center h-full text-4xl w-2/3 m-auto">
-            <p className="text-4xl">
+            <p className="text-xl md:text-4xl">
               <strong>POCKET ARK</strong> is set of tools to help you on your
               journeys throughout Arkesia
               <br />
@@ -30,7 +30,7 @@ const Index = () => {
           objectPosition="top"
         />
       </div>
-      <Container className="mt-16">
+      <Container className="mt-8">
         <Card.Group
           items={Object.values(mainFeatures).map((f) => ({
             ...f,
