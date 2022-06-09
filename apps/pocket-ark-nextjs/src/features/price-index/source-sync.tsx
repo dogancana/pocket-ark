@@ -25,7 +25,7 @@ export const SourceSync: FC = () => {
           <br />
           You can share it with other people. Whenever you make an update to
           your pricing list, it'll be synced with other people who has your
-          refrence code.
+          reference code.
         </p>
       </Alert>
     );
