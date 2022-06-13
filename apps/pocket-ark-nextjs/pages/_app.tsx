@@ -11,6 +11,9 @@ export const App = ({ Component, pageProps, router }: AppProps) => {
   const feature = Object.values(mainFeatures).find((f) =>
     new RegExp(`${f.href}$`).test(path)
   );
+  const desc = [...feature.description, ...feature.metaDescription]
+    .filter((v) => !!v)
+    .join(' ');
 
   return (
     <>
@@ -40,10 +43,7 @@ export const App = ({ Component, pageProps, router }: AppProps) => {
       </Head>
       <main className="bg-gradient-to-br from-stone-50 to-stone-200 h-screen overflow-auto">
         <Header />
-        <PageWithMeta
-          subTitle={feature?.header}
-          description={feature?.description?.join(' ')}
-        >
+        <PageWithMeta subTitle={feature?.header} description={desc}>
           <Component {...pageProps} />
         </PageWithMeta>
       </main>

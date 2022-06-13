@@ -1,6 +1,7 @@
 export interface MainFeature {
   header: string;
   description: string[];
+  metaDescription?: string[];
   href: string;
 }
 
@@ -37,6 +38,7 @@ export const mainFeatures: { [key in FeatureKey]: MainFeature } = {
       'Convert Lost Ark currencies such as Royal Crystals, Gold, Crystals, and Pheons.',
       'Add materials together to see the total value in gold.',
     ],
+    metaDescription: ['See how much gold does a pheon cost in Lost Ark.'],
     href: '/currency-calculator',
   },
   strongholdCrafting: {
@@ -58,9 +60,10 @@ export const mainFeatures: { [key in FeatureKey]: MainFeature } = {
   honingPlanner: {
     header: 'Honing Planner',
     description: [
-      'Calculate expected honing cost and success chance.',
-      'See optimal number of materials to use and the expected honing attempts to fail.',
+      'Calculate expected honing materials and currency costs.',
+      'See optimal number of honing protection materials to use and the expected honing attempts to fail.',
     ],
+    metaDescription: ['Simple honing calculator for Lost Ark.'],
     href: '/honing',
   },
   honingProtection: {
@@ -68,6 +71,9 @@ export const mainFeatures: { [key in FeatureKey]: MainFeature } = {
     description: [
       'See fair values for honing protection materials.',
       'Give current upgrade cost and chance to see added value of protection honing materials.',
+    ],
+    metaDescription: [
+      'Lost ark honing calculator to see optimal number of honing protection materials to use.',
     ],
     href: '/honing-protection',
   },
