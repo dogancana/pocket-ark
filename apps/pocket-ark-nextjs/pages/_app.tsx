@@ -11,7 +11,10 @@ export const App = ({ Component, pageProps, router }: AppProps) => {
   const feature = Object.values(mainFeatures).find((f) =>
     new RegExp(`${f.href}$`).test(path)
   );
-  const desc = [...feature.description, ...feature.metaDescription]
+  const desc = [
+    ...(feature?.description || []),
+    ...(feature?.metaDescription || []),
+  ]
     .filter((v) => !!v)
     .join(' ');
 
