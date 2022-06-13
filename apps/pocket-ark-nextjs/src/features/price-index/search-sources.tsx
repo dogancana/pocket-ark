@@ -1,5 +1,5 @@
 import { setPricingSourceToCookies } from '@pocket-ark/fe-utils';
-import { COOKIES, PriceSourceMeta } from '@pocket-ark/lost-ark-data';
+import { COOKIES, PriceSourceMeta, materials } from '@pocket-ark/lost-ark-data';
 import { removeCookies } from 'cookies-next';
 import {
   FormEventHandler,
@@ -27,12 +27,14 @@ interface State {
 
 const resultRenderer = (meta: PriceSourceMeta) => (
   <div className="flex justify-between items-center">
-    <span>
-      {meta.description} ({meta.region})
-    </span>
-    <span className="ml-2 text-xs font-thin text-right">
-      Updated: {relativeDate(meta.lastUpdatedAtISO)}
-    </span>
+    <div className="">
+      <span className="flex">
+        {meta.description} ({meta.region})
+      </span>
+      <span className="text-xs font-thin text-gray-500">
+        Updated: {relativeDate(meta.lastUpdatedAtISO)}
+      </span>
+    </div>
   </div>
 );
 
@@ -124,7 +126,7 @@ export const PriceSourceReferences: FC = () => {
           }}
           resultRenderer={resultRenderer as any}
           onSearchChange={(e, data) => handleSearchChange(data.value)}
-          results={metas || []}
+          results={metas.slice(0, 10) || []}
           value={query}
         />
 

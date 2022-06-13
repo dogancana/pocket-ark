@@ -109,13 +109,13 @@ export async function searchPricingSource(query: string) {
         },
       },
       {
-        $limit: 10,
-      },
-      {
         $project: {
           _id: 0,
           'meta.key': 0,
         },
+      },
+      {
+        $limit: 100,
       },
     ]);
 
