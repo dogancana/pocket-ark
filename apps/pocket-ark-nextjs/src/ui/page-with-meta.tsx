@@ -12,15 +12,20 @@ export const PageWithMeta: FC<PageWithMetaProps> = ({
   subTitle,
   description,
   children,
-}) => (
-  <>
-    <Head>
-      {title && <title>{title}</title>}
-      {subTitle && <title>Pocket Ark - {subTitle}</title>}
-      {description && (
-        <meta key="description" name="description" content={description} />
-      )}
-    </Head>
-    {children}
-  </>
-);
+}) => {
+  return (
+    <>
+      <Head>
+        {title && <title>{title}</title>}
+        {subTitle && <title>Pocket Ark - {subTitle}</title>}
+        {description && (
+          <meta key="description" name="description" content={description} />
+        )}
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:type" content="website" />
+      </Head>
+      {children}
+    </>
+  );
+};
