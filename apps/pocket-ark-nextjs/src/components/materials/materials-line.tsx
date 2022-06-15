@@ -1,6 +1,6 @@
 import { PricedMaterial } from '@pocket-ark/lost-ark-data';
 import { MaterialPopup } from '.';
-import { FC } from '../../utils';
+import { FC } from '../../utils/react';
 import { MaterialCount } from './material-count';
 
 export interface MaterialCountProps {

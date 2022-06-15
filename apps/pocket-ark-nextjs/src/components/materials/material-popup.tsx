@@ -1,7 +1,7 @@
 import { PricedMaterial } from '@pocket-ark/lost-ark-data';
 import { useCallback, useRef } from 'react';
 import { Popup, PopupProps } from 'semantic-ui-react';
-import { FC } from '../../utils';
+import { FC } from '../../utils/react';
 import { MaterialBox } from './material-box';
 
 export interface MateriaPopupProps extends PopupProps {

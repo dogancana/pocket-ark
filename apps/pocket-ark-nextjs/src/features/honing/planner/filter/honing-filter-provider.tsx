@@ -5,7 +5,7 @@ import {
   useReducer,
   useEffect,
 } from 'react';
-import { FC } from '../../../../utils';
+import { FC } from '../../../../utils/react';
 import { initalFromSet, initialToSet, STATE_STORAGE_KEY } from './constants';
 import { Action, reducer } from './honing-reducer';
 import { Item } from './models';

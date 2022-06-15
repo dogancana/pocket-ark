@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Container, Icon } from 'semantic-ui-react';
 import { Logo, useMediaSM } from '../../ui';
-import { FC } from '../../utils';
+import { FC } from '../../utils/react';
 import { SiteSearch } from './site-search';
 
 export const Header: FC = () => {

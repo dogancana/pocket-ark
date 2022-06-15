@@ -22,7 +22,7 @@ import {
 } from '../../ui';
 import { MaterialIcon } from '../../ui/icons';
 import { HeroSection, PageContainer } from '../../ui/layout';
-import { FC } from '../../utils';
+import { FC } from '../../utils/react';
 import { readableSeconds } from '../../utils/time';
 
 interface TableRecipe extends CraftingRecipe {

@@ -1,6 +1,6 @@
 import { MaterialType } from '@pocket-ark/lost-ark-data';
 import { MaterialIcon } from '../../ui/icons/material-icon';
-import { FC } from '../../utils';
+import { FC } from '../../utils/react';
 
 interface MaterialCountProps {
   type: MaterialType;

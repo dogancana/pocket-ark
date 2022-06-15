@@ -1,5 +1,5 @@
 import { Container } from 'semantic-ui-react';
-import { FC } from '../../utils';
+import { FC } from '../../utils/react';
 
 export const HeroSection: FC = ({ children }) => (
   <section className="py-8 bg-gradient-to-br from-stone-300 to-stone-50">

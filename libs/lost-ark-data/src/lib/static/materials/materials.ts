@@ -264,7 +264,7 @@ export const materials: Material[] = [
     name: 'Heavy Iron Ore',
     rarity: Rarity.Uncommon,
     saleAmount: 10,
-    category: 'foraging',
+    category: 'mining',
   },
   {
     type: MaterialType.TenderTimber,
@@ -327,7 +327,7 @@ export const materials: Material[] = [
     name: 'Oreha Solar Carp',
     rarity: Rarity.Rare,
     saleAmount: 10,
-    category: 'hunting',
+    category: 'fishing',
   },
   {
     type: MaterialType.CaldarrRelic,

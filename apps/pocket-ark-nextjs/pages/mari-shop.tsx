@@ -2,7 +2,7 @@ import { PricingSource } from '@pocket-ark/lost-ark-data';
 import { getPricingPropsSSR } from '@pocket-ark/ssr-utils';
 import { GetServerSideProps } from 'next';
 import { PricingProvider } from '../src/components';
-import { CurrencyCalculatorPage } from '../src/features/currency-calculator';
+import { MarisShopPage } from '../src/features/maris-shop';
 import { FC } from '../src/utils/react';
 
 interface Props {
@@ -11,7 +11,7 @@ interface Props {
 
 const Page: FC<Props> = ({ source }) => (
   <PricingProvider source={source}>
-    <CurrencyCalculatorPage />
+    <MarisShopPage />
   </PricingProvider>
 );
 

@@ -1,6 +1,6 @@
 import { CurrencyItemType, CurrencyType } from '@pocket-ark/lost-ark-data';
 import Image, { ImageProps } from 'next/image';
-import { FC } from '../../utils';
+import { FC } from '../../utils/react';
 
 export interface CurrencyIconProps {
   type: CurrencyType | CurrencyItemType;

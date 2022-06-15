@@ -5,7 +5,7 @@ import {
 import { GetServerSideProps } from 'next';
 import { PricingProvider } from '../src/components';
 import { StrongholdCraftingPage } from '../src/features/stronghold-crafting';
-import { FC } from '../src/utils';
+import { FC } from '../src/utils/react';
 
 interface Props {
   source: PricingSource;

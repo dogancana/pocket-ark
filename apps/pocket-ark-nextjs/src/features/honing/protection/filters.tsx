@@ -1,7 +1,7 @@
 import { BodyItemType, Rarity } from '@pocket-ark/lost-ark-data';
 import { Dispatch } from 'react';
 import { Dropdown, Input } from 'semantic-ui-react';
-import { FC } from '../../../utils';
+import { FC } from '../../../utils/react';
 import { Action } from './protection.reducer';
 
 const rarities: Rarity[] = [Rarity.Legendary, Rarity.Relic];

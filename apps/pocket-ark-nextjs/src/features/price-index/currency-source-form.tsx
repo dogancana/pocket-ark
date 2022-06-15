@@ -5,7 +5,7 @@ import {
 import { debounce } from 'lodash';
 import { usePricingSource } from '../../components';
 import { Currency, CurrencyInput, CurrencyInputProps } from '../../ui';
-import { FC } from '../../utils';
+import { FC } from '../../utils/react';
 import { ItemFooter, PriceItem } from './common';
 
 const Wrapper: FC = ({ children }) => (

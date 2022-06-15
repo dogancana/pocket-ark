@@ -1,7 +1,7 @@
 import { MouseEventHandler } from 'react';
 import { usePricingSource } from '../../components';
 import { Alert } from '../../ui';
-import { FC } from '../../utils';
+import { FC } from '../../utils/react';
 import { relativeDate } from '../../utils/time';
 import { Popup } from 'semantic-ui-react';
 

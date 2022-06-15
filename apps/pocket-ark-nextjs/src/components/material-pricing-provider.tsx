@@ -21,7 +21,7 @@ import {
 } from 'react';
 import { putPricingSource } from '../services';
 import { Alert } from '../ui';
-import { FC } from '../utils';
+import { FC } from '../utils/react';
 
 export interface PricingProviderProps {
   source: PricingSource;

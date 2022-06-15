@@ -1,5 +1,5 @@
 import Image, { ImageProps } from 'next/image';
-import { FC } from '../../utils';
+import { FC } from '../../utils/react';
 
 export interface LogoProps {
   overrides?: Partial<Omit<ImageProps, 'src'>>;

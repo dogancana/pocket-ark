@@ -14,7 +14,7 @@ import {
   SortableTableReducer,
   sortableTableReducer,
 } from '../../ui';
-import { FC } from '../../utils';
+import { FC } from '../../utils/react';
 
 export interface InfiniteChaosTableProps {
   shardsPerHour?: number;

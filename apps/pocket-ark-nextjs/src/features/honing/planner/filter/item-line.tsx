@@ -2,7 +2,7 @@ import { Rarity } from '@pocket-ark/lost-ark-data';
 import { capitalize } from 'lodash';
 import { Dispatch } from 'react';
 import { Dropdown, Icon } from 'semantic-ui-react';
-import { FC } from '../../../../utils';
+import { FC } from '../../../../utils/react';
 import { Action } from './honing-reducer';
 import { Item } from './models';
 

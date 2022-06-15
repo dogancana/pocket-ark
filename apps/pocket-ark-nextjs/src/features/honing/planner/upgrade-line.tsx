@@ -1,6 +1,6 @@
 import { BodyItemSlot, SingleLevelHoning } from '@pocket-ark/lost-ark-data';
 import { capitalize } from 'lodash';
-import { FC } from '../../../utils';
+import { FC } from '../../../utils/react';
 import { useHoningData } from './data';
 import { SingleHone } from './single-hone';
 import { HoneTotal } from './totals';

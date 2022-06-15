@@ -13,7 +13,7 @@ import { MaterialsLine } from '../../../components/materials/materials-line';
 import { mainFeatures } from '../../../services/site-constants';
 import { HeroSection } from '../../../ui/layout';
 import { PageContainer } from '../../../ui/layout/layout';
-import { FC } from '../../../utils';
+import { FC } from '../../../utils/react';
 import { protection } from '../utils';
 import { HoningProtectionFilters } from './filters';
 import { initial, reducer } from './protection.reducer';

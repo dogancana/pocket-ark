@@ -2,7 +2,7 @@ import { CurrencyType } from '@pocket-ark/lost-ark-data';
 import { useState, useEffect } from 'react';
 import { Divider, Icon, Modal, Popup } from 'semantic-ui-react';
 import { Currency } from '../../../../ui/currency/currency';
-import { FC } from '../../../../utils';
+import { FC } from '../../../../utils/react';
 import { useHoningFilter } from './honing-filter-provider';
 import { ItemLine } from './item-line';
 import { STATE_STORAGE_KEY } from './constants';

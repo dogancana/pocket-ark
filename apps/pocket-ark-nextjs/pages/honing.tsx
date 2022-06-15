@@ -3,7 +3,7 @@ import { getPricingPropsSSR } from '@pocket-ark/ssr-utils';
 import { GetServerSideProps } from 'next';
 import { PricingProvider } from '../src/components';
 import { HoningPlannerPage } from '../src/features/honing';
-import { FC } from '../src/utils';
+import { FC } from '../src/utils/react';
 
 interface Props {
   source: PricingSource;

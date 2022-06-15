@@ -1,7 +1,7 @@
 import { CurrencyItemType, CurrencyType } from '@pocket-ark/lost-ark-data';
 import { Input, InputProps } from 'semantic-ui-react';
 import { CurrencyIcon } from '../icons';
-import { FC } from '../../utils';
+import { FC } from '../../utils/react';
 
 export interface CurrencyInputProps extends InputProps {
   iconType: CurrencyType | CurrencyItemType;

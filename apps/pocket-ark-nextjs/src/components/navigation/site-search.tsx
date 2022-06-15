@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { useCallback, useState } from 'react';
 import { Search, SearchProps, SearchResultData } from 'semantic-ui-react';
 import { mainFeatures } from '../../services';
-import { FC } from '../../utils';
+import { FC } from '../../utils/react';
 
 interface State {
   query: string;

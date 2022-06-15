@@ -2,7 +2,7 @@ import { CurrencyType } from '@pocket-ark/lost-ark-data';
 import { useState, Fragment } from 'react';
 import { usePricingSource } from '../../components';
 import { Currency, CurrencyInput } from '../../ui';
-import { FC } from '../../utils';
+import { FC } from '../../utils/react';
 
 interface State {
   values: { [key in CurrencyType]: number };

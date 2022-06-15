@@ -4,10 +4,11 @@ import { Table } from 'semantic-ui-react';
 import { usePricingSource } from '../../../components/material-pricing-provider';
 import { Currency } from '../../../ui';
 import { MaterialIcon } from '../../../ui/icons/material-icon';
-import { FC } from '../../../utils';
+import { FC } from '../../../utils/react';
 import { readableNumber } from '../../../utils/numbers';
 import { protection } from '../utils';
 import { MaterialPopup } from '../../../components';
+import { mapScoreColor } from '../../../utils/score';
 
 export interface ProtectionResultsProps {
   protectionMaterials: ReturnType<typeof protection>;
@@ -92,25 +93,4 @@ export const ProtectionResults: FC<ProtectionResultsProps> = ({
 function showNumber(value: number, fragments = 0) {
   if (isNaN(value)) return '?';
   return readableNumber(value, fragments);
-}
-
-function mapScoreColor(number: number) {
-  switch (true) {
-    case number > 1.5:
-      return 'text-green-500';
-    case number > 1.25:
-      return 'text-green-400';
-    case number > 1:
-      return 'text-green-300';
-    case number === 0:
-      return '';
-    case number < 1:
-      return 'text-red-300';
-    case number < 0.75:
-      return 'text-red-400';
-    case number < 0.5:
-      return 'text-red-500';
-    default:
-      return '';
-  }
 }

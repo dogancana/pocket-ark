@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import { FC } from '../utils';
+import { FC } from '../utils/react';
 
 export interface PageWithMetaProps {
   title?: string;

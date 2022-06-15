@@ -1,4 +1,4 @@
-import { FC } from '../../utils';
+import { FC } from '../../utils/react';
 
 export const StoneCutterPage: FC = () => {
   return (

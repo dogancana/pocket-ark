@@ -1,6 +1,6 @@
 import { Material } from '@pocket-ark/lost-ark-data';
 import { MaterialIcon } from '../../ui';
-import { FC } from '../../utils';
+import { FC } from '../../utils/react';
 import { MaterialPrice } from './material-price';
 
 export interface MaterialBoxProps {

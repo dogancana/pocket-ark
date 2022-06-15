@@ -3,10 +3,10 @@ import { Header } from 'semantic-ui-react';
 import { mainFeatures } from '../../services/site-constants';
 import { HeroSection, PageContainer } from '../../ui/layout';
 import { FC } from '../../utils/react';
-import { SecretMapsTable } from './secret-maps-table';
+import { MariShopTable } from './mari-shop-table';
 
-export const SecretMapsPage: FC = () => {
-  const { header, description } = mainFeatures.secretMaps;
+export const MarisShopPage: FC = () => {
+  const { header, description } = mainFeatures.mariShop;
   return (
     <>
       <HeroSection>
@@ -20,8 +20,8 @@ export const SecretMapsPage: FC = () => {
           ))}
         </p>
       </HeroSection>
-      <PageContainer className="mt-8">
-        <SecretMapsTable />
+      <PageContainer className="mt-8 pb-20">
+        <MariShopTable />
       </PageContainer>
     </>
   );

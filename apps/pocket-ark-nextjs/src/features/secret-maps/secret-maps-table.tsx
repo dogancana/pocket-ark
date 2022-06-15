@@ -10,7 +10,7 @@ import {
 } from '../../ui';
 import { MapIcon } from '../../ui/icons';
 import { SortableTableHeaders } from '../../ui/sortable-table';
-import { FC } from '../../utils';
+import { FC } from '../../utils/react';
 import { rarityBackground } from '../../ui/rarity';
 
 interface TableSecretMap extends SecretMap {

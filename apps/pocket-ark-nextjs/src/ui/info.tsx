@@ -1,4 +1,4 @@
-import { FC } from '../utils';
+import { FC } from '../utils/react';
 import { Container } from 'semantic-ui-react';
 import { DetailedHTMLProps, HTMLAttributes } from 'react';
 

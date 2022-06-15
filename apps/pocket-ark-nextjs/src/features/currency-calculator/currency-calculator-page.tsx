@@ -2,7 +2,7 @@ import { Fragment } from 'react';
 import { Header } from 'semantic-ui-react';
 import { mainFeatures } from '../../services/site-constants';
 import { HeroSection, PageContainer } from '../../ui/layout';
-import { FC } from '../../utils';
+import { FC } from '../../utils/react';
 import { CurrencyConverter } from './currency-converter';
 import { MaterialsCalculator } from './materials-calculator';
 

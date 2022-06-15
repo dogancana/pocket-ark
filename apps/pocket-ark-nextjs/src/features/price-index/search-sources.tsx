@@ -14,7 +14,7 @@ import {
   applyPricingSourceReference,
   searchPricingSources,
 } from '../../services';
-import { FC } from '../../utils';
+import { FC } from '../../utils/react';
 import { relativeDate } from '../../utils/time';
 
 interface State {

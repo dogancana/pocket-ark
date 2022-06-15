@@ -1,6 +1,6 @@
 import { CurrencyItemType, CurrencyType } from '@pocket-ark/lost-ark-data';
 import { isNumber } from 'lodash';
-import { FC } from '../../utils';
+import { FC } from '../../utils/react';
 import { CurrencyIcon } from '../icons';
 
 interface CurrencyProps {

@@ -3,7 +3,7 @@ import { Header } from 'semantic-ui-react';
 import { mainFeatures } from '../../../services/site-constants';
 import ErrorBoundary from '../../../ui/error-boundry';
 import { HeroSection, PageContainer } from '../../../ui/layout';
-import { FC } from '../../../utils';
+import { FC } from '../../../utils/react';
 import { HoningFilterProvider } from './filter/honing-filter-provider';
 import { HoningPlannerFilters } from './filter/honing-planner-filters';
 import { ItemsContainer } from './items-container';

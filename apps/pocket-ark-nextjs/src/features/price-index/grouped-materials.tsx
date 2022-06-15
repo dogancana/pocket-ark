@@ -2,8 +2,9 @@ import { PricedMaterial } from '@pocket-ark/lost-ark-data';
 import { Header } from 'semantic-ui-react';
 import { MaterialBox } from '../../components';
 import { RarityLine } from '../../ui/rarity';
-import { FC } from '../../utils';
+import { FC } from '../../utils/react';
 import { ItemFooter, PriceItem, readableCategory } from './common';
+import { Fragment } from 'react';
 
 export interface GroupedMaterialsProps {
   filteredMaterials: PricedMaterial[];
@@ -20,7 +21,7 @@ export const GroupedMaterials: FC<GroupedMaterialsProps> = ({
         const prev = filteredMaterials[i - 1];
         const showHeader = !prev || prev.category !== m.category;
         return (
-          <>
+          <Fragment key={m.type}>
             {!noGroups && showHeader && (
               <Header
                 key={m.category}
@@ -36,7 +37,7 @@ export const GroupedMaterials: FC<GroupedMaterialsProps> = ({
               <RarityLine rarity={m.rarity} className="h-1 mt-2 opacity-40" />
               <ItemFooter />
             </PriceItem>
-          </>
+          </Fragment>
         );
       })}
     </>

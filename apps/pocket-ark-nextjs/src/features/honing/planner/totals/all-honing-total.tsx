@@ -10,7 +10,7 @@ import { Divider } from 'semantic-ui-react';
 import { usePricingSource } from '../../../../components';
 import { MaterialsLine } from '../../../../components/materials/materials-line';
 import { Currency } from '../../../../ui/currency/currency';
-import { FC } from '../../../../utils';
+import { FC } from '../../../../utils/react';
 import { sortMaterials } from '../../utils';
 import { useHoningData } from '../data';
 import { ExcludedMaterials } from './excluded-materials';

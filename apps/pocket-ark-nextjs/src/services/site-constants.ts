@@ -12,7 +12,8 @@ export type FeatureKey =
   | 'strongholdCrafting'
   | 'secretMaps'
   | 'honingPlanner'
-  | 'honingProtection';
+  | 'honingProtection'
+  | 'mariShop';
 
 export const mainFeatures: { [key in FeatureKey]: MainFeature } = {
   infiniteChaos: {
@@ -76,5 +77,14 @@ export const mainFeatures: { [key in FeatureKey]: MainFeature } = {
       'Lost ark honing calculator to see optimal number of honing protection materials to use.',
     ],
     href: '/honing-protection',
+  },
+  mariShop: {
+    header: "Mari's Shop",
+    description: [
+      "Is it worth buying materials from Mari's Shop?",
+      "See gold values of possible Mari's Shop materials and chec if it's efficient to buy with blue crystals.",
+    ],
+    metaDescription: ['Lost Ark, Mari Shop calculator'],
+    href: '/mari-shop',
   },
 };

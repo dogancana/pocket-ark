@@ -5,7 +5,7 @@ import {
 } from '@pocket-ark/lost-ark-data';
 import { ReactNode } from 'react';
 import { MaterialValues } from '../../components';
-import { FC } from '../../utils';
+import { FC } from '../../utils/react';
 
 export const PriceItem: FC = ({ children }) => (
   <div className=" border-2 rounded-md m-1 flex flex-col relative z-0">

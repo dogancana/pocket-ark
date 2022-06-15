@@ -1,18 +1,20 @@
 import { materials, MaterialType } from '@pocket-ark/lost-ark-data';
 import Image, { ImageProps } from 'next/image';
-import { FC } from '../../utils';
+import { FC } from '../../utils/react';
 import { AbosoluteRarityBackground } from '../rarity';
 
 export interface MaterialIconProps {
   type: MaterialType;
   overrides?: Partial<Omit<ImageProps, 'src'>>;
   hideBackgroud?: boolean;
+  className?: string;
 }
 
 export const MaterialIcon: FC<MaterialIconProps> = ({
   type,
   overrides,
   hideBackgroud,
+  className,
 }) => {
   const rarity = materials.find((m) => m.type === type)?.rarity;
   const path = (icon: string) => `/assets/materials/${icon}.webp`;
@@ -28,7 +30,9 @@ export const MaterialIcon: FC<MaterialIconProps> = ({
 
   return (
     <div
-      className="relative inline-flex rounded-lg overflow-hidden z-0 shrink-0"
+      className={`relative inline-flex rounded-lg overflow-hidden z-0 shrink-0 ${
+        className || ''
+      }`}
       style={{ width: overrides?.width || 40, height: overrides?.height || 40 }}
     >
       {!hideBackgroud && (

@@ -4,7 +4,7 @@ import { usePricingSource } from '../../components';
 import { mainFeatures } from '../../services/site-constants';
 import ErrorBoundary from '../../ui/error-boundry';
 import { HeroSection, PageContainer } from '../../ui/layout';
-import { FC } from '../../utils';
+import { FC } from '../../utils/react';
 import { CurrencySourceForm } from './currency-source-form';
 import { GroupedMaterials } from './grouped-materials';
 import { PriceSourceReferences } from './search-sources';

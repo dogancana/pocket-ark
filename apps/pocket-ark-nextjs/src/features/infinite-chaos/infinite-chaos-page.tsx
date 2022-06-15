@@ -1,5 +1,5 @@
 import { useState, Fragment } from 'react';
-import { FC } from '../../utils';
+import { FC } from '../../utils/react';
 import { InfiniteChaosTable } from './infinite-chaos-table';
 import { Input, Header } from 'semantic-ui-react';
 import { HeroSection, PageContainer } from '../../ui/layout';

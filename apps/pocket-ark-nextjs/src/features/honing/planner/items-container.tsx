@@ -1,5 +1,5 @@
 import ErrorBoundary from '../../../ui/error-boundry';
-import { FC } from '../../../utils';
+import { FC } from '../../../utils/react';
 import { useHoningData } from './data';
 import { useHoningFilter } from './filter/honing-filter-provider';
 import { AllHoningTotal } from './totals';

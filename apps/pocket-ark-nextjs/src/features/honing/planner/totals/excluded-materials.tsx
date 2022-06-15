@@ -1,7 +1,7 @@
 import { MaterialsToCraft } from '@pocket-ark/lost-ark-data';
 import { useState, useEffect } from 'react';
 import { Icon, Modal } from 'semantic-ui-react';
-import { FC } from '../../../../utils';
+import { FC } from '../../../../utils/react';
 import { MaterialAddition } from '../../../../components';
 
 interface State {

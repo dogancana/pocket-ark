@@ -33,8 +33,9 @@ const Index = () => {
       <Container className="mt-8">
         <Card.Group
           items={Object.values(mainFeatures).map((f) => ({
-            ...f,
+            header: f.header,
             description: f.description[0],
+            href: f.href,
           }))}
           stackable
           centered

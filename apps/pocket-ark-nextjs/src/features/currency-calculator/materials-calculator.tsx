@@ -1,4 +1,4 @@
-import { FC } from '../../utils';
+import { FC } from '../../utils/react';
 import { MaterialAddition, usePricingSource } from '../../components';
 import { CurrencyType, MaterialsToCraft } from '@pocket-ark/lost-ark-data';
 import { useState } from 'react';

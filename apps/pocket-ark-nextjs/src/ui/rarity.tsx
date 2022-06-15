@@ -1,6 +1,6 @@
 import { Rarity } from '@pocket-ark/lost-ark-data';
 import { CSSProperties } from 'react';
-import { FC } from '../utils';
+import { FC } from '../utils/react';
 
 const rarityColors: { [key in Rarity]?: string } = {
   [Rarity.Common]: '#a9a9a9',
