@@ -4,7 +4,7 @@ import {
 } from '@pocket-ark/lost-ark-data';
 import { debounce } from 'lodash';
 import { usePricingSource } from '../../components';
-import { Currency, CurrencyInput, CurrencyInputProps } from '../../ui';
+import { Currency, CurrencyInput } from '../../ui';
 import { FC } from '../../utils/react';
 import { ItemFooter, PriceItem } from './common';
 
@@ -24,12 +24,6 @@ const Label: FC = ({ children }) => (
 );
 
 const Equals: FC = () => <span className="mx-1">=</span>;
-
-const inputProps: Partial<CurrencyInputProps> = {
-  fluid: true,
-  className: 'grow',
-  type: 'number',
-};
 
 export const CurrencySourceForm: FC = () => {
   const { source, setCurrencyConversionSource } = usePricingSource();

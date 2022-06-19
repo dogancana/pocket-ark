@@ -34,18 +34,16 @@ export const STATIC_OPTIONS = [
 export function useFilteredMaterials() {
   const { pricedMaterialsArray: materials } = usePricingSource();
 
-  const sortedMaterials = useMemo(
-    () =>
-      sortBy(materials, (m) => {
-        const index = categorySorting.findIndex((c) => c === m.category);
-        if (index === -1) return Number.MAX_SAFE_INTEGER;
+  const sortedMaterials = useMemo(() => {
+    return sortBy(materials, (m) => {
+      const index = categorySorting.findIndex((c) => c === m.category);
+      if (index === -1) return Number.MAX_SAFE_INTEGER;
 
-        const rarityIndex = raritySorting.findIndex((r) => r === m.rarity);
+      const rarityIndex = raritySorting.findIndex((r) => r === m.rarity);
 
-        return index * 100 + rarityIndex;
-      }),
-    [materials]
-  );
+      return index * 100 + rarityIndex;
+    });
+  }, [materials]);
 
   const [state, setState] = useState<State>({
     query: ALL_MATERIALS.name,
@@ -78,7 +76,15 @@ export function useFilteredMaterials() {
   };
 
   const onSelected = (_, data: SearchResultData) => {
-    onQueryChanged(data.result.title);
+    if (data.result.title === MATERIALS_WITHOUT_PRICE.name) {
+      setState((p) => ({
+        ...p,
+        query: MATERIALS_WITHOUT_PRICE.name,
+        materials: p.materials.filter((m) => !m.price),
+      }));
+    } else {
+      onQueryChanged(data.result.title);
+    }
   };
 
   const setQuery = (_, data: SearchProps) => onQueryChanged(data.value);

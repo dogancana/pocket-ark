@@ -6,6 +6,7 @@
     "lost-ark-data": "libs/lost-ark-data",
     "pocket-ark-nextjs": "apps/pocket-ark-nextjs",
     "pocket-ark-nextjs-e2e": "apps/pocket-ark-nextjs-e2e",
-    "ssr-utils": "libs/ssr-utils"
+    "ssr-utils": "libs/ssr-utils",
+    "utils": "libs/utils"
   }
 }

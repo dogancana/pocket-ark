@@ -59,7 +59,6 @@ export const PriceIndexPage: FC = () => {
             />
           </div>
           <CurrencySourceForm />
-          <div />
           <GroupedMaterials
             filteredMaterials={materials}
             noGroups={!allVisible}
