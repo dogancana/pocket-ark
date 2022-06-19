@@ -1,11 +1,16 @@
-import { categorySorting, PricedMaterial } from '@pocket-ark/lost-ark-data';
+import {
+  categorySorting,
+  PricedMaterial,
+  Rarity,
+  raritySorting,
+} from '@pocket-ark/lost-ark-data';
 import { filter } from 'fuzzy';
 import { sortBy } from 'lodash';
 import { useMemo, useState } from 'react';
 import {
   SearchProps,
   SearchResultData,
-  StrictSearchResultProps
+  StrictSearchResultProps,
 } from 'semantic-ui-react';
 import { usePricingSource } from '../../components';
 
@@ -34,7 +39,10 @@ export function useFilteredMaterials() {
       sortBy(materials, (m) => {
         const index = categorySorting.findIndex((c) => c === m.category);
         if (index === -1) return Number.MAX_SAFE_INTEGER;
-        return index;
+
+        const rarityIndex = raritySorting.findIndex((r) => r === m.rarity);
+
+        return index * 100 + rarityIndex;
       }),
     [materials]
   );

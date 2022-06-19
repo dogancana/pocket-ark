@@ -1,4 +1,5 @@
 import { MaterialCategory } from './models';
+import { Rarity } from '../models/index';
 
 export const categorySorting: MaterialCategory[] = [
   'honingMaterials',
@@ -15,4 +16,13 @@ export const categorySorting: MaterialCategory[] = [
   'hunting',
   'fishing',
   'excavating',
+];
+
+export const raritySorting: Rarity[] = [
+  Rarity.Common,
+  Rarity.Uncommon,
+  Rarity.Rare,
+  Rarity.Epic,
+  Rarity.Legendary,
+  Rarity.Ancient,
 ];
