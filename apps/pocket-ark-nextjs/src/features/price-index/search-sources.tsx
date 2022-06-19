@@ -1,5 +1,5 @@
 import { setPricingSourceToCookies } from '@pocket-ark/fe-utils';
-import { COOKIES, PriceSourceMeta, materials } from '@pocket-ark/lost-ark-data';
+import { COOKIES, PriceSourceMeta } from '@pocket-ark/lost-ark-data';
 import { removeCookies } from 'cookies-next';
 import {
   FormEventHandler,

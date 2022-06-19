@@ -16,6 +16,7 @@ export const categorySorting: MaterialCategory[] = [
   'hunting',
   'fishing',
   'excavating',
+  'cooking'
 ];
 
 export const raritySorting: Rarity[] = [

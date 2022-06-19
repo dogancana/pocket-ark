@@ -23,7 +23,6 @@ import {
 import { MaterialIcon } from '../../ui/icons';
 import { HeroSection, PageContainer } from '../../ui/layout';
 import { FC } from '../../utils/react';
-import { readableSeconds } from '../../utils/time';
 
 interface TableRecipe extends CraftingRecipe {
   totalPrice?: number;
@@ -37,8 +36,6 @@ const headers: SortableTableItem<keyof TableRecipe>[] = [
   { label: 'Recipe', column: 'outputMaterial', notSortable: true },
   { label: 'Materials', column: 'materialsTotal' },
   { label: 'Cost', column: 'requiredGold' },
-  { label: 'Energy', column: 'requiredActionEnergy' },
-  { label: 'Time', column: 'seconds' },
   { label: 'Total', column: 'totalCost' },
   { label: 'Sale', column: 'totalPrice' },
   { label: 'Profit', column: 'profit' },
@@ -60,7 +57,8 @@ export const StrongholdCraftingPage: FC = () => {
     return orderForTable(
       craftingRecipes.map((recipe): TableRecipe => {
         const { outputMaterial, amount } = recipe;
-        const singlePrice = pricedMaterialsObject[outputMaterial]?.price || 0;
+        const mat = pricedMaterialsObject[outputMaterial];
+        const singlePrice = (mat?.price || 0) / (mat.saleAmount || 1);
         const materialsTotal = addMaterials(recipe.requiredMaterials);
 
         if (!singlePrice || !materialsTotal) {
@@ -150,8 +148,6 @@ export const StrongholdCraftingPage: FC = () => {
                     value={recipe.requiredGold}
                   />
                 </Table.Cell>
-                <Table.Cell>{recipe.requiredActionEnergy}</Table.Cell>
-                <Table.Cell>{readableSeconds(recipe.seconds)}</Table.Cell>
                 <Table.Cell>
                   <Currency type={CurrencyType.Gold} value={recipe.totalCost} />
                 </Table.Cell>
