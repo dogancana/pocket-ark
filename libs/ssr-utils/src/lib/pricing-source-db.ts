@@ -1,12 +1,36 @@
-import { PartialPricingSource, PricingSource } from '@pocket-ark/lost-ark-data';
+import {
+  materialKeys,
+  PartialPricingSource,
+  PricingSource,
+} from '@pocket-ark/lost-ark-data';
 import { omit } from 'lodash';
 import { client, MongoDbCollections, MongoDbNames } from './mongo-db';
 
+const allowedParentKeys = [
+  'meta',
+  'crystalSalePrice',
+  'goldSalePrice',
+  'royalCrystalsPack',
+  ...materialKeys,
+];
+
+const allowedMetaKeys = [
+  'lastUpdatedAtISO',
+  'reference',
+  'key',
+  'region',
+  'description',
+];
+
+const allowedPriceObjectKeys = ['price'];
+
 export async function insertPricingSource(pricingSource: PartialPricingSource) {
+  validatePricingSource({ ...pricingSource });
   return _upsertPricingSource(pricingSource, { upsert: true });
 }
 
 export async function updatePricingSource(pricingSource: PartialPricingSource) {
+  validatePricingSource({ ...pricingSource });
   return _upsertPricingSource(pricingSource, { upsert: false });
 }
 
@@ -16,7 +40,42 @@ export async function mergePricingSource(
   prices: Partial<Omit<PricingSource, 'meta'>>
 ) {
   const pricingSource = { ...prices, meta: { reference, key } };
+  validatePricingSource(pricingSource);
   return _upsertPricingSource(pricingSource, { upsert: false });
+}
+
+function validatePricingSource(pricingSource: PartialPricingSource) {
+  validateObjectKeys(allowedParentKeys, pricingSource);
+  validateObjectKeys(allowedMetaKeys, pricingSource?.meta);
+  materialKeys.forEach((materialKey) => {
+    validateObjectKeys(allowedPriceObjectKeys, pricingSource?.[materialKey]);
+  });
+
+  Object.values(pricingSource?.meta ?? {}).forEach((v) => {
+    if (typeof v !== 'string') {
+      throw new Error('Invalid meta value');
+    }
+  });
+
+  materialKeys
+    .map((key) => pricingSource[key])
+    .forEach((priceObject) => {
+      if (typeof priceObject?.price !== 'number') {
+        throw new Error('Invalid price');
+      }
+    });
+}
+
+function validateObjectKeys(
+  whiteList: string[],
+  obj?: Record<string, unknown>
+) {
+  if (!obj) return;
+  Object.keys(obj).forEach((key) => {
+    if (whiteList.indexOf(key) === -1) {
+      throw new Error(`Invalid key: ${key}`);
+    }
+  });
 }
 
 async function _upsertPricingSource(

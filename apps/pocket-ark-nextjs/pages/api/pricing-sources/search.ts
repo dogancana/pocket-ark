@@ -17,7 +17,7 @@ const controller = async (req: NextApiRequest, res: NextApiResponse) => {
     }
   } catch (e) {
     console.error(e);
-    return res.status(500).json({ error: 'Unhandled error' });
+    return res.status(500).send({ error: e.message || 'Unhandled error' });
   }
 
   res.status(400).send('Not implemented');
