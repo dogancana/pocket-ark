@@ -1,22 +1,31 @@
-import { PriceSourceMeta, PricingSource } from '@pocket-ark/lost-ark-data';
+import { PartialPricingSource, PricingSource } from '@pocket-ark/lost-ark-data';
+import { omit } from 'lodash';
 import { client, MongoDbCollections, MongoDbNames } from './mongo-db';
 
-export async function insertPricingSource(
-  pricingSource: PricingSource
-): Promise<PriceSourceMeta> {
-  return _upsertPricingSource(pricingSource, true);
+export async function insertPricingSource(pricingSource: PartialPricingSource) {
+  return _upsertPricingSource(pricingSource, { upsert: true });
 }
 
-export async function updatePricingSource(
-  pricingSource: PricingSource
-): Promise<PriceSourceMeta> {
-  return _upsertPricingSource(pricingSource, false);
+export async function updatePricingSource(pricingSource: PartialPricingSource) {
+  return _upsertPricingSource(pricingSource, { upsert: false });
+}
+
+export async function mergePricingSource(
+  reference: string,
+  key: string,
+  prices: Partial<Omit<PricingSource, 'meta'>>
+) {
+  const pricingSource = { ...prices, meta: { reference, key } };
+  return _upsertPricingSource(pricingSource, { upsert: false });
 }
 
 async function _upsertPricingSource(
-  pricingSource: PricingSource,
-  upsert: boolean
-): Promise<PriceSourceMeta> {
+  pricingSource: PartialPricingSource,
+  opts: { upsert: boolean }
+) {
+  const { upsert } = opts;
+  if (!pricingSource.meta) throw new Error('No meta found');
+
   if (!pricingSource.meta?.key || !pricingSource.meta.reference) {
     throw new Error('Cannot update');
   }
@@ -30,6 +39,10 @@ async function _upsertPricingSource(
       ...pricingSource.meta,
       lastUpdatedAtISO: new Date().toISOString(),
     };
+    const metaUpdateObject: Record<string, unknown> = {};
+    Object.entries(meta).forEach(([key, value]) => {
+      metaUpdateObject[`meta.${key}`] = value;
+    });
 
     await collection.updateOne(
       {
@@ -37,7 +50,7 @@ async function _upsertPricingSource(
         'meta.key': meta?.key,
       },
       {
-        $set: { ...pricingSource, meta },
+        $set: { ...omit(pricingSource, 'meta'), ...metaUpdateObject },
       },
       { upsert }
     );

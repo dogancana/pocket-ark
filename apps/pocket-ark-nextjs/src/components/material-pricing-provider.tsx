@@ -7,7 +7,7 @@ import {
   materials,
   MaterialType,
   PricedMaterial,
-  PricingSource,
+  PricingSource
 } from '@pocket-ark/lost-ark-data';
 import { debounce } from 'lodash';
 import Link from 'next/link';
@@ -17,7 +17,7 @@ import {
   Dispatch,
   SetStateAction,
   useContext,
-  useState,
+  useState
 } from 'react';
 import { putPricingSource } from '../services';
 import { Alert } from '../ui';

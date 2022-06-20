@@ -21,3 +21,7 @@ export type PricingSource = CurrencyConversionSource & {
     price: number;
   };
 };
+
+export type PartialPricingSource = {
+  meta?: Partial<PricingSource['meta']>;
+} & Partial<Omit<PricingSource, 'meta'>>;
