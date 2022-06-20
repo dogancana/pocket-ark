@@ -1,5 +1,6 @@
 import { COOKIES } from '@pocket-ark/lost-ark-data';
 import { getCookie, removeCookies } from 'cookies-next';
+import { merge } from 'lodash';
 import { GetServerSidePropsContext } from 'next';
 import { getPricingSourceFromCookies } from './get-priced-materials';
 import { getPricingSourcebyReference } from './pricing-source-db';
@@ -18,7 +19,15 @@ export const getPricingPropsSSR = async ({
       else removeCookies(COOKIES.reference, { req, res });
     }
 
-    return getPricingSourceFromCookies(req, res) || null;
+    const fromCookies = getPricingSourceFromCookies(req, res) || null;
+    const fromDB = fromCookies.meta?.reference
+      ? await getPricingSourcebyReference(
+          fromCookies.meta?.reference,
+          fromCookies.meta?.key
+        )
+      : {};
+    const result = merge(fromCookies, fromDB);
+    return result;
   } catch (e) {
     console.error(e);
     return null;
