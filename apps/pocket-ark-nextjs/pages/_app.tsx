@@ -46,7 +46,11 @@ export const App = ({ Component, pageProps, router }: AppProps) => {
       </Head>
       <main className="bg-gradient-to-br from-stone-50 to-stone-200 h-screen overflow-auto">
         <Header />
-        <PageWithMeta subTitle={feature?.header} description={desc}>
+        <PageWithMeta
+          subTitle={feature?.header}
+          description={desc}
+          path={feature?.href}
+        >
           <Component {...pageProps} />
         </PageWithMeta>
       </main>

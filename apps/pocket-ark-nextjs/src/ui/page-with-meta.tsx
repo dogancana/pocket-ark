@@ -5,6 +5,7 @@ export interface PageWithMetaProps {
   title?: string;
   subTitle?: string;
   description?: string;
+  path?: string;
 }
 
 export const PageWithMeta: FC<PageWithMetaProps> = ({
@@ -12,6 +13,7 @@ export const PageWithMeta: FC<PageWithMetaProps> = ({
   subTitle,
   description,
   children,
+  path,
 }) => {
   return (
     <>
@@ -24,6 +26,15 @@ export const PageWithMeta: FC<PageWithMetaProps> = ({
         <meta property="og:title" content={title} />
         <meta property="og:description" content={description} />
         <meta property="og:type" content="website" />
+        {path && (
+          <>
+            <meta property="og:url" content={`https://pocketark.app${path}`} />
+            <meta
+              property="og:image"
+              content={`/assets/screenshots${path}.png`}
+            />
+          </>
+        )}
       </Head>
       {children}
     </>
