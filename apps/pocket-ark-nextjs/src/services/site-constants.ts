@@ -89,12 +89,12 @@ export const mainFeatures: { [key in FeatureKey]: MainFeature } = {
     href: '/mari-shop',
   },
   engravingComparison: {
-    header: 'Engraving Comparison',
+    header: 'Engraving Calculator',
     description: [
-      'Which engravings are better for your build?',
-      'Compare damage engravings in this tool to see what selection would perform better in your rotation.',
+      'Calculate damage of multiple engravings',
+      'Calculate output damage of engravings or builds according to crit rate and base attack power.',
     ],
-    metaDescription: ['Lost Ark, Engraving Comparison calculator'],
-    href: '/engraving-comparison',
+    metaDescription: ['Lost Ark, Engraving calculator'],
+    href: '/engraving-calculator',
   },
 };
