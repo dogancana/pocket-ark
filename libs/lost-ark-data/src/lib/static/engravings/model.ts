@@ -1,4 +1,24 @@
+export type EngravingType =
+  | 'adrenaline'
+  | 'allOutAttack'
+  | 'ambushMaster'
+  | 'barricade'
+  | 'cursedDoll'
+  | 'disrespect'
+  | 'grudge'
+  | 'hitMaster'
+  | 'increaseMass'
+  | 'keenBluntWeapon'
+  | 'masterBrawler'
+  | 'mastersTenacity'
+  | 'preciseDagger'
+  | 'propulsion'
+  | 'spiritAbsorption'
+  | 'stabilizedStatus'
+  | 'superCharge';
+
 export interface Engraving {
+  type: EngravingType;
   name: string;
   requires?:
     | 'shield'
@@ -7,10 +27,10 @@ export interface Engraving {
     | 'neutralAttack'
     | 'stagger'
     | 'lowHealth';
-  damageModifier: EngravingDamageModifier[];
+  damageModifier: DamageModifier[];
 }
 
-export interface EngravingDamageModifier {
+export interface DamageModifier {
   attackPower?: number;
   attackSpeed?: number;
   critRatePerc?: number;

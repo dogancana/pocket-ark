@@ -1,8 +1,18 @@
 import Image from 'next/image';
 import { Card, Container } from 'semantic-ui-react';
 import { mainFeatures } from '../src/services';
+import { FeatureKey } from '../src/services/site-constants';
+
+const featuresToShowOnLanding: FeatureKey[] = [
+  'engravingComparison',
+  'priceIndex',
+  'honingPlanner',
+  'mariShop',
+  'secretMaps',
+];
 
 const Index = () => {
+  const features = featuresToShowOnLanding.map((f) => mainFeatures[f]);
   return (
     <>
       <div className="w-full relative" style={{ height: '50vh' }}>
@@ -32,7 +42,7 @@ const Index = () => {
       </div>
       <Container className="mt-8">
         <Card.Group
-          items={Object.values(mainFeatures).map((f) => ({
+          items={Object.values(features).map((f) => ({
             header: f.header,
             description: f.description[0],
             href: f.href,

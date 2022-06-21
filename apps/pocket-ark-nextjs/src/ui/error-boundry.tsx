@@ -1,7 +1,7 @@
 import React, { PropsWithChildren } from 'react';
 
 class ErrorBoundary extends React.Component<
-  PropsWithChildren<{ message: string }>
+  PropsWithChildren<{ message: string; errorChild?: React.ReactNode }>
 > {
   constructor(props) {
     super(props);
@@ -29,7 +29,9 @@ class ErrorBoundary extends React.Component<
         <div
           className="container mx-auto"
           data-error-message={this.props.message}
-        ></div>
+        >
+          {this.props.errorChild}
+        </div>
       );
     }
 
