@@ -42,13 +42,13 @@ export const engravings: Engraving[] = [
     name: 'Ambush Master',
     damageModifier: [
       {
-        attackPower: 5,
+        damageMultiplier: 5,
       },
       {
-        attackPower: 12,
+        damageMultiplier: 12,
       },
       {
-        attackPower: 25,
+        damageMultiplier: 25,
       },
     ],
   },
@@ -58,13 +58,13 @@ export const engravings: Engraving[] = [
     requires: 'shield',
     damageModifier: [
       {
-        attackPower: 3,
+        damageMultiplier: 3,
       },
       {
-        attackPower: 8,
+        damageMultiplier: 8,
       },
       {
-        attackPower: 16,
+        damageMultiplier: 16,
       },
     ],
   },
@@ -169,13 +169,13 @@ export const engravings: Engraving[] = [
     name: 'Master Brawler',
     damageModifier: [
       {
-        attackPower: 5,
+        damageMultiplier: 5,
       },
       {
-        attackPower: 12,
+        damageMultiplier: 12,
       },
       {
-        attackPower: 25,
+        damageMultiplier: 25,
       },
     ],
   },
