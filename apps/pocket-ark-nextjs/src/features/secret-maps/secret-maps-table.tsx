@@ -1,7 +1,8 @@
 import { CurrencyType, SecretMap, secretMaps } from '@pocket-ark/lost-ark-data';
 import { useReducer } from 'react';
 import { Table } from 'semantic-ui-react';
-import { MaterialsLine, usePricingSource } from '../../components';
+import { MaterialsLine } from '../../components';
+import { useMaterials } from '../../components/materials-provider';
 import {
   Currency,
   orderForTable,
@@ -9,9 +10,10 @@ import {
   SortableTableReducer,
 } from '../../ui';
 import { MapIcon } from '../../ui/icons';
-import { SortableTableHeaders } from '../../ui/sortable-table';
-import { FC } from '../../utils/react';
 import { rarityBackground } from '../../ui/rarity';
+import { SortableTableHeaders } from '../../ui/sortable-table';
+import { rarityString } from '../../utils/rarity';
+import { FC } from '../../utils/react';
 
 interface TableSecretMap extends SecretMap {
   name: string;
@@ -25,7 +27,7 @@ const headers = [
 ];
 
 export const SecretMapsTable: FC = () => {
-  const { addMaterials, pricedMaterialsObject } = usePricingSource();
+  const { materials, addMaterials } = useMaterials();
 
   const [{ column, direction }, dispatch] = useReducer<
     SortableTableReducer<keyof TableSecretMap>
@@ -72,8 +74,8 @@ export const SecretMapsTable: FC = () => {
             <Table.Cell>
               <MaterialsLine
                 materials={secretMap.rewards.map((m) => ({
-                  ...pricedMaterialsObject[m.type],
-                  amount: m.amount,
+                  ...materials[m.type],
+                  count: m.amount,
                 }))}
               />
             </Table.Cell>
@@ -94,5 +96,5 @@ export const SecretMapsTable: FC = () => {
 
 function secretMapName(secretMap: SecretMap) {
   const { tier, rarity } = secretMap;
-  return `T${tier} ${rarity} Secret Map`;
+  return `T${tier} ${rarityString(rarity)} Secret Map`;
 }

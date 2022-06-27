@@ -3,6 +3,18 @@ import { Material, MaterialType } from './models';
 
 export const materials: Material[] = [
   {
+    type: MaterialType.BlueCrystal,
+    name: 'Blue Crystal',
+    rarity: Rarity.Common,
+    category: 'currency',
+  },
+  {
+    type: MaterialType.RoyalCrystal,
+    name: 'Royal Crystal',
+    rarity: Rarity.Common,
+    category: 'currency',
+  },
+  {
     type: MaterialType.HarmonyShardPouchSmall,
     name: 'Harmony Shard Pouch (S)',
     rarity: Rarity.Uncommon,
@@ -684,8 +696,8 @@ export const materials: Material[] = [
     category: 'cooking',
   },
   {
-    type: MaterialType.MastersMoistOmelete,
-    name: "Master's Moist Omelete",
+    type: MaterialType.MastersMoistOmelet,
+    name: "Master's Moist Omelet",
     rarity: Rarity.Uncommon,
     saleAmount: 10,
     category: 'cooking',

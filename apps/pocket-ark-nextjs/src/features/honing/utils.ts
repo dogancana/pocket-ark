@@ -4,7 +4,7 @@ import {
   MaterialType,
   Rarity,
 } from '@pocket-ark/lost-ark-data';
-import { usePricingSource } from '../../components';
+import { MaterialsObject } from '../../utils/materials';
 
 export function allowedGrace(toLevel) {
   if (toLevel >= 22) return 48;
@@ -74,7 +74,7 @@ export function protection(
   toLevel: number,
   rarity: Rarity,
   armorType: BodyItemType,
-  prices: ReturnType<typeof usePricingSource>['pricedMaterialsObject']
+  prices: MaterialsObject,
 ): MaterialProtectionScore[] {
   const chanceIncreasePerMaterialType = baseChance / 3;
   const costOfOnePerc = cost / chance;
@@ -125,13 +125,13 @@ export function protection(
   ]
     .filter((p) => p.allowed > 0)
     .map((p) => {
-      const totalCost = p.allowed * prices?.[p.type]?.price;
+      const totalCost = p.allowed * prices?.[p.type]?.lowPrice;
       const protectionCostOfOnePerc = totalCost / p.chancePerMat;
 
       return {
         ...p,
         chanceIncreaseMaterial: p.allowed ? p.chancePerMat / p.allowed : 0,
-        costPerMaterial: prices?.[p.type].price,
+        costPerMaterial: prices?.[p.type].lowPrice,
         score: costOfOnePerc / protectionCostOfOnePerc,
       };
     });

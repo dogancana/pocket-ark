@@ -29,6 +29,28 @@ export function getBaseCurrencyConversionRates(
   };
 }
 
+export function getConversionRates(
+  valueOfOneCrystal: number,
+  valueOfOneRoyalCrystal: number
+) {
+  if (!valueOfOneCrystal || !valueOfOneRoyalCrystal) return {};
+
+  const packValue = 99;
+  const valueOfOnePheon = valueOfOneCrystal
+    ? valueOfOneCrystal * 8.5
+    : undefined;
+  const valueOfOneMoney = (valueOfOneRoyalCrystal * 12000) / packValue;
+
+  return {
+    [CurrencyType.RealMoney]: valueOfOneMoney,
+    [CurrencyType.RoyalCrystal]: valueOfOneRoyalCrystal,
+    [CurrencyType.Crystal]: valueOfOneCrystal,
+    [CurrencyType.Silver]: 1 / 1000,
+    [CurrencyType.Gold]: 1,
+    [CurrencyType.Pheon]: valueOfOnePheon,
+  };
+}
+
 export function getPricedMaterials(source?: PricingSource): PricedMaterial[] {
   const rates = getBaseCurrencyConversionRates(source);
 

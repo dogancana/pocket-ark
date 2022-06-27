@@ -27,11 +27,7 @@ export const mainFeatures: { [key in FeatureKey]: MainFeature } = {
   },
   priceIndex: {
     header: 'Price index',
-    description: [
-      'Lost Ark material and item prices information.',
-      'You can set your prices or opt-in to use a shared one.',
-      'The information will be saved on your browser but you can also choose to share it with others.',
-    ],
+    description: ['Lost Ark material and item prices information.'],
     href: '/price-index',
   },
   currencyCalculator: {

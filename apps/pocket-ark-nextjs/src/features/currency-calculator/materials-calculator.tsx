@@ -1,11 +1,11 @@
-import { FC } from '../../utils/react';
-import { MaterialAddition, usePricingSource } from '../../components';
 import { CurrencyType, MaterialsToCraft } from '@pocket-ark/lost-ark-data';
 import { useState } from 'react';
+import { MaterialAddition, useMaterials } from '../../components';
 import { Currency } from '../../ui';
+import { FC } from '../../utils/react';
 
 export const MaterialsCalculator: FC = () => {
-  const { addMaterials } = usePricingSource();
+  const { addMaterials } = useMaterials();
   const [materials, setMaterials] = useState<MaterialsToCraft>([]);
 
   const totalInGold = addMaterials(materials);

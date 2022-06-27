@@ -2,17 +2,19 @@ import {
   addCraftingMaterials,
   CurrencyItemType,
   CurrencyType,
+  getResearchReduction,
   MaterialsToCraft,
 } from '@pocket-ark/lost-ark-data';
 import { flatten } from 'lodash';
 import { useState } from 'react';
 import { Divider } from 'semantic-ui-react';
-import { usePricingSource } from '../../../../components';
-import { MaterialsLine } from '../../../../components/materials/materials-line';
+import { useMaterials } from '../../../../components';
+import { MaterialsLine } from '../../../../components/materials';
 import { Currency } from '../../../../ui/currency/currency';
 import { FC } from '../../../../utils/react';
 import { sortMaterials } from '../../utils';
 import { useHoningData } from '../data';
+import { useHoningFilter } from '../filter/honing-filter-provider';
 import { ExcludedMaterials } from './excluded-materials';
 
 interface SlotTotals {
@@ -28,7 +30,10 @@ interface State {
 
 export const AllHoningTotal: FC = () => {
   const honingData = useHoningData();
-  const { pricedMaterialsObject, addMaterials } = usePricingSource();
+  const {
+    state: { research1370 },
+  } = useHoningFilter();
+  const { materials, addMaterials } = useMaterials();
   const [{ excludedMaterials }, setState] = useState<State>({
     excludedMaterials: [],
   });
@@ -37,6 +42,9 @@ export const AllHoningTotal: FC = () => {
 
   const totals = flattened.reduce(
     (acc: SlotTotals, curr) => {
+      const discount = getResearchReduction(curr.toLevel, { research1370 });
+      const feedMultiplier = discount?.feedMultiplier || 1;
+
       return {
         materials: addCraftingMaterials(
           acc.materials,
@@ -47,12 +55,12 @@ export const AllHoningTotal: FC = () => {
           curr.upgrade.gold * (curr.averageAttemptIndexToSuccess + 1),
         silver:
           acc.silver +
-          curr.feed.silver +
+          curr.feed.silver * feedMultiplier +
           curr.upgrade.silver +
           (curr.averageAttemptIndexToSuccess + 1),
         shards:
           acc.shards +
-          curr.feed.shards +
+          curr.feed.shards * feedMultiplier +
           curr.upgrade.shards * (curr.averageAttemptIndexToSuccess + 1),
       };
     },
@@ -74,9 +82,9 @@ export const AllHoningTotal: FC = () => {
     })
   );
 
-  const pricedMaterials = sortMaterials(totals.materials).map((m) => ({
-    ...pricedMaterialsObject[m.type],
-    amount: m.amount,
+  const honingMaterials = sortMaterials(totals.materials).map((m) => ({
+    ...materials[m.type],
+    count: m.amount,
   }));
 
   if (totals.gold === 0) {
@@ -90,7 +98,7 @@ export const AllHoningTotal: FC = () => {
         Need on average:
         <div className="flex flex-col items-end">
           <div className="flex pl-3">
-            <MaterialsLine materials={pricedMaterials} />
+            <MaterialsLine materials={honingMaterials} />
           </div>
           <div className="flex mt-2">
             <Currency

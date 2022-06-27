@@ -2,6 +2,7 @@ import { Rarity } from '@pocket-ark/lost-ark-data';
 import { capitalize } from 'lodash';
 import { Dispatch } from 'react';
 import { Dropdown, Icon } from 'semantic-ui-react';
+import { rarityString } from '../../../../utils/rarity';
 import { FC } from '../../../../utils/react';
 import { Action } from './honing-reducer';
 import { Item } from './models';
@@ -45,7 +46,11 @@ export const ItemLine: FC<ItemLineProps> = ({
         className="w-1/3"
         compact
         value={item.rarity}
-        options={rarity.map((r) => ({ text: r, key: r, value: r }))}
+        options={rarity.map((r) => ({
+          text: rarityString(r),
+          key: r,
+          value: r,
+        }))}
         disabled={disabled}
         onChange={(_, data) =>
           dispatch({

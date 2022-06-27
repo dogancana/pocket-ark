@@ -1,10 +1,10 @@
-import { PricedMaterial } from '@pocket-ark/lost-ark-data';
 import { MaterialPopup } from '.';
+import { PricedMaterial } from '../../utils/materials';
 import { FC } from '../../utils/react';
 import { MaterialCount } from './material-count';
 
 export interface MaterialCountProps {
-  materials: (PricedMaterial & { amount: number })[];
+  materials: (PricedMaterial & { count: number })[];
 }
 
 export const MaterialsLine: FC<MaterialCountProps> = ({ materials }) => (
@@ -18,7 +18,7 @@ export const MaterialsLine: FC<MaterialCountProps> = ({ materials }) => (
         <div className="">
           <MaterialCount
             type={material.type}
-            value={material.amount}
+            value={material.count}
             className={index !== materials.length - 1 ? 'mr-3' : ''}
           />
         </div>

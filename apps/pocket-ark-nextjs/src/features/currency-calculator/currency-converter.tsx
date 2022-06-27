@@ -1,6 +1,6 @@
 import { CurrencyType } from '@pocket-ark/lost-ark-data';
-import { useState, Fragment } from 'react';
-import { usePricingSource } from '../../components';
+import { Fragment, useState } from 'react';
+import { useMaterials } from '../../components';
 import { Currency, CurrencyInput } from '../../ui';
 import { FC } from '../../utils/react';
 
@@ -33,7 +33,7 @@ interface CurrencyConverterProps {
 export const CurrencyConverter: FC<CurrencyConverterProps> = ({
   className,
 }) => {
-  const { rates } = usePricingSource();
+  const { rates } = useMaterials();
   const [state, setState] = useState<State>({
     values: {
       [CurrencyType.Crystal]: 0,

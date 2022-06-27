@@ -1,13 +1,13 @@
 import { MaterialType } from '../materials/models';
 
 export enum Rarity {
-  Common = 'Common',
-  Uncommon = 'Uncommon',
-  Rare = 'Rare',
-  Epic = 'Epic',
-  Legendary = 'Legendary',
-  Relic = 'Relic',
-  Ancient = 'Ancient',
+  Common = 0,
+  Uncommon = 1,
+  Rare = 2,
+  Epic = 3,
+  Legendary = 4,
+  Relic = 5,
+  Ancient = 6,
 }
 
 export const rarityOrder: Rarity[] = [

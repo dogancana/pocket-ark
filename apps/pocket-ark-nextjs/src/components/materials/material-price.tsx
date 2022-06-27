@@ -3,7 +3,7 @@ import { debounce } from 'lodash';
 import { ChangeEvent } from 'react';
 import { CurrencyInput } from '../../ui';
 import { FC } from '../../utils/react';
-import { usePricingSource } from '../material-pricing-provider';
+import { useMaterials } from '../materials-provider';
 
 export interface MaterialPriceProps {
   type: MaterialType;
@@ -18,14 +18,12 @@ export const MaterialPrice: FC<MaterialPriceProps> = ({
   fluid,
   onChange,
 }) => {
-  const { pricedMaterialsObject: materials, setMaterialPrice } =
-    usePricingSource();
+  const { materials } = useMaterials();
   const material = materials[type];
-  const price = material?.price || 0;
+  const price = material?.lowPrice || 0;
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const p = Math.max(parseInt(e.target.value, 10), 0);
-    setMaterialPrice(type, p);
     if (onChange) onChange(p);
   };
 

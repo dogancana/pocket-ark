@@ -1,7 +1,7 @@
 import { Rarity } from '@pocket-ark/lost-ark-data';
 import { Item } from './models';
 
-export const STATE_STORAGE_KEY = 'honingFiltersState';
+export const STATE_STORAGE_KEY = 'honingFilters';
 
 export const initalFromSet: Item[] = [
   { rarity: Rarity.Legendary, level: 12, slot: 'helmet', hidden: true },

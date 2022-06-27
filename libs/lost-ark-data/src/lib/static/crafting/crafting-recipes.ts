@@ -654,7 +654,7 @@ export const craftingRecipes: CraftingRecipe[] = [
     seconds: 30 * 60,
   },
   {
-    outputMaterial: MaterialType.MastersMoistOmelete,
+    outputMaterial: MaterialType.MastersMoistOmelet,
     amount: 10,
     requiredMaterials: [
       { type: MaterialType.OrehaThickMeat, amount: 6 },

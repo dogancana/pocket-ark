@@ -1,33 +1,40 @@
-import { Material } from '@pocket-ark/lost-ark-data';
-import { MaterialIcon } from '../../ui';
+import { CurrencyType } from '@pocket-ark/lost-ark-data';
+import { Currency, MaterialIcon } from '../../ui';
+import { PricedMaterial } from '../../utils/materials';
 import { FC } from '../../utils/react';
-import { MaterialPrice } from './material-price';
 
 export interface MaterialBoxProps {
-  material: Material;
+  material: PricedMaterial;
   className?: string;
   forwardRef?: React.Ref<HTMLDivElement>;
-  fluid?: boolean;
 }
 
 export const MaterialBox: FC<MaterialBoxProps> = ({
   material,
   className,
   forwardRef,
-  fluid,
 }) => (
-  <div className={`flex px-3 items-end ${className || ''}`} ref={forwardRef}>
-    <MaterialIcon type={material.type} overrides={{ width: 55, height: 55 }} />
-    <div className="flex flex-col grow ml-3">
-      <div className="flex items-center grow w-full">
-        <strong className="mb-1 text-ellipsis whitespace-nowrap">
-          {material.name}
-        </strong>
+  <div className={`flex px-3 items-start ${className || ''}`} ref={forwardRef}>
+    <MaterialIcon
+      className="inline"
+      type={material.type}
+      overrides={{ width: 55, height: 55 }}
+    />
+    <div
+      className="flex flex-col ml-3 overflow-hidden text-ellipsis"
+      style={{ maxWidth: '70%' }}
+    >
+      <div className="flex items-center">
+        <div className="overflow-hidden text-ellipsis whitespace-nowrap">
+          <strong>{material.name.replace(/\[?.+\]|'|:|\(|\)/g, '')}</strong>
+        </div>
         {material.saleAmount && (
           <span className="text-xs ml-1">(x{material.saleAmount})</span>
         )}
       </div>
-      <MaterialPrice type={material.type} className="grow" fluid={fluid} />
+      <div className="flex">
+        <Currency type={CurrencyType.Gold} value={material.lowPrice} />
+      </div>
     </div>
   </div>
 );

@@ -1,34 +1,18 @@
 import { Fragment } from 'react';
 import { Header, Search } from 'semantic-ui-react';
-import { usePricingSource } from '../../components';
 import { mainFeatures } from '../../services/site-constants';
-import ErrorBoundary from '../../ui/error-boundry';
 import { HeroSection, PageContainer } from '../../ui/layout';
 import { FC } from '../../utils/react';
-import { CurrencySourceForm } from './currency-source-form';
 import { GroupedMaterials } from './grouped-materials';
-import { PriceSourceReferences } from './search-sources';
-import { SharePricingModal } from './share-pricing-modal';
-import { SourceSync } from './source-sync';
 import { useFilteredMaterials } from './use-filtered-materials';
 
 export const PriceIndexPage: FC = () => {
   const { header, description } = mainFeatures.priceIndex;
   const { query, materials, options, allVisible, setQuery, onSelected } =
     useFilteredMaterials();
-  const { showShareModal, setShowShareModal } = usePricingSource();
 
   return (
     <>
-      <SharePricingModal
-        open={showShareModal}
-        onClose={() => setShowShareModal(false)}
-      />
-
-      <ErrorBoundary message="SourceSync wrapper">
-        <SourceSync />
-      </ErrorBoundary>
-
       <HeroSection>
         <Header as="h1">{header}</Header>
         <p>
@@ -38,10 +22,11 @@ export const PriceIndexPage: FC = () => {
               <br />
             </Fragment>
           ))}
+          Price index in Pocket Ark is powered by awesome project Lost Ark
+          Online Market.
+          <br />
+          You can just select your region and use community handled prices
         </p>
-        <ErrorBoundary message="Search sources">
-          <PriceSourceReferences />
-        </ErrorBoundary>
       </HeroSection>
 
       <PageContainer className="mt-0 pt-4 pb-16">
@@ -58,7 +43,6 @@ export const PriceIndexPage: FC = () => {
               onSearchChange={setQuery}
             />
           </div>
-          <CurrencySourceForm />
           <GroupedMaterials
             filteredMaterials={materials}
             noGroups={!allVisible}

@@ -1,17 +1,19 @@
 import { Rarity } from '../models';
 
 export enum MaterialType {
+  BlueCrystal = 'BlueCrystal',
+  RoyalCrystal = 'RoyalCrystal',
   HonorLeapstone = 'HonorLeapstone',
   GreatHonorLeapstone = 'GreatHonorLeapstone',
-  HarmonyShardPouchSmall = 'HarmonyShardPouchSmall',
-  HarmonyShardPouchMedium = 'HarmonyShardPouchMedium',
-  HarmonyShardPouchLarge = 'HarmonyShardPouchLarge',
-  LifeShardPouchSmall = 'LifeShardPouchSmall',
-  LifeShardPouchMedium = 'LifeShardPouchMedium',
-  LifeShardPouchLarge = 'LifeShardPouchLarge',
-  HonorShardPouchSmall = 'HonorShardPouchSmall',
-  HonorShardPouchMedium = 'HonorShardPouchMedium',
-  HonorShardPouchLarge = 'HonorShardPouchLarge',
+  HarmonyShardPouchSmall = 'HarmonyShardPouchS',
+  HarmonyShardPouchMedium = 'HarmonyShardPouchM',
+  HarmonyShardPouchLarge = 'HarmonyShardPouchL',
+  LifeShardPouchSmall = 'LifeShardPouchS',
+  LifeShardPouchMedium = 'LifeShardPouchM',
+  LifeShardPouchLarge = 'LifeShardPouchL',
+  HonorShardPouchSmall = 'HonorShardPouchS',
+  HonorShardPouchMedium = 'HonorShardPouchM',
+  HonorShardPouchLarge = 'HonorShardPouchL',
   SolarGrace = 'SolarGrace',
   SolarBlessing = 'SolarBlessing',
   SolarProtection = 'SolarProtection',
@@ -19,7 +21,7 @@ export enum MaterialType {
   MoonsBreath = 'MoonsBreath',
   DestructionStoneCrystal = 'DestructionStoneCrystal',
   GuardianStoneCrystal = 'GuardianStoneCrystal',
-  PowderOfSage = 'PowderOfSage',
+  PowderOfSage = 'PowderofSage',
   HPPotion = 'HPPotion',
   MajorHPPotion = 'MajorHPPotion',
   ElementalHPPotion = 'ElementalHPPotion',
@@ -84,7 +86,7 @@ export enum MaterialType {
   Stimulant = 'Stimulant',
   SplendidProtectivePotion = 'SplendidProtectivePotion',
   AdrophinePotion = 'AdrophinePotion',
-  SplendidSprintersRobe = 'SplendidSprintersRobe',
+  SplendidSprintersRobe = 'SplendidSwiftRobe',
   CaldarrFusionMaterial = 'CaldarrFusionMaterial',
   SimpleOrehaFusionMaterial = 'SimpleOrehaFusionMaterial',
   BasicOrehaFusionMaterial = 'BasicOrehaFusionMaterial',
@@ -107,7 +109,7 @@ export enum MaterialType {
   MetallurgyBasicWelding = 'MetallurgyBasicWelding',
   MetallurgyAppliedWelding = 'MetallurgyAppliedWelding',
   MastersSaltyStew = 'MastersSaltyStew',
-  MastersMoistOmelete = 'MastersMoistOmelete',
+  MastersMoistOmelet = 'MastersMoistOmelet',
   MastersChewyGrilledSkewers = 'MastersChewyGrilledSkewers',
   MastersHerbSteakMeal = 'MastersHerbSteakMeal',
 }
@@ -127,7 +129,8 @@ export type MaterialCategory =
   | 'hunting'
   | 'fishing'
   | 'excavating'
-  | 'cooking';
+  | 'cooking'
+  | 'currency';
 
 export interface Material {
   type: MaterialType;

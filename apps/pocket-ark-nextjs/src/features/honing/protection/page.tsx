@@ -8,29 +8,30 @@ import {
 } from '@pocket-ark/lost-ark-data';
 import { Fragment, useReducer } from 'react';
 import { Header } from 'semantic-ui-react';
-import { usePricingSource } from '../../../components/material-pricing-provider';
+import { useMaterials } from '../../../components';
 import { MaterialsLine } from '../../../components/materials/materials-line';
 import { mainFeatures } from '../../../services/site-constants';
+import { Currency } from '../../../ui';
 import { HeroSection } from '../../../ui/layout';
 import { PageContainer } from '../../../ui/layout/layout';
+import { MaterialsObject } from '../../../utils/materials';
 import { FC } from '../../../utils/react';
 import { protection } from '../utils';
 import { HoningProtectionFilters } from './filters';
 import { initial, reducer } from './protection.reducer';
 import { ProtectionResults } from './results';
-import { Currency } from '../../../ui';
 
 export const HoningProtectionPage: FC = () => {
-  const { pricedMaterialsObject, addMaterials } = usePricingSource();
+  const { materials: pricedMaterialsObject, addMaterials } = useMaterials();
   const { header, description } = mainFeatures.honingProtection;
   const [
     { honingMaterials, toLevel, artisan, rarity, itemType, costs },
     dispatch,
   ] = useReducer(reducer, initial);
-  const materials =
+  const honingMaterialsWithCount =
     honingMaterials?.map((m) => ({
       ...pricedMaterialsObject[m.type],
-      amount: m.amount,
+      count: m.amount,
     })) || [];
 
   const currencies = [
@@ -74,9 +75,9 @@ export const HoningProtectionPage: FC = () => {
               {...{ toLevel, rarity, itemType, dispatch, artisan }}
             />
           </div>
-          {materials.length > 0 && (
+          {honingMaterialsWithCount.length > 0 && (
             <div className="pt-8 px-2 flex items-center">
-              <MaterialsLine materials={materials} />
+              <MaterialsLine materials={honingMaterialsWithCount} />
               {currencies.map(({ type, amount }) => (
                 <Currency
                   key={type}
@@ -89,7 +90,7 @@ export const HoningProtectionPage: FC = () => {
             </div>
           )}
         </div>
-        {materials.length > 0 && (
+        {honingMaterialsWithCount.length > 0 && (
           <div className="mt-8 pt-8 w-full md:w-1/2 border-t-2 border-gray-300">
             <ProtectionResults protectionMaterials={protectionMaterials} />
           </div>
@@ -101,8 +102,8 @@ export const HoningProtectionPage: FC = () => {
 
 function mapStateWithHoningMaterials(
   state: { itemType: BodyItemType; toLevel: number; artisan: number },
-  prices: ReturnType<typeof usePricingSource>['pricedMaterialsObject'],
-  addMaterials: ReturnType<typeof usePricingSource>['addMaterials']
+  prices: MaterialsObject,
+  addMaterials: ReturnType<typeof useMaterials>['addMaterials']
 ) {
   const costs = (
     state.itemType === 'armor' ? armorHoningCosts : weaponHoningCosts

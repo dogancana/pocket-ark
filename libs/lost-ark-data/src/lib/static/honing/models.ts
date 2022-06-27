@@ -33,6 +33,7 @@ export interface SingleLevelHoning {
   toLevel: number;
   chance: {
     maxAttempts: number;
+    reducedAttempts?: number;
     start: number;
     increase: number;
   };

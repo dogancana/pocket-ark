@@ -2,15 +2,12 @@ import {
   CraftingRecipe,
   craftingRecipes,
   CurrencyType,
+  materialsObject
 } from '@pocket-ark/lost-ark-data';
 import { isNumber } from 'lodash';
 import { Fragment, useMemo, useReducer } from 'react';
 import { Header, Table } from 'semantic-ui-react';
-import {
-  MaterialPopup,
-  MaterialsLine,
-  usePricingSource,
-} from '../../components';
+import { MaterialPopup, MaterialsLine, useMaterials } from '../../components';
 import { mainFeatures } from '../../services/site-constants';
 import {
   Currency,
@@ -18,7 +15,7 @@ import {
   SortableTableHeaders,
   SortableTableItem,
   sortableTableReducer,
-  SortableTableReducer,
+  SortableTableReducer
 } from '../../ui';
 import { MaterialIcon } from '../../ui/icons';
 import { HeroSection, PageContainer } from '../../ui/layout';
@@ -44,7 +41,7 @@ const headers: SortableTableItem<keyof TableRecipe>[] = [
 
 export const StrongholdCraftingPage: FC = () => {
   const { header, description } = mainFeatures.strongholdCrafting;
-  const { pricedMaterialsObject, addMaterials } = usePricingSource();
+  const { materials, addMaterials } = useMaterials();
 
   const [{ column, direction }, dispatch] = useReducer<
     SortableTableReducer<keyof TableRecipe>
@@ -57,8 +54,8 @@ export const StrongholdCraftingPage: FC = () => {
     return orderForTable(
       craftingRecipes.map((recipe): TableRecipe => {
         const { outputMaterial, amount } = recipe;
-        const mat = pricedMaterialsObject[outputMaterial];
-        const singlePrice = (mat?.price || 0) / (mat.saleAmount || 1);
+        const mat = materials[outputMaterial];
+        const singlePrice = (mat?.lowPrice || 0) / (mat?.amount || 1);
         const materialsTotal = addMaterials(recipe.requiredMaterials);
 
         if (!singlePrice || !materialsTotal) {
@@ -89,7 +86,7 @@ export const StrongholdCraftingPage: FC = () => {
       column,
       direction
     );
-  }, [pricedMaterialsObject, addMaterials, column, direction]);
+  }, [materials, addMaterials, column, direction]);
 
   return (
     <>
@@ -122,13 +119,11 @@ export const StrongholdCraftingPage: FC = () => {
                 }${recipe.requiredMaterials.map((m) => m.type).join(',')}`}
               >
                 <Table.Cell>
-                  <MaterialPopup
-                    material={pricedMaterialsObject[recipe.outputMaterial]}
-                  >
+                  <MaterialPopup material={materials[recipe.outputMaterial]}>
                     <div className="w-full flex flex-row items-center">
                       <MaterialIcon type={recipe.outputMaterial} />
                       <span className="ml-2">
-                        {pricedMaterialsObject[recipe.outputMaterial]?.name}
+                        {materialsObject[recipe.outputMaterial]?.name}
                         {recipe.amount ? ` x${recipe.amount}` : ''}
                       </span>
                     </div>
@@ -137,8 +132,8 @@ export const StrongholdCraftingPage: FC = () => {
                 <Table.Cell>
                   <MaterialsLine
                     materials={recipe.requiredMaterials.map((m) => ({
-                      ...pricedMaterialsObject[m.type],
-                      amount: m.amount,
+                      ...materials[m.type],
+                      count: m.amount,
                     }))}
                   />
                 </Table.Cell>

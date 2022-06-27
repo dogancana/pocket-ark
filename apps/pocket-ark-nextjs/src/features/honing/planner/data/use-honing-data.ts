@@ -1,14 +1,19 @@
 import {
-  armorHoningCosts, BodyItemSlot,
+  armorHoningCosts,
+  BodyItemSlot,
+  getResearchReduction,
   MaterialsToCraft,
-  MaterialType, SingleLevelHoning, weaponHoningCosts
+  MaterialType,
+  SingleLevelHoning,
+  weaponHoningCosts,
 } from '@pocket-ark/lost-ark-data';
 import { flattenDeep } from 'lodash';
-import { usePricingSource } from '../../../../components';
+import { useMaterials } from '../../../../components/materials-provider';
+import { MaterialsObject } from '../../../../utils/materials';
 import {
   HoningCosts,
   SingleLevelHoningWithAttempts,
-  SingleLevelHoningWithTotals
+  SingleLevelHoningWithTotals,
 } from '../../models';
 import { limitProtection, protection } from '../../utils';
 import { useHoningFilter } from '../filter/honing-filter-provider';
@@ -24,9 +29,9 @@ const slots: BodyItemSlot[] = [
 ];
 
 export function useHoningData() {
-  const { pricedMaterialsObject, addMaterials } = usePricingSource();
+  const { materials, addMaterials } = useMaterials();
   const {
-    state: { from, to, avgChance },
+    state: { from, to, avgChance, research1370 },
   } = useHoningFilter();
 
   return slots
@@ -41,7 +46,8 @@ export function useHoningData() {
       const costs = plannedCosts.map((cost): SingleLevelHoningWithAttempts => {
         const attempts = createAttemptsWithProtectionData(
           cost,
-          pricedMaterialsObject,
+          materials,
+          research1370,
           addMaterials
         );
 
@@ -74,7 +80,8 @@ export function useHoningData() {
 
       const costsWithSuccessPoints = mapCostsForAttemptToSucceed(
         costs,
-        avgChance
+        avgChance,
+        research1370
       );
 
       return {
@@ -86,18 +93,28 @@ export function useHoningData() {
 
 function createAttemptsWithProtectionData(
   cost: SingleLevelHoning,
-  prices: ReturnType<typeof usePricingSource>['pricedMaterialsObject'],
-  addMaterials: ReturnType<typeof usePricingSource>['addMaterials']
+  prices: MaterialsObject,
+  research1370: boolean,
+  addMaterials: ReturnType<typeof useMaterials>['addMaterials']
 ) {
-  return new Array(cost.chance.maxAttempts)
+  const discount = getResearchReduction(cost.toLevel, { research1370 });
+  const chanceIncrease = discount?.chanceIncrease || 0;
+  const attempts = discount
+    ? cost.chance.reducedAttempts || cost.chance.maxAttempts
+    : cost.chance.maxAttempts;
+
+  return new Array(attempts)
     .fill(0)
     .map((_, i) => ({
       // Basic chance and cost
       attemptNumber: i,
-      chance: Math.min(
-        cost.chance.start + i * cost.chance.increase,
-        cost.chance.start * 2
-      ),
+      chance:
+        i === attempts - 1
+          ? 100
+          : Math.min(
+              cost.chance.start + i * cost.chance.increase,
+              cost.chance.start * 2
+            ) + chanceIncrease,
       cost:
         addMaterials(
           cost.upgrade.materials.filter(
@@ -105,19 +122,21 @@ function createAttemptsWithProtectionData(
           )
         ) + cost.upgrade.gold,
     }))
-    .map((a) => ({
-      // protection
-      ...a,
-      protection: protection(
-        cost.chance.start,
-        a.chance,
-        a.cost,
-        cost.toLevel,
-        cost.rarirty,
-        cost.itemType,
-        prices
-      ),
-    }))
+    .map((a) => {
+      return {
+        // protection
+        ...a,
+        protection: protection(
+          cost.chance.start,
+          a.chance,
+          a.cost,
+          cost.toLevel,
+          cost.rarirty,
+          cost.itemType,
+          prices
+        ),
+      };
+    })
     .map((a) => {
       // protection
       const protection = limitProtection(a.chance, a.protection);
@@ -184,9 +203,12 @@ function getIsPlanned(cost: SingleLevelHoning, fromItem: Item, toItem: Item) {
 
 function mapCostsForAttemptToSucceed(
   costs: SingleLevelHoningWithAttempts[],
-  avgChance: number
+  avgChance: number,
+  research1370: boolean
 ): SingleLevelHoningWithTotals[] {
   const mappedCosts = costs.map((cost) => {
+    const discount = getResearchReduction(cost.toLevel, { research1370 });
+    const feedMultiplier = discount?.feedMultiplier || 1;
     const averageAttemptIndexToSuccess = cost.attempts
       .reduce((acc, curr) => {
         const last = acc[acc.length - 1];
@@ -201,6 +223,10 @@ function mapCostsForAttemptToSucceed(
 
     return {
       ...cost,
+      feed: {
+        silver: cost.feed.silver * feedMultiplier,
+        shards: cost.feed.shards * feedMultiplier,
+      },
       averageAttemptIndexToSuccess,
     };
   });

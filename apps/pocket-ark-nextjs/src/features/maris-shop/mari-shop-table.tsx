@@ -1,15 +1,16 @@
-import { CurrencyType, PricedMaterial } from '@pocket-ark/lost-ark-data';
+import { CurrencyType } from '@pocket-ark/lost-ark-data';
 import { useMemo, useReducer } from 'react';
 import { Table } from 'semantic-ui-react';
-import { MaterialPopup, usePricingSource } from '../../components';
+import { MaterialPopup, useMaterials } from '../../components';
 import {
   Currency,
   MaterialIcon,
   SortableTableHeaders,
   sortableTableReducer,
-  SortableTableReducer,
+  SortableTableReducer
 } from '../../ui';
 import { orderForTable } from '../../ui/sortable-table';
+import { PricedMaterial } from '../../utils/materials';
 import { readableNumber } from '../../utils/numbers';
 import { FC } from '../../utils/react';
 import { mapScoreColor } from '../../utils/score';
@@ -30,7 +31,7 @@ const headers: { label: string; column: keyof TableOffer }[] = [
 ];
 
 export const MariShopTable: FC = () => {
-  const { pricedMaterialsObject, rates } = usePricingSource();
+  const { materials, rates } = useMaterials();
 
   const [{ column, direction }, dispatch] = useReducer<
     SortableTableReducer<keyof TableOffer>
@@ -42,9 +43,9 @@ export const MariShopTable: FC = () => {
   const offers = useMemo(() => {
     return orderForTable(
       mariOffers.map((o): TableOffer => {
-        const material = pricedMaterialsObject[o.materialType];
+        const material = materials[o.materialType];
         const price =
-          o.quantity * (material.price / (material.saleAmount || 1));
+          o.quantity * (material.lowPrice / (material.saleAmount || 1));
         const mariGoldPrice = rates[CurrencyType.Crystal] * o.blueCrystalCost;
 
         return {
@@ -58,7 +59,7 @@ export const MariShopTable: FC = () => {
       column,
       direction
     );
-  }, [pricedMaterialsObject, rates, column, direction]);
+  }, [materials, rates, column, direction]);
 
   return (
     <>
