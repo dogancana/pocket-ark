@@ -21,7 +21,7 @@ export const Footer: FC = () => {
               </a>
             </Link>
           </div>
-          <Link href="https://discord.gg/j8bAsPux" passHref>
+          <Link href="https://discord.gg/ZkSMGXn2Ee" passHref>
             <a className=" text-stone-400 ml-2">
               <Icon name="discord" size="large" />
             </a>
