@@ -1,14 +1,14 @@
 import { CurrencyType } from '@pocket-ark/lost-ark-data';
 import { sortBy } from 'lodash';
 import { Table } from 'semantic-ui-react';
-import { usePricingSource } from '../../../components/material-pricing-provider';
+import { MaterialPopup } from '../../../components';
+import { useMaterials } from '../../../components/materials-provider';
 import { Currency } from '../../../ui';
 import { MaterialIcon } from '../../../ui/icons/material-icon';
-import { FC } from '../../../utils/react';
 import { readableNumber } from '../../../utils/numbers';
-import { protection } from '../utils';
-import { MaterialPopup } from '../../../components';
+import { FC } from '../../../utils/react';
 import { mapScoreColor } from '../../../utils/score';
+import { protection } from '../utils';
 
 export interface ProtectionResultsProps {
   protectionMaterials: ReturnType<typeof protection>;
@@ -17,11 +17,11 @@ export interface ProtectionResultsProps {
 export const ProtectionResults: FC<ProtectionResultsProps> = ({
   protectionMaterials,
 }) => {
-  const { pricedMaterialsObject } = usePricingSource();
+  const { materials: pricedMaterialsObject } = useMaterials();
   const materials =
     protectionMaterials?.map((m) => {
       const material = pricedMaterialsObject[m.type];
-      const idealPrice = pricedMaterialsObject[m.type].price * m.score;
+      const idealPrice = pricedMaterialsObject[m.type].lowPrice * m.score;
       return {
         ...material,
         idealPrice,
@@ -69,7 +69,7 @@ export const ProtectionResults: FC<ProtectionResultsProps> = ({
                   </Table.Cell>
                 </MaterialPopup>
                 <Table.Cell>
-                  <Currency type={CurrencyType.Gold} value={m.price} />
+                  <Currency type={CurrencyType.Gold} value={m.lowPrice} />
                 </Table.Cell>
                 <Table.Cell>
                   <div className={m.textColorClass}>{m.score}</div>

@@ -1,4 +1,4 @@
-import { MaterialCategory } from './models';
+import { MaterialCategory, MaterialType, Material } from './models';
 import { Rarity } from '../models/index';
 import { materials } from './materials';
 
@@ -18,6 +18,7 @@ export const categorySorting: MaterialCategory[] = [
   'fishing',
   'excavating',
   'cooking',
+  'currency',
 ];
 
 export const raritySorting: Rarity[] = [
@@ -30,3 +31,10 @@ export const raritySorting: Rarity[] = [
 ];
 
 export const materialKeys = materials.map((m) => m.type);
+export const materialsObject = materials.reduce(
+  (prev, curr) => ({
+    ...prev,
+    [curr.type]: curr,
+  }),
+  {} as { [key in MaterialType]: Material }
+);

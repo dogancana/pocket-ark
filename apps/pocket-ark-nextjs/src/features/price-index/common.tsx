@@ -1,10 +1,5 @@
-import {
-  CurrencyType,
-  MaterialCategory,
-  MaterialType
-} from '@pocket-ark/lost-ark-data';
+import { MaterialCategory } from '@pocket-ark/lost-ark-data';
 import { ReactNode } from 'react';
-import { MaterialValues } from '../../components';
 import { FC } from '../../utils/react';
 
 export const PriceItem: FC = ({ children }) => (
@@ -13,20 +8,11 @@ export const PriceItem: FC = ({ children }) => (
   </div>
 );
 
-export const ItemFooter: FC = ({ children }) => (
-  <div className="flex bg-stone-200 h-6">{children}</div>
-);
-
-export const MaterialValuesLine: FC<{ type: MaterialType }> = ({ type }) => (
-  <MaterialValues
-    type={type}
-    showCurrencies={[
-      CurrencyType.Crystal,
-      CurrencyType.RoyalCrystal,
-      CurrencyType.RealMoney,
-    ]}
-    itemClassName="mr-6"
-  />
+export const ItemFooter: FC<{ className?: string }> = ({
+  children,
+  className,
+}) => (
+  <div className={`flex bg-stone-200 h-6 ${className || ''}`}>{children}</div>
 );
 
 export interface PriceSectionProps {
@@ -74,5 +60,7 @@ export function readableCategory(category: MaterialCategory) {
       return 'Fishing';
     case 'excavating':
       return 'Excavating';
+    case 'currency':
+      return 'Currency Exchange';
   }
 }

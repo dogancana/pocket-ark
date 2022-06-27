@@ -1,10 +1,14 @@
 import {
-  armorHoningCosts, BodyItemSlot,
+  armorHoningCosts,
+  BodyItemSlot,
   MaterialsToCraft,
-  MaterialType, SingleLevelHoning, weaponHoningCosts
+  MaterialType,
+  SingleLevelHoning,
+  weaponHoningCosts
 } from '@pocket-ark/lost-ark-data';
 import { flattenDeep } from 'lodash';
-import { usePricingSource } from '../../../../components';
+import { useMaterials } from '../../../../components/materials-provider';
+import { MaterialsObject } from '../../../../utils/materials';
 import {
   HoningCosts,
   SingleLevelHoningWithAttempts,
@@ -24,7 +28,7 @@ const slots: BodyItemSlot[] = [
 ];
 
 export function useHoningData() {
-  const { pricedMaterialsObject, addMaterials } = usePricingSource();
+  const { materials, addMaterials } = useMaterials();
   const {
     state: { from, to, avgChance },
   } = useHoningFilter();
@@ -41,7 +45,7 @@ export function useHoningData() {
       const costs = plannedCosts.map((cost): SingleLevelHoningWithAttempts => {
         const attempts = createAttemptsWithProtectionData(
           cost,
-          pricedMaterialsObject,
+          materials,
           addMaterials
         );
 
@@ -86,8 +90,8 @@ export function useHoningData() {
 
 function createAttemptsWithProtectionData(
   cost: SingleLevelHoning,
-  prices: ReturnType<typeof usePricingSource>['pricedMaterialsObject'],
-  addMaterials: ReturnType<typeof usePricingSource>['addMaterials']
+  prices: MaterialsObject,
+  addMaterials: ReturnType<typeof useMaterials>['addMaterials']
 ) {
   return new Array(cost.chance.maxAttempts)
     .fill(0)

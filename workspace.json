@@ -3,6 +3,7 @@
   "version": 2,
   "projects": {
     "fe-utils": "libs/fe-utils",
+    "loa-market-api": "libs/loa-market-api",
     "lost-ark-data": "libs/lost-ark-data",
     "pocket-ark-nextjs": "apps/pocket-ark-nextjs",
     "pocket-ark-nextjs-e2e": "apps/pocket-ark-nextjs-e2e",

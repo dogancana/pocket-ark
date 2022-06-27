@@ -1,11 +1,50 @@
+import { LOAMarketRegion } from '@pocket-ark/loa-market-api';
+import { COOKIES } from '@pocket-ark/lost-ark-data';
+import { getCookie, setCookies } from 'cookies-next';
 import Link from 'next/link';
-import { Container, Icon } from 'semantic-ui-react';
+import { Container, Dropdown, DropdownProps } from 'semantic-ui-react';
 import { Logo, useMediaSM } from '../../ui';
 import { FC } from '../../utils/react';
+import { useMaterials } from '../materials-provider';
 import { SiteSearch } from './site-search';
+
+const regions = [
+  {
+    value: LOAMarketRegion.EUC,
+    text: 'EUC',
+    content: 'Europe Central',
+  },
+  {
+    value: LOAMarketRegion.EUW,
+    text: 'EUW',
+    content: 'Europe West',
+  },
+  {
+    value: LOAMarketRegion.NAE,
+    text: 'NAE',
+    content: 'North America East',
+  },
+  {
+    value: LOAMarketRegion.NAW,
+    text: 'NAW',
+    content: 'Nort America West',
+  },
+  {
+    value: LOAMarketRegion.SA,
+    text: 'SA',
+    content: 'South America',
+  },
+];
 
 export const Header: FC = () => {
   const isSM = useMediaSM();
+  const defaultRegion = getCookie(COOKIES.region) || LOAMarketRegion.NAE;
+  const { refetchMaterials } = useMaterials();
+
+  const onRegionChange: DropdownProps['onChange'] = (_, data) => {
+    setCookies(COOKIES.region, data.value as LOAMarketRegion);
+    if (refetchMaterials) refetchMaterials();
+  };
 
   return (
     <header
@@ -25,20 +64,17 @@ export const Header: FC = () => {
           </Link>
           <div className="flex ml-auto items-center">
             <SiteSearch />
-            <Link href="https://discord.gg/j8bAsPux" passHref>
-              <a className="ml-2 text-stone-400">
-                <Icon name="discord" size="large" />
-              </a>
-            </Link>
-            <Link
-              href="https://www.paypal.com/donate/?hosted_button_id=6JUF8K7EM4E9J"
-              passHref
-            >
-              <a className="text-stone-400">
-                <Icon name="paypal" size="large" />
-              </a>
-            </Link>
           </div>
+          <Dropdown
+            inline
+            defaultValue={defaultRegion}
+            className="ml-4 text-gray-500"
+            onChange={onRegionChange}
+            options={regions.map((m) => ({
+              ...m,
+              key: m.value,
+            }))}
+          />
         </nav>
       </Container>
     </header>

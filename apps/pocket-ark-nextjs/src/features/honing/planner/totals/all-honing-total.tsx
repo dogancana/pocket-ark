@@ -1,14 +1,13 @@
 import {
   addCraftingMaterials,
   CurrencyItemType,
-  CurrencyType,
-  MaterialsToCraft,
+  CurrencyType, MaterialsToCraft
 } from '@pocket-ark/lost-ark-data';
 import { flatten } from 'lodash';
 import { useState } from 'react';
 import { Divider } from 'semantic-ui-react';
-import { usePricingSource } from '../../../../components';
-import { MaterialsLine } from '../../../../components/materials/materials-line';
+import { useMaterials } from '../../../../components';
+import { MaterialsLine } from '../../../../components/materials';
 import { Currency } from '../../../../ui/currency/currency';
 import { FC } from '../../../../utils/react';
 import { sortMaterials } from '../../utils';
@@ -28,7 +27,7 @@ interface State {
 
 export const AllHoningTotal: FC = () => {
   const honingData = useHoningData();
-  const { pricedMaterialsObject, addMaterials } = usePricingSource();
+  const { materials, addMaterials } = useMaterials();
   const [{ excludedMaterials }, setState] = useState<State>({
     excludedMaterials: [],
   });
@@ -74,9 +73,9 @@ export const AllHoningTotal: FC = () => {
     })
   );
 
-  const pricedMaterials = sortMaterials(totals.materials).map((m) => ({
-    ...pricedMaterialsObject[m.type],
-    amount: m.amount,
+  const honingMaterials = sortMaterials(totals.materials).map((m) => ({
+    ...materials[m.type],
+    count: m.amount,
   }));
 
   if (totals.gold === 0) {
@@ -90,7 +89,7 @@ export const AllHoningTotal: FC = () => {
         Need on average:
         <div className="flex flex-col items-end">
           <div className="flex pl-3">
-            <MaterialsLine materials={pricedMaterials} />
+            <MaterialsLine materials={honingMaterials} />
           </div>
           <div className="flex mt-2">
             <Currency

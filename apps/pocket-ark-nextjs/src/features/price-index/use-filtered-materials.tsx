@@ -1,7 +1,6 @@
 import {
   categorySorting,
-  PricedMaterial,
-  Rarity,
+  materialsObject,
   raritySorting,
 } from '@pocket-ark/lost-ark-data';
 import { filter } from 'fuzzy';
@@ -12,7 +11,8 @@ import {
   SearchResultData,
   StrictSearchResultProps,
 } from 'semantic-ui-react';
-import { usePricingSource } from '../../components';
+import { useMaterials } from '../../components';
+import { PricedMaterial } from '../../utils/materials';
 
 interface StaticOption {
   name: string;
@@ -24,30 +24,27 @@ interface State {
   materials: PricedMaterial[];
 }
 
-export const ALL_MATERIALS = { name: 'All materials' };
-export const MATERIALS_WITHOUT_PRICE = { name: 'Materials without price' };
-export const STATIC_OPTIONS = [
-  ALL_MATERIALS,
-  { name: 'Materials without price' },
-];
-
 export function useFilteredMaterials() {
-  const { pricedMaterialsArray: materials } = usePricingSource();
+  const { materials } = useMaterials();
+  const mats = Object.values(materials).filter(
+    (m) => !!materialsObject[m.type]
+  );
 
   const sortedMaterials = useMemo(() => {
-    return sortBy(materials, (m) => {
-      const index = categorySorting.findIndex((c) => c === m.category);
+    return sortBy(mats, (m) => {
+      const mat = materialsObject[m.type];
+      const index = categorySorting.findIndex((c) => c === mat.category);
       if (index === -1) return Number.MAX_SAFE_INTEGER;
 
-      const rarityIndex = raritySorting.findIndex((r) => r === m.rarity);
+      const rarityIndex = raritySorting.findIndex((r) => r === mat.rarity);
 
       return index * 100 + rarityIndex;
     });
-  }, [materials]);
+  }, [mats]);
 
   const [state, setState] = useState<State>({
-    query: ALL_MATERIALS.name,
-    options: [...STATIC_OPTIONS, ...sortedMaterials].map((i) => ({
+    query: '',
+    options: sortedMaterials.map((i) => ({
       title: i.name,
     })),
     materials: sortedMaterials,
@@ -55,14 +52,10 @@ export function useFilteredMaterials() {
 
   const onQueryChanged = (query: string) => {
     setState((p) => {
-      const options = filter(
-        query || '',
-        [...STATIC_OPTIONS, ...sortedMaterials],
-        {
-          extract: (m: StaticOption | PricedMaterial) =>
-            `${m.name}_${isPricedMaterial(m) ? m.category : ''}`,
-        }
-      )
+      const options = filter(query || '', sortedMaterials, {
+        extract: (m: StaticOption | PricedMaterial) =>
+          `${m.name}_${isPricedMaterial(m) ? m.category : ''}`,
+      })
         .filter((v) => !!v)
         .map((m) => m.original as StaticOption | PricedMaterial);
 
@@ -76,22 +69,14 @@ export function useFilteredMaterials() {
   };
 
   const onSelected = (_, data: SearchResultData) => {
-    if (data.result.title === MATERIALS_WITHOUT_PRICE.name) {
-      setState((p) => ({
-        ...p,
-        query: MATERIALS_WITHOUT_PRICE.name,
-        materials: p.materials.filter((m) => !m.price),
-      }));
-    } else {
-      onQueryChanged(data.result.title);
-    }
+    onQueryChanged(data.result.title);
   };
 
   const setQuery = (_, data: SearchProps) => onQueryChanged(data.value);
 
   return {
     ...state,
-    allVisible: state.materials.length === materials.length,
+    allVisible: state.materials.length === mats.length,
     setQuery,
     onSelected,
   };

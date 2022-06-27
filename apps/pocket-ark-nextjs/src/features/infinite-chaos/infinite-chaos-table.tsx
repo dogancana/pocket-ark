@@ -1,11 +1,7 @@
-import {
-  CurrencyItemType,
-  CurrencyType,
-  PricedMaterial,
-} from '@pocket-ark/lost-ark-data';
+import { CurrencyItemType, CurrencyType } from '@pocket-ark/lost-ark-data';
 import { useMemo, useReducer } from 'react';
 import { Table } from 'semantic-ui-react';
-import { MaterialPopup, usePricingSource } from '../../components';
+import { useMaterials } from '../../components';
 import {
   Currency,
   MaterialIcon,
@@ -14,6 +10,8 @@ import {
   SortableTableReducer,
   sortableTableReducer,
 } from '../../ui';
+import { PricedMaterial } from '../../utils/materials';
+import { readableNumber } from '../../utils/numbers';
 import { FC } from '../../utils/react';
 
 export interface InfiniteChaosTableProps {
@@ -28,10 +26,10 @@ interface TableMaterial extends PricedMaterial {
 
 const headers: { label: string; column: keyof TableMaterial }[] = [
   { label: 'Material', column: 'name' },
-  { label: 'Price', column: 'price' },
+  { label: 'Price', column: 'avgPrice' },
   { label: 'Shards', column: 'chaosDungeonShards' },
   { label: 'Gold/Shard', column: 'valuePerShard' },
-  { label: 'Gold x99', column: 'price' },
+  { label: 'Gold x99', column: 'avgPrice' },
   { label: 'Mats/hr', column: 'matsPerHour' },
   { label: 'Gold/hr', column: 'goldPerHour' },
 ];
@@ -46,11 +44,11 @@ export const InfiniteChaosTable: FC<InfiniteChaosTableProps> = ({
     direction: 'descending',
   });
 
-  const { pricedMaterialsArray: materials } = usePricingSource();
+  const { materials } = useMaterials();
   const sortedMaterials = useMemo(
     () =>
       orderForTable(
-        materials
+        Object.values(materials)
           .filter((m) => !!m.chaosDungeonShards)
           .map(
             (m): TableMaterial => ({
@@ -80,15 +78,13 @@ export const InfiniteChaosTable: FC<InfiniteChaosTableProps> = ({
         {sortedMaterials.map((material) => (
           <Table.Row key={material.type} className="py-4">
             <Table.Cell>
-              <MaterialPopup material={material}>
-                <div className="w-full flex flex-row items-center">
-                  <MaterialIcon type={material.type} />
-                  <span className="ml-2">{material.name}</span>
-                </div>
-              </MaterialPopup>
+              <div className="w-full flex flex-row items-center">
+                <MaterialIcon type={material.type} />
+                <span className="ml-2">{material.name}</span>
+              </div>
             </Table.Cell>
             <Table.Cell>
-              <Currency type={CurrencyType.Gold} value={material.price} />
+              <Currency type={CurrencyType.Gold} value={material.lowPrice} />
             </Table.Cell>
             <Table.Cell>
               <Currency
@@ -96,12 +92,10 @@ export const InfiniteChaosTable: FC<InfiniteChaosTableProps> = ({
                 value={material.chaosDungeonShards}
               />
             </Table.Cell>
-            <Table.Cell>{material.valuePerShard?.toFixed(2) || '?'}</Table.Cell>
-            <Table.Cell>
-              {material.price ? material.price * 99 : '?'}
-            </Table.Cell>
-            <Table.Cell>{material.matsPerHour.toFixed(1)}</Table.Cell>
-            <Table.Cell>{material.goldPerHour?.toFixed(2) || '?'}</Table.Cell>
+            <Table.Cell>{readableNumber(material.valuePerShard, 2)}</Table.Cell>
+            <Table.Cell>{readableNumber(material.lowPrice * 99)}</Table.Cell>
+            <Table.Cell>{readableNumber(material.matsPerHour, 1)}</Table.Cell>
+            <Table.Cell>{readableNumber(material.goldPerHour)}</Table.Cell>
           </Table.Row>
         ))}
       </Table.Body>
@@ -114,13 +108,13 @@ function matsPerHour(material: PricedMaterial, shardsPerHour = 0) {
 }
 
 function goldPerHour(material: PricedMaterial, shardsPerHour = 0) {
-  return material.price
-    ? matsPerHour(material, shardsPerHour) * material.price
+  return material.lowPrice
+    ? matsPerHour(material, shardsPerHour) * material.lowPrice
     : undefined;
 }
 
 function valuePerShard(material: PricedMaterial) {
-  return material.price
-    ? material.price / material.chaosDungeonShards
+  return material.lowPrice
+    ? material.lowPrice / material.chaosDungeonShards
     : undefined;
 }

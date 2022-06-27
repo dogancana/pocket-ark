@@ -16,6 +16,7 @@
     "baseUrl": ".",
     "paths": {
       "@pocket-ark/fe-utils": ["libs/fe-utils/src/index.ts"],
+      "@pocket-ark/loa-market-api": ["libs/loa-market-api/src/index.ts"],
       "@pocket-ark/lost-ark-data": ["libs/lost-ark-data/src/index.ts"],
       "@pocket-ark/ssr-utils": ["libs/ssr-utils/src/index.ts"],
       "@pocket-ark/utils": ["libs/utils/src/index.ts"]

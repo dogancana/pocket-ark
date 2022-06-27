@@ -1,25 +1,26 @@
-import { PricingSource } from '@pocket-ark/lost-ark-data';
-import {
-  getPricingPropsSSR
-} from '@pocket-ark/ssr-utils';
+import { LOAMarketCategory } from '@pocket-ark/loa-market-api';
 import { GetServerSideProps } from 'next';
-import { PricingProvider } from '../src/components';
+import { MaterialsProvider } from '../src/components';
+import { MaterialsProviderProps } from '../src/components/materials-provider';
 import { StrongholdCraftingPage } from '../src/features/stronghold-crafting';
 import { FC } from '../src/utils/react';
+import { getMarketPrices } from '../src/utils/ssr';
 
-interface Props {
-  source: PricingSource;
-}
-
-const Page: FC<Props> = ({ source }) => (
-  <PricingProvider source={source}>
+const Page: FC<MaterialsProviderProps> = (props) => (
+  <MaterialsProvider {...props}>
     <StrongholdCraftingPage />
-  </PricingProvider>
+  </MaterialsProvider>
 );
 
 export const getServerSideProps: GetServerSideProps = async (props) => {
-  const source = await getPricingPropsSSR(props);
-  return { props: { source } };
+  const categories = [
+    LOAMarketCategory.CombatSupplies,
+    LOAMarketCategory.EnhancementMaterial,
+    LOAMarketCategory.Trader,
+    LOAMarketCategory.Cooking,
+  ];
+  const materials = await getMarketPrices(categories, props);
+  return { props: { materials, categories } };
 };
 
 export default Page;

@@ -37,7 +37,6 @@ export const Filters: FC = () => {
   }, []);
 
   const onSubmit: FormEventHandler = (e) => {
-    console.log('asd', componentState);
     e.preventDefault();
     const error = validate(componentState);
     setState((p) => ({ ...p, error }));

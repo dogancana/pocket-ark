@@ -1,7 +1,7 @@
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import 'semantic-ui-css/semantic.min.css';
-import { Header } from '../src/components';
+import { Footer } from '../src/components';
 import { mainFeatures } from '../src/services';
 import { PageWithMeta } from '../src/ui';
 import './styles.less';
@@ -44,15 +44,17 @@ export const App = ({ Component, pageProps, router }: AppProps) => {
         <meta name="msapplication-TileColor" content="#da532c" />
         <meta name="theme-color" content="#ffffff" />
       </Head>
-      <main className="bg-gradient-to-br from-stone-50 to-stone-200 h-screen overflow-auto">
-        <Header />
+      <main className="bg-gradient-to-br from-stone-50 to-stone-200 h-screen overflow-auto flex flex-col">
         <PageWithMeta
           subTitle={feature?.header}
           description={desc}
           path={feature?.href}
         >
-          <Component {...pageProps} />
+          <div className="flex-1">
+            <Component {...pageProps} />
+          </div>
         </PageWithMeta>
+        <Footer />
       </main>
     </>
   );

@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { Card, Container } from 'semantic-ui-react';
+import { Header } from '../src/components';
 import { mainFeatures } from '../src/services';
 import { FeatureKey } from '../src/services/site-constants';
 
@@ -15,6 +16,7 @@ const Index = () => {
   const features = featuresToShowOnLanding.map((f) => mainFeatures[f]);
   return (
     <>
+      <Header />
       <div className="w-full relative" style={{ height: '50vh' }}>
         <Container className="h-full text-center">
           <div className="flex justify-center items-center h-full text-4xl w-2/3 m-auto">
