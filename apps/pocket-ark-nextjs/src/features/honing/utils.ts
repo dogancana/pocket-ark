@@ -74,7 +74,7 @@ export function protection(
   toLevel: number,
   rarity: Rarity,
   armorType: BodyItemType,
-  prices: MaterialsObject
+  prices: MaterialsObject,
 ): MaterialProtectionScore[] {
   const chanceIncreasePerMaterialType = baseChance / 3;
   const costOfOnePerc = cost / chance;

@@ -1,7 +1,9 @@
 import {
   addCraftingMaterials,
   CurrencyItemType,
-  CurrencyType, MaterialsToCraft
+  CurrencyType,
+  getResearchReduction,
+  MaterialsToCraft,
 } from '@pocket-ark/lost-ark-data';
 import { flatten } from 'lodash';
 import { useState } from 'react';
@@ -12,6 +14,7 @@ import { Currency } from '../../../../ui/currency/currency';
 import { FC } from '../../../../utils/react';
 import { sortMaterials } from '../../utils';
 import { useHoningData } from '../data';
+import { useHoningFilter } from '../filter/honing-filter-provider';
 import { ExcludedMaterials } from './excluded-materials';
 
 interface SlotTotals {
@@ -27,6 +30,9 @@ interface State {
 
 export const AllHoningTotal: FC = () => {
   const honingData = useHoningData();
+  const {
+    state: { research1370 },
+  } = useHoningFilter();
   const { materials, addMaterials } = useMaterials();
   const [{ excludedMaterials }, setState] = useState<State>({
     excludedMaterials: [],
@@ -36,6 +42,9 @@ export const AllHoningTotal: FC = () => {
 
   const totals = flattened.reduce(
     (acc: SlotTotals, curr) => {
+      const discount = getResearchReduction(curr.toLevel, { research1370 });
+      const feedMultiplier = discount?.feedMultiplier || 1;
+
       return {
         materials: addCraftingMaterials(
           acc.materials,
@@ -46,12 +55,12 @@ export const AllHoningTotal: FC = () => {
           curr.upgrade.gold * (curr.averageAttemptIndexToSuccess + 1),
         silver:
           acc.silver +
-          curr.feed.silver +
+          curr.feed.silver * feedMultiplier +
           curr.upgrade.silver +
           (curr.averageAttemptIndexToSuccess + 1),
         shards:
           acc.shards +
-          curr.feed.shards +
+          curr.feed.shards * feedMultiplier +
           curr.upgrade.shards * (curr.averageAttemptIndexToSuccess + 1),
       };
     },

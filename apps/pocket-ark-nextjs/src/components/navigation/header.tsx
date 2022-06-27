@@ -2,10 +2,10 @@ import { LOAMarketRegion } from '@pocket-ark/loa-market-api';
 import { COOKIES } from '@pocket-ark/lost-ark-data';
 import { getCookie, setCookies } from 'cookies-next';
 import Link from 'next/link';
+import { useState } from 'react';
 import { Container, Dropdown, DropdownProps } from 'semantic-ui-react';
 import { Logo, useMediaSM } from '../../ui';
 import { FC } from '../../utils/react';
-import { useMaterials } from '../materials-provider';
 import { SiteSearch } from './site-search';
 
 const regions = [
@@ -38,12 +38,16 @@ const regions = [
 
 export const Header: FC = () => {
   const isSM = useMediaSM();
-  const defaultRegion = getCookie(COOKIES.region) || LOAMarketRegion.NAE;
-  const { refetchMaterials } = useMaterials();
+  const [region, setRegion] = useState<LOAMarketRegion>(
+    (getCookie(COOKIES.region) as LOAMarketRegion | undefined) ||
+      LOAMarketRegion.NAE
+  );
 
   const onRegionChange: DropdownProps['onChange'] = (_, data) => {
-    setCookies(COOKIES.region, data.value as LOAMarketRegion);
-    if (refetchMaterials) refetchMaterials();
+    const r = data.value as LOAMarketRegion;
+    setCookies(COOKIES.region, r);
+    setRegion(r);
+    window.location.reload();
   };
 
   return (
@@ -67,12 +71,12 @@ export const Header: FC = () => {
           </div>
           <Dropdown
             inline
-            defaultValue={defaultRegion}
+            value={region}
             className="ml-4 text-gray-500"
             onChange={onRegionChange}
             options={regions.map((m) => ({
               ...m,
-              key: m.value,
+              key: m.text,
             }))}
           />
         </nav>

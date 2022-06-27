@@ -1,11 +1,11 @@
 import { CurrencyType } from '@pocket-ark/lost-ark-data';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Divider, Icon, Modal, Popup } from 'semantic-ui-react';
 import { Currency } from '../../../../ui/currency/currency';
 import { FC } from '../../../../utils/react';
+import { STATE_STORAGE_KEY } from './constants';
 import { useHoningFilter } from './honing-filter-provider';
 import { ItemLine } from './item-line';
-import { STATE_STORAGE_KEY } from './constants';
 
 interface State {
   open: boolean;
@@ -14,7 +14,7 @@ interface State {
 export const HoningPlannerFilters: FC = () => {
   const [state, setState] = useState<State>({ open: false });
   const {
-    state: { from, to, avgChance },
+    state: { from, to, avgChance, research1370 },
     dispatch,
   } = useHoningFilter();
   const { open } = state;
@@ -38,7 +38,7 @@ export const HoningPlannerFilters: FC = () => {
       <Modal open={open} onClose={toggleOpen} size="small" centered>
         <Modal.Header>Honing Planner Filters</Modal.Header>
         <Modal.Content>
-          <div className="pb-4">
+          <div className="pb-4 flex">
             <Popup
               flowing
               trigger={
@@ -93,6 +93,23 @@ export const HoningPlannerFilters: FC = () => {
                 })
               }
             />
+            <div className="ml-auto flex items-center">
+              <input
+                className="h-4 w-4 border rounded-sm mr-2 "
+                type="checkbox"
+                id="research1370"
+                checked={research1370}
+                onChange={(event) =>
+                  dispatch({
+                    type: 'SET_1370_RESEARCH',
+                    value: event.target.checked,
+                  })
+                }
+              />
+              <label className="cursor-pointer " htmlFor="research1370">
+                1370 Stronghold Research
+              </label>
+            </div>
           </div>
           <div className="relative flex">
             <div className="w-1/2 pr-8">

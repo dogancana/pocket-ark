@@ -26,7 +26,7 @@ interface State {
 
 export function useFilteredMaterials() {
   const { materials } = useMaterials();
-  const mats = Object.values(materials).filter(
+  const mats = Object.values(materials || {}).filter(
     (m) => !!materialsObject[m.type]
   );
 

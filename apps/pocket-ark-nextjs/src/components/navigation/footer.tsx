@@ -5,7 +5,7 @@ import { FC } from '../../utils/react';
 
 export const Footer: FC = () => {
   return (
-    <div className="bg-stone-200 p-4">
+    <div className="bg-stone-200 p-4 border-t-2 border-stone-300">
       <Container>
         <div className="w-full flex items-center text-gray-400">
           <div className="flex items-center ml-auto">

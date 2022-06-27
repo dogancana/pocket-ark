@@ -107,3 +107,23 @@ export function itemLevelLimits(rarity: Rarity) {
       return { min: 1, max: 25 };
   }
 }
+
+export function mapItemLevelToILevel(level: number) {
+  if (level >= 15) {
+    return 1415 + (level - 15) * 15;
+  } else {
+    return 1340 + level * 5;
+  }
+}
+
+export function getResearchReduction(
+  toLevel: number,
+  researches: { research1370?: boolean }
+) {
+  const iLevel = mapItemLevelToILevel(toLevel);
+  if (iLevel > 1370 && iLevel <= 1415 && researches.research1370) {
+    return { chanceIncrease: 10, feedMultiplier: 0.8 };
+  }
+
+  return undefined;
+}

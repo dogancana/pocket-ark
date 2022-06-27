@@ -1,10 +1,11 @@
 import { CurrencyType } from '@pocket-ark/lost-ark-data';
 import { CSSProperties, MouseEventHandler, useRef, useState } from 'react';
+import { Icon } from 'semantic-ui-react';
+import { mapItemLevelToILevel } from '../../../../../../libs/lost-ark-data/src/lib/static/honing/utils';
 import { Currency } from '../../../ui';
 import { MaterialIcon } from '../../../ui/icons';
 import { FC } from '../../../utils/react';
 import { SingleLevelHoningWithTotals } from '../models';
-import { Icon } from 'semantic-ui-react';
 
 export interface SingleHoneProps {
   singleLevelHoning: SingleLevelHoningWithTotals;
@@ -51,6 +52,9 @@ export const SingleHone: FC<SingleHoneProps> = ({
         className="px-4 pt-4 pb-2 h-full cursor-pointer flex flex-col items-center justify-center w-32 relative z-0"
         onClick={toggleExpanded}
       >
+        <span className="text-xs text-gray-500 text-thin">
+          {mapItemLevelToILevel(singleLevelHoning.toLevel)}
+        </span>
         <span className="text-3xl">+{singleLevelHoning.toLevel}</span>
         <Currency
           className="text-center"
@@ -113,15 +117,16 @@ export const SingleHone: FC<SingleHoneProps> = ({
                   </div>
                 ))}
               </div>
-              {singleLevelHoning.chance.maxAttempts > 1 && (
-                <span className="text-xs text-gray-500 mt-3">
-                  {readableNumber(
-                    (100 / singleLevelHoning.chance.maxAttempts) * index,
-                    2
-                  )}
-                  %
-                </span>
-              )}
+              {singleLevelHoning.chance.maxAttempts > 1 &&
+                attempt.chance < 100 && (
+                  <span className="text-xs text-gray-500 mt-3">
+                    {readableNumber(
+                      (100 / singleLevelHoning.chance.maxAttempts) * index,
+                      2
+                    )}
+                    %
+                  </span>
+                )}
             </div>
           ))}
       </div>

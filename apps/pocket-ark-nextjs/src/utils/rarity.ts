@@ -12,6 +12,8 @@ export function rarityString(rarity: Rarity) {
       return 'Epic';
     case Rarity.Legendary:
       return 'Legendary';
+    case Rarity.Relic:
+      return 'Relice';
     case Rarity.Ancient:
       return 'Ancient';
   }

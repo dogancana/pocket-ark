@@ -14,6 +14,7 @@ interface State {
   avgChance: number;
   from: Item[];
   to: Item[];
+  research1370: boolean;
 }
 
 interface HoningFilterContext {
@@ -26,6 +27,7 @@ const context = createContext<HoningFilterContext>({
     avgChance: 60,
     from: [],
     to: [],
+    research1370: true,
   },
   dispatch: () => null,
 });
@@ -35,6 +37,7 @@ export const HoningFilterProvider: FC = ({ children }) => {
     avgChance: 60,
     from: initalFromSet,
     to: initialToSet,
+    research1370: true,
   });
 
   useEffect(() => {

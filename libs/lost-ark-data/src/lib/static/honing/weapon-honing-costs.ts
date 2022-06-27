@@ -139,6 +139,7 @@ export const legendaryWeaponHoningCosts: SingleLevelHoning[] = [
     toLevel: 7,
     chance: {
       maxAttempts: 5,
+      reducedAttempts: 4,
       start: 60,
       increase: 6,
     },
@@ -159,6 +160,7 @@ export const legendaryWeaponHoningCosts: SingleLevelHoning[] = [
     toLevel: 8,
     chance: {
       maxAttempts: 6,
+      reducedAttempts: 5,
       start: 45,
       increase: 4,
     },
@@ -179,6 +181,7 @@ export const legendaryWeaponHoningCosts: SingleLevelHoning[] = [
     toLevel: 9,
     chance: {
       maxAttempts: 7,
+      reducedAttempts: 6,
       start: 30,
       increase: 3,
     },
@@ -199,6 +202,7 @@ export const legendaryWeaponHoningCosts: SingleLevelHoning[] = [
     toLevel: 10,
     chance: {
       maxAttempts: 7,
+      reducedAttempts: 6,
       start: 30,
       increase: 3,
     },
@@ -219,6 +223,7 @@ export const legendaryWeaponHoningCosts: SingleLevelHoning[] = [
     toLevel: 11,
     chance: {
       maxAttempts: 7,
+      reducedAttempts: 6,
       start: 30,
       increase: 3,
     },
@@ -239,6 +244,7 @@ export const legendaryWeaponHoningCosts: SingleLevelHoning[] = [
     toLevel: 12,
     chance: {
       maxAttempts: 11,
+      reducedAttempts: 9,
       start: 15,
       increase: 1.5,
     },
@@ -259,6 +265,7 @@ export const legendaryWeaponHoningCosts: SingleLevelHoning[] = [
     toLevel: 13,
     chance: {
       maxAttempts: 11,
+      reducedAttempts: 9,
       start: 15,
       increase: 1.5,
     },
@@ -279,6 +286,7 @@ export const legendaryWeaponHoningCosts: SingleLevelHoning[] = [
     toLevel: 14,
     chance: {
       maxAttempts: 11,
+      reducedAttempts: 9,
       start: 15,
       increase: 1.5,
     },
@@ -299,6 +307,7 @@ export const legendaryWeaponHoningCosts: SingleLevelHoning[] = [
     toLevel: 15,
     chance: {
       maxAttempts: 15,
+      reducedAttempts: 10,
       start: 10,
       increase: 1,
     },
