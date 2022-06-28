@@ -13,7 +13,7 @@ export function rarityString(rarity: Rarity) {
     case Rarity.Legendary:
       return 'Legendary';
     case Rarity.Relic:
-      return 'Relice';
+      return 'Relic';
     case Rarity.Ancient:
       return 'Ancient';
   }
