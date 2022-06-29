@@ -4,11 +4,15 @@ import { FC } from '../../utils/react';
 import { MaterialCount } from './material-count';
 
 export interface MaterialCountProps {
-  materials: (PricedMaterial & { count: number })[];
+  className?: string;
+  materials: (PricedMaterial & { count?: number })[];
 }
 
-export const MaterialsLine: FC<MaterialCountProps> = ({ materials }) => (
-  <div className="flex align-middle">
+export const MaterialsLine: FC<MaterialCountProps> = ({
+  materials,
+  className,
+}) => (
+  <>
     {materials.map((material, index) => (
       <MaterialPopup
         material={material}
@@ -19,10 +23,12 @@ export const MaterialsLine: FC<MaterialCountProps> = ({ materials }) => (
           <MaterialCount
             type={material.type}
             value={material.count}
-            className={index !== materials.length - 1 ? 'mr-3' : ''}
+            className={`${index !== materials.length - 1 ? 'mr-3' : ''} ${
+              className || ''
+            }`}
           />
         </div>
       </MaterialPopup>
     ))}
-  </div>
+  </>
 );

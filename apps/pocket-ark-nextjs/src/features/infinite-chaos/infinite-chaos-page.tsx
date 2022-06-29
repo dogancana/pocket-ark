@@ -55,9 +55,9 @@ export const InfiniteChaosPage: FC = () => {
           </div>
         </p>
       </HeroSection>
-      <PageContainer className="mt-8">
+      <PageContainer className="self-stretch md:self-auto mt-8">
         <InfiniteChaosTable shardsPerHour={shardsPerHour} />
-        <p className="text-right my-1 mr-3 mb-5 text-gray-500">
+        <p className="text-right py-3 pr-1 text-gray-500">
           Shards per hour: {shardsPerHour}
         </p>
       </PageContainer>

@@ -1,11 +1,11 @@
 export function mapScoreColor(number: number) {
   switch (true) {
     case number > 1.5:
-      return 'text-green-500';
+      return 'text-green-700';
     case number > 1.25:
-      return 'text-green-400';
+      return 'text-green-500';
     case number > 1:
-      return 'text-green-300';
+      return 'text-green-400';
     case number === 0:
       return '';
     case number < 1:

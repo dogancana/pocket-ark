@@ -2,11 +2,11 @@ import {
   CraftingRecipe,
   craftingRecipes,
   CurrencyType,
-  materialsObject
+  materialsObject,
 } from '@pocket-ark/lost-ark-data';
 import { isNumber } from 'lodash';
 import { Fragment, useMemo, useReducer } from 'react';
-import { Header, Table } from 'semantic-ui-react';
+import { Header } from 'semantic-ui-react';
 import { MaterialPopup, MaterialsLine, useMaterials } from '../../components';
 import { mainFeatures } from '../../services/site-constants';
 import {
@@ -15,7 +15,12 @@ import {
   SortableTableHeaders,
   SortableTableItem,
   sortableTableReducer,
-  SortableTableReducer
+  SortableTableReducer,
+  Table,
+  TableBody,
+  TableCell,
+  TableHeader,
+  TableRow,
 } from '../../ui';
 import { MaterialIcon } from '../../ui/icons';
 import { HeroSection, PageContainer } from '../../ui/layout';
@@ -101,67 +106,74 @@ export const StrongholdCraftingPage: FC = () => {
           ))}
         </p>
       </HeroSection>
-      <PageContainer className="mt-8 mb-12">
-        <Table singleLine sortable striped>
-          <Table.Header>
-            <SortableTableHeaders
-              headers={headers}
-              column={column}
-              direction={direction}
-              dispatch={dispatch}
-            />
-          </Table.Header>
-          <Table.Body>
-            {recipes.map((recipe) => (
-              <Table.Row
-                key={`${recipe.outputMaterial}x${
-                  recipe.amount
-                }${recipe.requiredMaterials.map((m) => m.type).join(',')}`}
-              >
-                <Table.Cell>
-                  <MaterialPopup material={materials[recipe.outputMaterial]}>
-                    <div className="w-full flex flex-row items-center">
-                      <MaterialIcon type={recipe.outputMaterial} />
-                      <span className="ml-2">
-                        {materialsObject[recipe.outputMaterial]?.name}
-                        {recipe.amount ? ` x${recipe.amount}` : ''}
-                      </span>
+      <PageContainer className="self-stretch md:self-auto mt-8">
+        <div className="flex-1 overflow-x-auto">
+          <Table>
+            <TableHeader>
+              <SortableTableHeaders
+                headers={headers}
+                column={column}
+                direction={direction}
+                dispatch={dispatch}
+              />
+            </TableHeader>
+            <TableBody>
+              {recipes.map((recipe) => (
+                <TableRow
+                  key={`${recipe.outputMaterial}x${
+                    recipe.amount
+                  }${recipe.requiredMaterials.map((m) => m.type).join(',')}`}
+                >
+                  <TableCell>
+                    <MaterialPopup material={materials[recipe.outputMaterial]}>
+                      <div className="w-full flex flex-row items-center">
+                        <MaterialIcon type={recipe.outputMaterial} />
+                        <span className="ml-2">
+                          {materialsObject[recipe.outputMaterial]?.name}
+                          {recipe.amount ? ` x${recipe.amount}` : ''}
+                        </span>
+                      </div>
+                    </MaterialPopup>
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex items-center">
+                      <MaterialsLine
+                        materials={recipe.requiredMaterials.map((m) => ({
+                          ...materials[m.type],
+                          count: m.amount,
+                        }))}
+                      />
                     </div>
-                  </MaterialPopup>
-                </Table.Cell>
-                <Table.Cell>
-                  <MaterialsLine
-                    materials={recipe.requiredMaterials.map((m) => ({
-                      ...materials[m.type],
-                      count: m.amount,
-                    }))}
-                  />
-                </Table.Cell>
-                <Table.Cell>
-                  <Currency
-                    type={CurrencyType.Gold}
-                    value={recipe.requiredGold}
-                  />
-                </Table.Cell>
-                <Table.Cell>
-                  <Currency type={CurrencyType.Gold} value={recipe.totalCost} />
-                </Table.Cell>
-                <Table.Cell>
-                  <Currency
-                    type={CurrencyType.Gold}
-                    value={recipe.totalPrice}
-                  />
-                </Table.Cell>
-                <Table.Cell>
-                  <Currency type={CurrencyType.Gold} value={recipe.profit} />
-                </Table.Cell>
-                <Table.Cell>
-                  {recipe.perc ? `${toFixed(recipe.perc)}%` : '?'}
-                </Table.Cell>
-              </Table.Row>
-            ))}
-          </Table.Body>
-        </Table>
+                  </TableCell>
+                  <TableCell>
+                    <Currency
+                      type={CurrencyType.Gold}
+                      value={recipe.requiredGold}
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <Currency
+                      type={CurrencyType.Gold}
+                      value={recipe.totalCost}
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <Currency
+                      type={CurrencyType.Gold}
+                      value={recipe.totalPrice}
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <Currency type={CurrencyType.Gold} value={recipe.profit} />
+                  </TableCell>
+                  <TableCell>
+                    {recipe.perc ? `${toFixed(recipe.perc)}%` : '?'}
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
       </PageContainer>
     </>
   );

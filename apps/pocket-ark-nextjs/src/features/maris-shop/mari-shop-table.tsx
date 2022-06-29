@@ -1,15 +1,19 @@
 import { CurrencyType } from '@pocket-ark/lost-ark-data';
 import { useMemo, useReducer } from 'react';
-import { Table } from 'semantic-ui-react';
 import { MaterialPopup, useMaterials } from '../../components';
 import {
   Currency,
   MaterialIcon,
   SortableTableHeaders,
   sortableTableReducer,
-  SortableTableReducer
+  SortableTableReducer,
+  TableHeader,
+  orderForTable,
+  Table,
+  TableRow,
+  TableCell,
+  TableBody,
 } from '../../ui';
-import { orderForTable } from '../../ui/sortable-table';
 import { PricedMaterial } from '../../utils/materials';
 import { readableNumber } from '../../utils/numbers';
 import { FC } from '../../utils/react';
@@ -62,20 +66,20 @@ export const MariShopTable: FC = () => {
   }, [materials, rates, column, direction]);
 
   return (
-    <>
-      <Table singleLine sortable striped>
-        <Table.Header>
+    <div className="flex-1 overflow-x-auto">
+      <Table>
+        <TableHeader>
           <SortableTableHeaders
             headers={headers}
             column={column}
             dispatch={dispatch}
             direction={direction}
           />
-        </Table.Header>
-        <Table.Body>
+        </TableHeader>
+        <TableBody>
           {offers.map((o) => (
-            <Table.Row key={`${o.materialType}_${o.quantity}`}>
-              <Table.Cell className="flex items-center">
+            <TableRow key={`${o.materialType}_${o.quantity}`}>
+              <TableCell className="flex items-center">
                 <MaterialPopup material={o.material}>
                   <div className="w-full flex flex-row items-center">
                     <MaterialIcon
@@ -89,8 +93,8 @@ export const MariShopTable: FC = () => {
                     </span>
                   </div>
                 </MaterialPopup>
-              </Table.Cell>
-              <Table.Cell>
+              </TableCell>
+              <TableCell>
                 <div className="flex items-center">
                   <Currency
                     type={CurrencyType.Crystal}
@@ -102,17 +106,17 @@ export const MariShopTable: FC = () => {
                     className="opacity-50 ml-2"
                   />
                 </div>
-              </Table.Cell>
-              <Table.Cell>
+              </TableCell>
+              <TableCell>
                 <Currency type={CurrencyType.Gold} value={o.price} />
-              </Table.Cell>
-              <Table.Cell className={mapScoreColor(o.score)}>
+              </TableCell>
+              <TableCell className={mapScoreColor(o.score)}>
                 {readableNumber(o.score, 2)}
-              </Table.Cell>
-            </Table.Row>
+              </TableCell>
+            </TableRow>
           ))}
-        </Table.Body>
+        </TableBody>
       </Table>
-    </>
+    </div>
   );
 };

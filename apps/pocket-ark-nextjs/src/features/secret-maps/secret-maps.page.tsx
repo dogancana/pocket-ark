@@ -20,7 +20,7 @@ export const SecretMapsPage: FC = () => {
           ))}
         </p>
       </HeroSection>
-      <PageContainer className="mt-8">
+      <PageContainer className="self-stretch md:self-auto mt-8">
         <SecretMapsTable />
       </PageContainer>
     </>

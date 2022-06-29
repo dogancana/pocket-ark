@@ -21,15 +21,15 @@ export const CurrencyCalculatorPage: FC = () => {
           ))}
         </p>
       </HeroSection>
-      <PageContainer className="w-full mt-8 flex">
-        <div className="w-full lg:w-1/2 p-3">
+      <PageContainer className="w-full mt-8 lg:flex">
+        <div className="inline-block w-full lg:w-1/2 md:p-3">
           <Header as="h2" className="text-center">
             Currency Convertor
           </Header>
           <CurrencyConverter />
         </div>
-        <div className="w-full lg:w-1/2 p-3 flex flex-col">
-          <Header as="h2" className="text-center">
+        <div className="inline-flex flex-col text-center w-full lg:w-1/2 mt-8 lg:mt-0 md:p-3 mb-8 lg:mb-0">
+          <Header as="h2" className="">
             Add Materials
           </Header>
           <MaterialsCalculator />

@@ -3,6 +3,7 @@ import { Dispatch } from 'react';
 import { Dropdown, Input } from 'semantic-ui-react';
 import { FC } from '../../../utils/react';
 import { Action } from './protection.reducer';
+import { rarityString } from '../../../utils/rarity';
 
 const rarities: Rarity[] = [Rarity.Legendary, Rarity.Relic];
 
@@ -46,7 +47,11 @@ export const HoningProtectionFilters: FC<HoningProtectionFiltersProps> = ({
           compact
           className="px-1"
           value={rarity}
-          options={rarities.map((r) => ({ text: r, key: r, value: r }))}
+          options={rarities.map((r) => ({
+            text: rarityString(r),
+            key: r,
+            value: r,
+          }))}
           onChange={(_, data) =>
             dispatch({
               type: 'SET_RARITY',

@@ -20,7 +20,7 @@ export const MarisShopPage: FC = () => {
           ))}
         </p>
       </HeroSection>
-      <PageContainer className="mt-8 pb-20">
+      <PageContainer className="self-stretch md:self-auto mt-8">
         <MariShopTable />
       </PageContainer>
     </>

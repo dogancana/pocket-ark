@@ -1,9 +1,17 @@
 import { CurrencyType } from '@pocket-ark/lost-ark-data';
 import { sortBy } from 'lodash';
-import { Table } from 'semantic-ui-react';
 import { MaterialPopup } from '../../../components';
 import { useMaterials } from '../../../components/materials-provider';
-import { Currency } from '../../../ui';
+import {
+  Currency,
+  Table,
+  TableBody,
+  TableCell,
+  TableHeader,
+  TableHeaderCell,
+  TableRow
+} from '../../../ui';
+import { useMediaSM } from '../../../ui/breakpoints';
 import { MaterialIcon } from '../../../ui/icons/material-icon';
 import { readableNumber } from '../../../utils/numbers';
 import { FC } from '../../../utils/react';
@@ -17,6 +25,7 @@ export interface ProtectionResultsProps {
 export const ProtectionResults: FC<ProtectionResultsProps> = ({
   protectionMaterials,
 }) => {
+  const sm = useMediaSM();
   const { materials: pricedMaterialsObject } = useMaterials();
   const materials =
     protectionMaterials?.map((m) => {
@@ -41,50 +50,56 @@ export const ProtectionResults: FC<ProtectionResultsProps> = ({
         </p>
       )}
       {materials.length > 0 && (
-        <Table singleLine striped>
-          <Table.Header>
-            <Table.Row>
-              <Table.HeaderCell>Material</Table.HeaderCell>
-              <Table.HeaderCell>
-                <div className="">Price</div>
-              </Table.HeaderCell>
-              <Table.HeaderCell>
-                <div className="">Score</div>
-              </Table.HeaderCell>
-              <Table.HeaderCell>
-                <div className="">Ideal Price</div>
-              </Table.HeaderCell>
-            </Table.Row>
-          </Table.Header>
-          <Table.Body>
-            {sortedMaterials.map((m) => (
-              <Table.Row key={m.type}>
-                <MaterialPopup material={m}>
-                  <Table.Cell className="flex items-center">
-                    <MaterialIcon
-                      type={m.type}
-                      overrides={{ width: 25, height: 25 }}
+        <div className="overflow-x-auto">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHeaderCell>Material</TableHeaderCell>
+                <TableHeaderCell>
+                  Price
+                </TableHeaderCell>
+                <TableHeaderCell>
+                  Score
+                </TableHeaderCell>
+                <TableHeaderCell>
+                  Ideal Price
+                </TableHeaderCell>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {sortedMaterials.map((m) => (
+                <TableRow key={m.type}>
+                  <MaterialPopup material={m}>
+                    <TableCell
+                      className={`flex items-center ${
+                        sm === false ? 'justify-center' : ''
+                      }`}
+                    >
+                      <MaterialIcon
+                        type={m.type}
+                        overrides={{ width: 25, height: 25 }}
+                      />
+                      {sm === true && <span className="ml-3">{m.name}</span>}
+                    </TableCell>
+                  </MaterialPopup>
+                  <TableCell>
+                    <Currency type={CurrencyType.Gold} value={m.lowPrice} />
+                  </TableCell>
+                  <TableCell>
+                    <div className={m.textColorClass}>{m.score}</div>
+                  </TableCell>
+                  <TableCell>
+                    <Currency
+                      className="flex"
+                      type={CurrencyType.Gold}
+                      value={m.idealPrice}
                     />
-                    <span className="ml-3">{m.name}</span>
-                  </Table.Cell>
-                </MaterialPopup>
-                <Table.Cell>
-                  <Currency type={CurrencyType.Gold} value={m.lowPrice} />
-                </Table.Cell>
-                <Table.Cell>
-                  <div className={m.textColorClass}>{m.score}</div>
-                </Table.Cell>
-                <Table.Cell>
-                  <Currency
-                    className="flex"
-                    type={CurrencyType.Gold}
-                    value={m.idealPrice}
-                  />
-                </Table.Cell>
-              </Table.Row>
-            ))}
-          </Table.Body>
-        </Table>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
       )}
     </>
   );

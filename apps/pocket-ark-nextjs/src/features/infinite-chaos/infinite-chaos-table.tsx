@@ -1,6 +1,5 @@
 import { CurrencyItemType, CurrencyType } from '@pocket-ark/lost-ark-data';
 import { useMemo, useReducer } from 'react';
-import { Table } from 'semantic-ui-react';
 import { useMaterials } from '../../components';
 import {
   Currency,
@@ -9,6 +8,12 @@ import {
   SortableTableHeaders,
   SortableTableReducer,
   sortableTableReducer,
+  Table,
+  TableBody,
+  TableCell,
+  TableHeader,
+  TableRow,
+  useMediaSM
 } from '../../ui';
 import { PricedMaterial } from '../../utils/materials';
 import { readableNumber } from '../../utils/numbers';
@@ -24,11 +29,15 @@ interface TableMaterial extends PricedMaterial {
   goldPerHour: number;
 }
 
-const headers: { label: string; column: keyof TableMaterial }[] = [
+const headers: {
+  label: string;
+  column: keyof TableMaterial;
+  hideSm?: boolean;
+}[] = [
   { label: 'Material', column: 'name' },
-  { label: 'Price', column: 'avgPrice' },
-  { label: 'Shards', column: 'chaosDungeonShards' },
-  { label: 'Gold/Shard', column: 'valuePerShard' },
+  { label: 'Price', column: 'avgPrice', hideSm: true },
+  { label: 'Shards', column: 'chaosDungeonShards', hideSm: true },
+  { label: 'Gold/Shard', column: 'valuePerShard', hideSm: true },
   { label: 'Gold x99', column: 'avgPrice' },
   { label: 'Mats/hr', column: 'matsPerHour' },
   { label: 'Gold/hr', column: 'goldPerHour' },
@@ -37,6 +46,7 @@ const headers: { label: string; column: keyof TableMaterial }[] = [
 export const InfiniteChaosTable: FC<InfiniteChaosTableProps> = ({
   shardsPerHour: shardsPerHourProp,
 }) => {
+  const sm = useMediaSM();
   const [{ column, direction }, dispatch] = useReducer<
     SortableTableReducer<keyof TableMaterial>
   >(sortableTableReducer, {
@@ -63,43 +73,62 @@ export const InfiniteChaosTable: FC<InfiniteChaosTableProps> = ({
       ),
     [materials, shardsPerHourProp, column, direction]
   );
+  const filteredHeaders = headers.filter((h) =>
+    sm === false ? (h.hideSm ? false : true) : true
+  );
 
   return (
-    <Table singleLine sortable striped>
-      <Table.Header>
-        <SortableTableHeaders
-          headers={headers}
-          column={column}
-          dispatch={dispatch}
-          direction={direction}
-        />
-      </Table.Header>
-      <Table.Body>
-        {sortedMaterials.map((material) => (
-          <Table.Row key={material.type} className="py-4">
-            <Table.Cell>
-              <div className="w-full flex flex-row items-center">
-                <MaterialIcon type={material.type} />
-                <span className="ml-2">{material.name}</span>
-              </div>
-            </Table.Cell>
-            <Table.Cell>
-              <Currency type={CurrencyType.Gold} value={material.lowPrice} />
-            </Table.Cell>
-            <Table.Cell>
-              <Currency
-                type={CurrencyItemType.ShardOfPurification}
-                value={material.chaosDungeonShards}
-              />
-            </Table.Cell>
-            <Table.Cell>{readableNumber(material.valuePerShard, 2)}</Table.Cell>
-            <Table.Cell>{readableNumber(material.lowPrice * 99)}</Table.Cell>
-            <Table.Cell>{readableNumber(material.matsPerHour, 1)}</Table.Cell>
-            <Table.Cell>{readableNumber(material.goldPerHour)}</Table.Cell>
-          </Table.Row>
-        ))}
-      </Table.Body>
-    </Table>
+    <div className="flex-1 overflow-x-auto">
+      <Table>
+        <TableHeader>
+          <SortableTableHeaders
+            headers={filteredHeaders}
+            column={column}
+            dispatch={dispatch}
+            direction={direction}
+          />
+        </TableHeader>
+        <TableBody>
+          {sortedMaterials.map((material) => (
+            <TableRow key={material.type} className="py-4">
+              <TableCell>
+                <div className="w-full flex flex-row items-center">
+                  <MaterialIcon type={material.type} />
+                  {sm === true && <span className="ml-2">{material.name}</span>}
+                </div>
+              </TableCell>
+              {sm === true && (
+                <>
+                  <TableCell>
+                    <Currency
+                      type={CurrencyType.Gold}
+                      value={material.lowPrice}
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <Currency
+                      type={CurrencyItemType.ShardOfPurification}
+                      value={material.chaosDungeonShards}
+                    />
+                  </TableCell>
+                  <TableCell>
+                    {readableNumber(material.valuePerShard, 2)}
+                  </TableCell>
+                </>
+              )}
+              <TableCell>
+                <Currency
+                  type={CurrencyType.Gold}
+                  value={material.lowPrice * 99}
+                />
+              </TableCell>
+              <TableCell>{readableNumber(material.matsPerHour, 1)}</TableCell>
+              <TableCell>{readableNumber(material.goldPerHour)}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </div>
   );
 };
 

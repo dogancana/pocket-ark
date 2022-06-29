@@ -1,5 +1,12 @@
 import { generateSampleNumbers } from '@pocket-ark/utils';
-import { Table } from 'semantic-ui-react';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHeader,
+  TableHeaderCell,
+  TableRow,
+} from '../../ui';
 import { readableNumber } from '../../utils/numbers';
 import { FC } from '../../utils/react';
 import { CellPopup } from './cell-popup';
@@ -22,36 +29,36 @@ export const CalculationTable: FC = () => {
   );
 
   return (
-    <Table collapsing compact striped>
-      <Table.Header>
-        <Table.HeaderCell></Table.HeaderCell>
+    <Table>
+      <TableHeader>
+        <TableHeaderCell></TableHeaderCell>
         {critRates.map((r) => (
-          <Table.HeaderCell key={r}>{readableNumber(r)}%</Table.HeaderCell>
+          <TableHeaderCell key={r}>{readableNumber(r)}%</TableHeaderCell>
         ))}
-      </Table.Header>
-      <Table.Body>
+      </TableHeader>
+      <TableBody>
         {baseDamage.map((baseDamage, damageIndex) => (
-          <Table.Row key={baseDamage}>
-            <Table.Cell>
+          <TableRow key={baseDamage}>
+            <TableCell>
               <strong>{readableNumber(baseDamage)}</strong>
-            </Table.Cell>
+            </TableCell>
             {critRates.map((critRate, critIndex) => (
               <CellPopup
                 key={`${critRate}-${baseDamage}`}
                 result={results[damageIndex][critIndex]}
               >
-                <Table.Cell>
+                <TableCell>
                   <div className="text-center">
                     {readableNumber(
                       results[damageIndex][critIndex].withEngravings.damage
                     )}
                   </div>
-                </Table.Cell>
+                </TableCell>
               </CellPopup>
             ))}
-          </Table.Row>
+          </TableRow>
         ))}
-      </Table.Body>
+      </TableBody>
     </Table>
   );
 };

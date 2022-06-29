@@ -68,7 +68,7 @@ export const HoningProtectionPage: FC = () => {
         </span>
       </HeroSection>
       <PageContainer className="mt-8 w-full flex flex-col items-center">
-        <div className="w-full md:w-1/2">
+        <div className="w-full md:w-2/3">
           <Header as="h2">Honing Details</Header>
           <div className="mt-8 w-full grid grid-cols-1 md:grid-cols-2 gap-4">
             <HoningProtectionFilters
@@ -76,22 +76,25 @@ export const HoningProtectionPage: FC = () => {
             />
           </div>
           {honingMaterialsWithCount.length > 0 && (
-            <div className="pt-8 px-2 flex items-center">
-              <MaterialsLine materials={honingMaterialsWithCount} />
+            <div className="pt-4 md:pt-8 px-2 flex flex-wrap items-center">
+              <MaterialsLine
+                materials={honingMaterialsWithCount}
+                className="mr-3 mb-3 lg:mb-0"
+              />
               {currencies.map(({ type, amount }) => (
                 <Currency
                   key={type}
                   type={type}
                   value={amount}
                   size={20}
-                  className="ml-3"
+                  className="mr-3 mb-3 lg:mb-0"
                 />
               ))}
             </div>
           )}
         </div>
         {honingMaterialsWithCount.length > 0 && (
-          <div className="mt-8 pt-8 w-full md:w-1/2 border-t-2 border-gray-300">
+          <div className="mt-4 md:mt-8 pt-8 w-full md:w-2/3 border-t-2 border-gray-300">
             <ProtectionResults protectionMaterials={protectionMaterials} />
           </div>
         )}

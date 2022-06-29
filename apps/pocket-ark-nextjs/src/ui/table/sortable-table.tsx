@@ -1,6 +1,7 @@
+import { ArrowSmDownIcon, ArrowSmUpIcon } from '@heroicons/react/solid';
 import { orderBy } from 'lodash';
-import { Dispatch, Reducer } from 'react';
-import { Table, TableHeaderCellProps } from 'semantic-ui-react';
+import { Dispatch, ReactNode, Reducer } from 'react';
+import { TableHeaderCell, TableHeaderRow } from './table';
 
 export interface SortableTableState<T = string> {
   direction: 'ascending' | 'descending';
@@ -54,11 +55,12 @@ export function orderForTable<T, K extends keyof T>(
   return orderBy(items, [column], [direction === 'ascending' ? 'asc' : 'desc']);
 }
 
-export interface SortableTableHeaderProps<T>
-  extends TableHeaderCellProps,
-    SortableTableItem<T> {
+export interface SortableTableHeaderProps<T> extends SortableTableItem<T> {
+  sorted?: 'ascending' | 'descending';
   currentSortedColumn: T;
   direction: SortableTableState<T>['direction'];
+  notSortable?: boolean;
+  onClick?: () => void;
 }
 
 export function SortableTableHeader<T>({
@@ -67,16 +69,22 @@ export function SortableTableHeader<T>({
   currentSortedColumn,
   direction,
   notSortable,
+  sorted,
   ...props
-}: SortableTableHeaderProps<T>) {
+}: SortableTableHeaderProps<T> & { children?: ReactNode }) {
+  const sortedBy =
+    currentSortedColumn === column && !notSortable ? direction : null;
+  const iconClass = 'h-5 w-5';
   return (
-    <Table.HeaderCell
-      key={label}
-      sorted={currentSortedColumn === column ? direction : null}
-      {...props}
-    >
-      {label}
-    </Table.HeaderCell>
+    <TableHeaderCell key={label} {...props}>
+      <span
+        className={`flex items-center ${!notSortable ? 'cursor-pointer' : ''}`}
+      >
+        {label}
+        {sortedBy === 'descending' && <ArrowSmDownIcon className={iconClass} />}
+        {sortedBy === 'ascending' && <ArrowSmUpIcon className={iconClass} />}
+      </span>
+    </TableHeaderCell>
   );
 }
 
@@ -94,7 +102,7 @@ export function SortableTableHeaders<T>({
   dispatch,
 }: SortableTableHeadersProps<T>) {
   return (
-    <Table.Row>
+    <TableHeaderRow>
       {headers.map((h) => (
         <SortableTableHeader
           key={h.label}
@@ -110,6 +118,6 @@ export function SortableTableHeaders<T>({
           {h.label}
         </SortableTableHeader>
       ))}
-    </Table.Row>
+    </TableHeaderRow>
   );
 }

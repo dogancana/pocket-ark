@@ -72,6 +72,7 @@ export const Header: FC = () => {
           <Dropdown
             inline
             value={region}
+            direction="left"
             className="ml-4 text-gray-500"
             onChange={onRegionChange}
             options={regions.map((m) => ({

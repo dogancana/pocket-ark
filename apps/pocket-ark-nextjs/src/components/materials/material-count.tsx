@@ -4,7 +4,7 @@ import { FC } from '../../utils/react';
 
 interface MaterialCountProps {
   type: MaterialType;
-  value: number | string;
+  value?: number | string;
   className?: string;
   size?: number;
 }
@@ -21,7 +21,7 @@ export const MaterialCount: FC<MaterialCountProps> = ({
         type={type}
         overrides={{ width: size || 25, height: size || 25 }}
       />
-      <span className="ml-1">x{value.toLocaleString()}</span>
+      {value && <span className="ml-1">x{value.toLocaleString()}</span>}
     </span>
   );
 };

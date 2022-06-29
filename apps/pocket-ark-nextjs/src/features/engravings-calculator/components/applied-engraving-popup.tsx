@@ -4,6 +4,7 @@ import { Divider, Icon, Popup } from 'semantic-ui-react';
 import { EngravingIcon } from '../../../ui/icons';
 import { FC } from '../../../utils/react';
 import { useEngravingFilters } from '../filters/filters-provider';
+import { useMediaSM } from '../../../ui/breakpoints';
 
 export interface AppliedEngravingPopupProps {
   engraving: Engraving;
@@ -42,6 +43,7 @@ export const AppliedEngravingPopup: FC<AppliedEngravingPopupProps> = ({
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
+            setHovered(true);
             dispatch({
               type: 'ChangeEngraving',
               engravingType: engraving.type,
