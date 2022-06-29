@@ -109,6 +109,9 @@ export function itemLevelLimits(rarity: Rarity) {
 }
 
 export function mapItemLevelToILevel(level: number) {
+  if (level >= 24) {
+    return 1450 + (level - 24) * 25;
+  }
   if (level >= 15) {
     return 1415 + (level - 15) * 15;
   } else {

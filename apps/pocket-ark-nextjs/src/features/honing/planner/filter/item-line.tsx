@@ -1,7 +1,8 @@
 import { Rarity } from '@pocket-ark/lost-ark-data';
-import { capitalize } from 'lodash';
+import { capitalize, flatten } from 'lodash';
 import { Dispatch } from 'react';
-import { Dropdown, Icon } from 'semantic-ui-react';
+import { Icon } from 'semantic-ui-react';
+import { useMediaSM } from '../../../../ui/breakpoints';
 import { rarityString } from '../../../../utils/rarity';
 import { FC } from '../../../../utils/react';
 import { Action } from './honing-reducer';
@@ -14,7 +15,25 @@ interface ItemLineProps {
   dispatch: Dispatch<Action>;
 }
 
-const rarity: Rarity[] = [Rarity.Legendary, Rarity.Relic];
+const levels = [
+  { rarity: Rarity.Legendary, start: 1, end: 20 },
+  { rarity: Rarity.Relic, start: 16, end: 25 },
+].map((i) => ({
+  ...i,
+  options: new Array(i.end - i.start + 1)
+    .fill(0)
+    .map((_, index) => index + i.start),
+}));
+
+const options = flatten(
+  levels.map((level) =>
+    level.options.map((option) => ({
+      rarity: level.rarity,
+      level: option,
+      id: optionKey(level.rarity, option),
+    }))
+  )
+);
 
 export const ItemLine: FC<ItemLineProps> = ({
   item,
@@ -22,6 +41,12 @@ export const ItemLine: FC<ItemLineProps> = ({
   disabled,
   dispatch,
 }) => {
+  const sm = useMediaSM();
+  const name = sm === false ? item.slot.substr(0, 1) : item.slot;
+  const value = optionKey(item.rarity, item.level);
+  const rar = (r: Rarity) =>
+    sm === false ? rarityString(r).substr(0, 3) : rarityString(r);
+
   return (
     <fieldset
       disabled={disabled}
@@ -42,41 +67,36 @@ export const ItemLine: FC<ItemLineProps> = ({
           <Icon name={item.hidden ? 'eye slash' : 'eye'} />
         </div>
       )}
-      <Dropdown
-        className="w-1/3"
-        compact
-        value={item.rarity}
-        options={rarity.map((r) => ({
-          text: rarityString(r),
-          key: r,
-          value: r,
-        }))}
-        disabled={disabled}
-        onChange={(_, data) =>
-          dispatch({
-            type: 'SET_ITEM',
-            rarity: data.value as Rarity,
-            slot: item.slot,
-            direction,
-          })
-        }
-      />
-      <span className="grow text-center ">{capitalize(item.slot)}</span>
-      <div className="w-1/4 text-right">
-        <input
-          value={item.level}
-          className="appearance-none p-2 w-14"
-          type="number"
-          onChange={(e) => {
+      <span className="grow text-center ">{capitalize(name)}</span>
+      <div className=" text-right">
+        <select
+          value={value}
+          onChange={(event) => {
+            const { rarity, level } = idToOption(event.target.value);
             dispatch({
               type: 'SET_ITEM',
-              level: parseInt(e.target.value),
               slot: item.slot,
+              rarity,
+              level,
               direction,
             });
           }}
-        />
+        >
+          {options.map(({ rarity, level, id }) => (
+            <option key={id} value={id}>
+              {rar(rarity)} +{level}
+            </option>
+          ))}
+        </select>
       </div>
     </fieldset>
   );
 };
+
+function idToOption(id: string) {
+  return options.find((o) => o.id === id);
+}
+
+function optionKey(rarity: Rarity, level: number) {
+  return `${rarity}_${level}`;
+}

@@ -95,11 +95,14 @@ export const AllHoningTotal: FC = () => {
     <div>
       <Divider />
       <div className="flex flex-col md:flex-row pb-4 md-pb-16">
-        <div className="flex flex-col items-end">
+        <div className="flex flex-col md:flex-row items-end md:items-start">
           <span className="whitespace-nowrap mb-3">Need on average:</span>
           <div className="flex flex-col items-end">
-            <div className="flex pl-3">
-              <MaterialsLine materials={honingMaterials} />
+            <div className="flex pl-3 flex-wrap justify-end">
+              <MaterialsLine
+                materials={honingMaterials}
+                className="mb-3 mr-0 ml-3"
+              />
             </div>
             <div className="flex mt-2">
               <Currency
