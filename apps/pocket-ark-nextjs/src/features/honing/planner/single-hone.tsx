@@ -6,6 +6,7 @@ import { Currency } from '../../../ui';
 import { MaterialIcon } from '../../../ui/icons';
 import { FC } from '../../../utils/react';
 import { SingleLevelHoningWithTotals } from '../models';
+import { useMediaSM } from '../../../ui/breakpoints';
 
 export interface SingleHoneProps {
   singleLevelHoning: SingleLevelHoningWithTotals;
@@ -20,6 +21,8 @@ export const SingleHone: FC<SingleHoneProps> = ({
   singleLevelHoning,
   notPlanned,
 }) => {
+  const sm = useMediaSM()
+  const offset = sm === true ? 107 : 27
   const [{ expanded }, setState] = useState<State>({
     expanded: false,
   });
@@ -29,7 +32,7 @@ export const SingleHone: FC<SingleHoneProps> = ({
     setTimeout(() => {
       wrapperRef.current?.parentElement.scrollTo({
         behavior: 'smooth',
-        left: wrapperRef.current.offsetLeft - 107,
+        left: wrapperRef.current.offsetLeft - offset,
       });
     }, 50);
   };

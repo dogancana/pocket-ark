@@ -94,29 +94,31 @@ export const AllHoningTotal: FC = () => {
   return (
     <div>
       <Divider />
-      <div className="flex pb-40">
-        Need on average:
+      <div className="flex flex-col md:flex-row pb-4 md-pb-16">
         <div className="flex flex-col items-end">
-          <div className="flex pl-3">
-            <MaterialsLine materials={honingMaterials} />
-          </div>
-          <div className="flex mt-2">
-            <Currency
-              type={CurrencyType.Silver}
-              value={totals.silver}
-              className="mr-3"
-            />
-            <Currency
-              type={CurrencyItemType.HonorShard}
-              value={totals.shards}
-              className="mr-3"
-            />
-            <Currency type={CurrencyType.Gold} value={totals.gold} />
+          <span className="whitespace-nowrap mb-3">Need on average:</span>
+          <div className="flex flex-col items-end">
+            <div className="flex pl-3">
+              <MaterialsLine materials={honingMaterials} />
+            </div>
+            <div className="flex mt-2">
+              <Currency
+                type={CurrencyType.Silver}
+                value={totals.silver}
+                className="mr-3"
+              />
+              <Currency
+                type={CurrencyItemType.HonorShard}
+                value={totals.shards}
+                className="mr-3"
+              />
+              <Currency type={CurrencyType.Gold} value={totals.gold} />
+            </div>
           </div>
         </div>
-        <div className="w-0.5 bg-gray-300 mx-8 my-1"></div>
+        <div className="w-full md:w-0.5 h-0.5 md:h-auto bg-gray-300 my-4 mx-0 md:mx-8 md:my-1"></div>
         <div>
-          <div className="flex items-center">
+          <div className="flex items-center justify-end">
             Mats. Cost:
             <div className="flex align-center">
               <Currency

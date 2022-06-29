@@ -4,10 +4,11 @@ import { FC } from '../../../../utils/react';
 import { useHoningData } from '../data/use-honing-data';
 
 export interface HoneTotalProps {
+  className?: string;
   slot: BodyItemSlot;
 }
 
-export const HoneTotal: FC<HoneTotalProps> = ({ slot }) => {
+export const HoneTotal: FC<HoneTotalProps> = ({ slot, className }) => {
   const honingCostsWithTotals = useHoningData();
   const costs = honingCostsWithTotals.find((c) => c.slot === slot)?.costs;
 
@@ -21,7 +22,7 @@ export const HoneTotal: FC<HoneTotalProps> = ({ slot }) => {
   return (
     <div className="h-full flex justify-center items-center">
       <Currency
-        className="text-center"
+        className={`text-center ${className || ''}`}
         size={15}
         type={CurrencyType.Gold}
         arround

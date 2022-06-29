@@ -21,15 +21,15 @@ export const UpgradeLine: FC<UpgradeLineProps> = ({ itemSlot }) => {
         className="w-full overflow-x-auto flex h-32 relative select-none border-b-2 border-gray-300 pr-32"
         ref={wrapperRef}
       >
-        <div className="flex items-center justify-center w-32 sticky left-0 bg-stone-200 shrink-0 z-10">
-          <h3>{itemName(itemSlot)}</h3>
+        <div className="flex items-center justify-center w-8 md:w-32 sticky left-0 bg-stone-200 shrink-0 z-10">
+          <h3 className="-rotate-90 sm:rotate-0">{itemName(itemSlot)}</h3>
         </div>
         {singleLevelHoning.costs.map((cost) => (
           <SingleHone key={key(cost)} singleLevelHoning={cost} />
         ))}
       </div>
-      <div className="ml-auto w-32 h-full absolute top-0 right-0 bg-stone-200 z-10 border-gray-300 border-b-2">
-        <HoneTotal slot={itemSlot} />
+      <div className="ml-auto w-8 md:w-32 h-full absolute top-0 right-0 bg-stone-200 z-10 border-gray-300 border-b-2">
+        <HoneTotal slot={itemSlot} className="rotate-90 sm:rotate-0" />
       </div>
     </>
   );
