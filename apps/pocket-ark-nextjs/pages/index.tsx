@@ -34,7 +34,7 @@ const Index = () => {
           </div>
         </Container>
         <Image
-          src="/assets/landing-bg.webp"
+          src="/assets/june.png"
           layout="fill"
           alt="hero image"
           className="opacity-20"
