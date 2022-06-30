@@ -49,7 +49,7 @@ export const MariShopTable: FC = () => {
       mariOffers.map((o): TableOffer => {
         const material = materials[o.materialType];
         const price =
-          o.quantity * (material.lowPrice / (material.saleAmount || 1));
+          o.quantity * (material?.lowPrice / (material?.saleAmount || 1));
         const mariGoldPrice = rates[CurrencyType.Crystal] * o.blueCrystalCost;
 
         return {
@@ -87,7 +87,7 @@ export const MariShopTable: FC = () => {
                       overrides={{ width: 25, height: 25 }}
                       className="mr-2"
                     />
-                    {o.material.name}
+                    {o.material?.name}
                     <span className="text-sm text-gray-500 ml-2">
                       x{o.quantity}
                     </span>
