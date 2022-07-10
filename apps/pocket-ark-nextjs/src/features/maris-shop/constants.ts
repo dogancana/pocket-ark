@@ -81,6 +81,12 @@ export const mariOffers: MariOffer[] = [
     rarity: Rarity.Epic,
   },
   {
+    materialType: MaterialType.SolarProtection,
+    quantity: 25,
+    blueCrystalCost: 750,
+    rarity: Rarity.Common,
+  },
+  {
     materialType: MaterialType.HonorShardPouchSmall,
     quantity: 10,
     blueCrystalCost: 56,
@@ -90,6 +96,12 @@ export const mariOffers: MariOffer[] = [
     materialType: MaterialType.HonorShardPouchSmall,
     quantity: 20,
     blueCrystalCost: 112,
+    rarity: Rarity.Rare,
+  },
+  {
+    materialType: MaterialType.HonorShardPouchLarge,
+    quantity: 20,
+    blueCrystalCost: 291,
     rarity: Rarity.Rare,
   },
   {
@@ -139,5 +151,17 @@ export const mariOffers: MariOffer[] = [
     quantity: 20,
     blueCrystalCost: 72,
     rarity: Rarity.Epic,
+  },
+  {
+    materialType: MaterialType.MetallurgyAppliedWelding,
+    quantity: 2,
+    blueCrystalCost: 280,
+    rarity: Rarity.Legendary,
+  },
+  {
+    materialType: MaterialType.TailoringAppliedMending,
+    quantity: 4,
+    blueCrystalCost: 260,
+    rarity: Rarity.Legendary,
   },
 ];
