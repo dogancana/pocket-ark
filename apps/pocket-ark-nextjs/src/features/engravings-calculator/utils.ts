@@ -56,6 +56,10 @@ export function calculateDamageOfEngravings(
     (prev, curr) => {
       const { engraving, levelIndex } = curr;
       const damageModifierForLevel = engraving.damageModifier[levelIndex];
+      const dmgMultiplierPerc = damageModifierForLevel.damageMultiplier || 0;
+      const dmgMultiplier = dmgMultiplierPerc
+        ? (100 + dmgMultiplierPerc) / 100
+        : 1;
       return {
         attackPower:
           prev.attackPower + (damageModifierForLevel.attackPower || 0),
@@ -64,9 +68,7 @@ export function calculateDamageOfEngravings(
         critRatePerc:
           prev.critRatePerc + (damageModifierForLevel.critRatePerc || 0),
         critDamage: prev.critDamage + (damageModifierForLevel.critDamage || 0),
-        damageMultiplier:
-          prev.damageMultiplier +
-          (damageModifierForLevel.damageMultiplier || 0),
+        damageMultiplier: prev.damageMultiplier * dmgMultiplier,
         damageAddition:
           prev.damageAddition + (damageModifierForLevel.damageAddition || 0),
       };
@@ -76,7 +78,7 @@ export function calculateDamageOfEngravings(
       attackSpeed: 0,
       critRatePerc: 0,
       critDamage: 0,
-      damageMultiplier: 0,
+      damageMultiplier: 1,
       damageAddition: 0,
     } as DamageModifier
   );
@@ -97,7 +99,7 @@ export function calculateDamage(
   const critPerc = Math.min(critRate + (damageModifier.critRatePerc || 0), 100);
   const critDamageMultiplier = 200 + (damageModifier.critDamage || 0);
   const dmgAddition = (damageModifier.damageAddition || 0) / 100;
-  const dmgMultiplier = 1 + (damageModifier.damageMultiplier || 0) / 100;
+  const dmgMultiplier = damageModifier.damageMultiplier || 1;
 
   const critDamage = attackPower * (critDamageMultiplier / 100);
   const critNumber = (critPerc / 100) * critDamage * dmgMultiplier;
