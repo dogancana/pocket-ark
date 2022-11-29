@@ -2,6 +2,7 @@ import { ArrowSmDownIcon, ArrowSmUpIcon } from '@heroicons/react/solid';
 import { orderBy } from 'lodash';
 import { Dispatch, ReactNode, Reducer } from 'react';
 import { TableHeaderCell, TableHeaderRow } from './table';
+import { Popup } from 'semantic-ui-react';
 
 export interface SortableTableState<T = string> {
   direction: 'ascending' | 'descending';
@@ -15,6 +16,7 @@ export interface SortableTableAction<T = string> {
 
 export interface SortableTableItem<T = string> {
   label: string;
+  tooltip?: string;
   column: T;
   notSortable?: boolean;
 }
@@ -69,21 +71,34 @@ export function SortableTableHeader<T>({
   currentSortedColumn,
   direction,
   notSortable,
+  tooltip,
   sorted,
   ...props
 }: SortableTableHeaderProps<T> & { children?: ReactNode }) {
   const sortedBy =
     currentSortedColumn === column && !notSortable ? direction : null;
   const iconClass = 'h-5 w-5';
+  const trigger = (
+    <span
+      className={`flex items-center ${!notSortable ? 'cursor-pointer' : ''}`}
+    >
+      {label}
+      {sortedBy === 'descending' && <ArrowSmDownIcon className={iconClass} />}
+      {sortedBy === 'ascending' && <ArrowSmUpIcon className={iconClass} />}
+    </span>
+  );
+
   return (
     <TableHeaderCell key={label} {...props}>
-      <span
-        className={`flex items-center ${!notSortable ? 'cursor-pointer' : ''}`}
-      >
-        {label}
-        {sortedBy === 'descending' && <ArrowSmDownIcon className={iconClass} />}
-        {sortedBy === 'ascending' && <ArrowSmUpIcon className={iconClass} />}
-      </span>
+      {tooltip ? (
+        <Popup hoverable flowing trigger={trigger}>
+          <Popup.Content>
+            <p className="max-w-xs">{tooltip}</p>
+          </Popup.Content>
+        </Popup>
+      ) : (
+        trigger
+      )}
     </TableHeaderCell>
   );
 }

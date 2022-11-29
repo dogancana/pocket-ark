@@ -9,8 +9,8 @@ export const craftingRecipes: CraftingRecipe[] = [
       { type: MaterialType.WildFlower, amount: 10 },
       { type: MaterialType.ShyWildFlower, amount: 5 },
     ],
-    requiredGold: 0,
-    requiredActionEnergy: 1,
+    requiredGold: 1,
+    requiredActionEnergy: 3,
     seconds: 10,
   },
   {
@@ -331,8 +331,8 @@ export const craftingRecipes: CraftingRecipe[] = [
       { type: MaterialType.WildFlower, amount: 35 },
       { type: MaterialType.NaturalPearl, amount: 20 },
     ],
-    requiredGold: 0,
-    requiredActionEnergy: 1,
+    requiredGold: 1,
+    requiredActionEnergy: 2,
     seconds: 10,
   },
   {
@@ -356,7 +356,7 @@ export const craftingRecipes: CraftingRecipe[] = [
     ],
     requiredGold: 15,
     requiredActionEnergy: 150,
-    seconds: 10,
+    seconds: 45 * 60,
   },
   {
     outputMaterial: MaterialType.CamouflageRobe,
@@ -368,7 +368,7 @@ export const craftingRecipes: CraftingRecipe[] = [
     ],
     requiredGold: 15,
     requiredActionEnergy: 150,
-    seconds: 10,
+    seconds: 45 * 60,
   },
   {
     outputMaterial: MaterialType.RepairShopPortalScroll,
@@ -380,7 +380,7 @@ export const craftingRecipes: CraftingRecipe[] = [
     ],
     requiredGold: 15,
     requiredActionEnergy: 150,
-    seconds: 10,
+    seconds: 45 * 60,
   },
   {
     outputMaterial: MaterialType.Panacea,
@@ -393,7 +393,7 @@ export const craftingRecipes: CraftingRecipe[] = [
     ],
     requiredGold: 15,
     requiredActionEnergy: 150,
-    seconds: 10,
+    seconds: 15 * 60,
   },
   {
     outputMaterial: MaterialType.PheromoneBomb,
@@ -443,17 +443,17 @@ export const craftingRecipes: CraftingRecipe[] = [
     requiredActionEnergy: 150,
     seconds: 30 * 60,
   },
-  {
-    outputMaterial: MaterialType.SplendidDisguiseRobe,
-    amount: 2,
-    requiredMaterials: [
-      { type: MaterialType.CamouflageRobe, amount: 3 },
-      { type: MaterialType.ExquisiteMushroom, amount: 9 },
-    ],
-    requiredGold: 15,
-    requiredActionEnergy: 150,
-    seconds: 30 * 60,
-  },
+  // {
+  //   outputMaterial: MaterialType.SplendidDisguiseRobe,
+  //   amount: 2,
+  //   requiredMaterials: [
+  //     { type: MaterialType.CamouflageRobe, amount: 3 },
+  //     { type: MaterialType.ExquisiteMushroom, amount: 9 },
+  //   ],
+  //   requiredGold: 15,
+  //   requiredActionEnergy: 150,
+  //   seconds: 30 * 60,
+  // },
   {
     outputMaterial: MaterialType.SplendidTauntingScarecrow,
     amount: 2,
@@ -462,8 +462,8 @@ export const craftingRecipes: CraftingRecipe[] = [
       { type: MaterialType.ExquisiteMushroom, amount: 7 },
     ],
     requiredGold: 15,
-    requiredActionEnergy: 150,
-    seconds: 30 * 60,
+    requiredActionEnergy: 216,
+    seconds: 45 * 60,
   },
   {
     outputMaterial: MaterialType.SplendidCampfire,

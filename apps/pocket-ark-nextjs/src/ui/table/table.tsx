@@ -31,7 +31,11 @@ export const TableHeader: FC<
     HTMLTableSectionElement
   >
 > = ({ children, ...props }) => {
-  return <thead {...props}>{children}</thead>;
+  return (
+    <thead style={{ position: 'relative' }} {...props}>
+      {children}
+    </thead>
+  );
 };
 
 export const TableHeaderCell: FC<

@@ -1,8 +1,8 @@
 import {
-  CraftingRecipe,
   craftingRecipes,
   CurrencyType,
   materialsObject,
+  MaterialType,
 } from '@pocket-ark/lost-ark-data';
 import { isNumber } from 'lodash';
 import { Fragment, useMemo, useReducer } from 'react';
@@ -13,7 +13,6 @@ import {
   Currency,
   orderForTable,
   SortableTableHeaders,
-  SortableTableItem,
   sortableTableReducer,
   SortableTableReducer,
   Table,
@@ -22,36 +21,23 @@ import {
   TableHeader,
   TableRow,
 } from '../../ui';
+import ErrorBoundary from '../../ui/error-boundry';
 import { MaterialIcon } from '../../ui/icons';
 import { HeroSection, PageContainer } from '../../ui/layout';
 import { FC } from '../../utils/react';
-
-interface TableRecipe extends CraftingRecipe {
-  totalPrice?: number;
-  totalCost?: number;
-  profit?: number;
-  perc?: number;
-  materialsTotal?: number;
-}
-
-const headers: SortableTableItem<keyof TableRecipe>[] = [
-  { label: 'Recipe', column: 'outputMaterial', notSortable: true },
-  { label: 'Materials', column: 'materialsTotal' },
-  { label: 'Cost', column: 'requiredGold' },
-  { label: 'Total', column: 'totalCost' },
-  { label: 'Sale', column: 'totalPrice' },
-  { label: 'Profit', column: 'profit' },
-  { label: 'Perc.', column: 'perc' },
-];
+import { headers, TableRecipe } from './constants';
+import { StrongholdCraftingTools } from './stronghold-crafting-page-tools';
+import { useStrongholdCraftingFilters } from './stronghold-crafting-filters-provider';
 
 export const StrongholdCraftingPage: FC = () => {
   const { header, description } = mainFeatures.strongholdCrafting;
   const { materials, addMaterials } = useMaterials();
+  const { enabledMap } = useStrongholdCraftingFilters();
 
   const [{ column, direction }, dispatch] = useReducer<
     SortableTableReducer<keyof TableRecipe>
   >(sortableTableReducer, {
-    column: 'perc',
+    column: 'profitPerHour',
     direction: 'descending',
   });
 
@@ -77,7 +63,17 @@ export const StrongholdCraftingPage: FC = () => {
         const totalPrice = singlePrice * (amount || 1);
         const totalCost = materialsTotal + recipe.requiredGold;
         const profit = totalPrice - totalCost;
+
+        const timesPerHour = 3 * (3600 / recipe.seconds);
+        const timesPerActionEnergy = 10000 / recipe.requiredActionEnergy;
+        const profitPerActionEnergy =
+          profit * Math.min(timesPerActionEnergy, timesPerHour * 24);
         const perc = (profit / totalPrice) * 100;
+
+        const timesPerHourlyActionEnergy =
+          10000 / 24 / recipe.requiredActionEnergy;
+        const profitPerHour =
+          profit * Math.min(timesPerHour, timesPerHourlyActionEnergy);
 
         return {
           ...recipe,
@@ -85,6 +81,8 @@ export const StrongholdCraftingPage: FC = () => {
           totalCost,
           profit,
           perc,
+          profitPerHour,
+          profitPerActionEnergy,
           materialsTotal,
         };
       }),
@@ -106,12 +104,19 @@ export const StrongholdCraftingPage: FC = () => {
           ))}
         </p>
       </HeroSection>
-      <PageContainer className="self-stretch md:self-auto mt-8">
+      <PageContainer className="self-stretch md:self-auto mt-0 pb-8">
+        <div className="flex row py-4">
+          <span className="ml-auto">
+            <ErrorBoundary message="Honing planner filters">
+              <StrongholdCraftingTools />
+            </ErrorBoundary>
+          </span>
+        </div>
         <div className="flex-1 overflow-x-auto">
           <Table>
             <TableHeader>
               <SortableTableHeaders
-                headers={headers}
+                headers={headers.filter((h) => enabledMap[h.type])}
                 column={column}
                 direction={direction}
                 dispatch={dispatch}
@@ -135,40 +140,66 @@ export const StrongholdCraftingPage: FC = () => {
                       </div>
                     </MaterialPopup>
                   </TableCell>
-                  <TableCell>
-                    <div className="flex items-center">
-                      <MaterialsLine
-                        materials={recipe.requiredMaterials.map((m) => ({
-                          ...materials[m.type],
-                          count: m.amount,
-                        }))}
+                  {enabledMap.materials && (
+                    <TableCell>
+                      <div className="flex items-center">
+                        <MaterialsLine
+                          materials={recipe.requiredMaterials.map((m) => ({
+                            ...materials[m.type],
+                            count: m.amount,
+                          }))}
+                        />
+                      </div>
+                    </TableCell>
+                  )}
+                  {enabledMap.cost && (
+                    <TableCell>
+                      <Currency
+                        type={CurrencyType.Gold}
+                        value={recipe.requiredGold}
                       />
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <Currency
-                      type={CurrencyType.Gold}
-                      value={recipe.requiredGold}
-                    />
-                  </TableCell>
-                  <TableCell>
-                    <Currency
-                      type={CurrencyType.Gold}
-                      value={recipe.totalCost}
-                    />
-                  </TableCell>
-                  <TableCell>
-                    <Currency
-                      type={CurrencyType.Gold}
-                      value={recipe.totalPrice}
-                    />
-                  </TableCell>
+                    </TableCell>
+                  )}
+                  {enabledMap.total && (
+                    <TableCell>
+                      <Currency
+                        type={CurrencyType.Gold}
+                        value={recipe.totalCost}
+                      />
+                    </TableCell>
+                  )}
+                  {enabledMap.sale && (
+                    <TableCell>
+                      <Currency
+                        type={CurrencyType.Gold}
+                        value={recipe.totalPrice}
+                      />
+                    </TableCell>
+                  )}
                   <TableCell>
                     <Currency type={CurrencyType.Gold} value={recipe.profit} />
                   </TableCell>
-                  <TableCell>
-                    {recipe.perc ? `${toFixed(recipe.perc)}%` : '?'}
-                  </TableCell>
+                  {enabledMap.perc && (
+                    <TableCell>
+                      {recipe.perc ? `${toFixed(recipe.perc)}%` : '?'}
+                    </TableCell>
+                  )}
+                  {enabledMap.profitPerAE && (
+                    <TableCell>
+                      <Currency
+                        type={CurrencyType.Gold}
+                        value={recipe.profitPerActionEnergy}
+                      />
+                    </TableCell>
+                  )}
+                  {enabledMap.profitPerH && (
+                    <TableCell>
+                      <Currency
+                        type={CurrencyType.Gold}
+                        value={recipe.profitPerHour}
+                      />
+                    </TableCell>
+                  )}
                 </TableRow>
               ))}
             </TableBody>
